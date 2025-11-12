@@ -121,18 +121,18 @@ export default function LoginPage() {
       }
 
       if (result?.ok) {
-        // Update session immediately to refresh navbar
-        await update();
-        
-        // Trigger a custom event for immediate navbar update
+        // Trigger login event for navbar to listen
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new Event('session-updated'));
+          window.dispatchEvent(new Event('user-logged-in'));
         }
         
-        // Wait for session to be fully updated
-        await new Promise(resolve => setTimeout(resolve, 200));
+        // Update session immediately
+        await update();
+        
+        // Small delay to ensure session is propagated
+        await new Promise(resolve => setTimeout(resolve, 150));
 
-        // Force a hard redirect to ensure cookies are set properly
+        // Redirect to target page
         window.location.href = result.url || callbackUrl || '/';
         return;
       }
