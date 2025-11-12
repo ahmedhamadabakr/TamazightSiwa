@@ -5,47 +5,17 @@ import {
   generateRefreshToken,
   SecurityErrorCodes 
 } from '@/lib/security';
-import { rateLimitService } from '@/lib/security/rate-limit';
 
 export async function POST(request: NextRequest) {
   try {
-    // Get client IP for rate limiting and logging
-    const clientIP = rateLimitService.getClientIP(request);
+    // Get client IP for logging
+    const clientIP = request.headers.get('x-forwarded-for') || 'unknown';
     const userAgent = request.headers.get('user-agent') || 'Unknown';
-
-    // Check rate limiting for token refresh (10 requests per minute per IP)
-    const ipRateLimit = await rateLimitService.checkLoginAttempts(`refresh_${clientIP}`);
-    if (!ipRateLimit.allowed) {
-      await database.logSecurityEvent({
-        eventType: 'RATE_LIMIT_EXCEEDED',
-        ipAddress: clientIP,
-        userAgent,
-        details: { identifier: `refresh_${clientIP}`, type: 'token_refresh', retryAfter: ipRateLimit.retryAfter }
-      });
-
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: {
-            code: SecurityErrorCodes.RATE_LIMIT_EXCEEDED,
-            message: `Too many token refresh attempts. Try again in ${ipRateLimit.retryAfter} seconds.`,
-            details: { retryAfter: ipRateLimit.retryAfter }
-          }
-        },
-        { 
-          status: 429,
-          headers: {
-            'Retry-After': ipRateLimit.retryAfter?.toString() || '60'
-          }
-        }
-      );
-    }
 
     // Get refresh token from HTTP-only cookie
     const refreshToken = request.cookies.get('refreshToken')?.value;
 
     if (!refreshToken) {
-      await rateLimitService.recordLoginAttempt(`refresh_${clientIP}`, false);
       return NextResponse.json(
         { 
           success: false, 
@@ -61,7 +31,6 @@ export async function POST(request: NextRequest) {
     // Find user by refresh token
     const user = await database.findUserByRefreshToken(refreshToken);
     if (!user) {
-      await rateLimitService.recordLoginAttempt(`refresh_${clientIP}`, false);
       await database.logSecurityEvent({
         eventType: 'TOKEN_REFRESH',
         ipAddress: clientIP,
@@ -83,7 +52,6 @@ export async function POST(request: NextRequest) {
 
     // Check if user account is still active
     if (!user.isActive) {
-      await rateLimitService.recordLoginAttempt(`refresh_${clientIP}`, false);
       await database.logSecurityEvent({
         userId: user._id,
         eventType: 'TOKEN_REFRESH',
@@ -107,7 +75,6 @@ export async function POST(request: NextRequest) {
     // Find the specific refresh token in user's tokens array
     const tokenData = user.refreshTokens.find(rt => rt.token === refreshToken);
     if (!tokenData) {
-      await rateLimitService.recordLoginAttempt(`refresh_${clientIP}`, false);
       await database.logSecurityEvent({
         userId: user._id,
         eventType: 'TOKEN_REFRESH',
@@ -132,7 +99,6 @@ export async function POST(request: NextRequest) {
     if (tokenData.expiresAt < new Date()) {
       // Remove expired token
       await database.removeRefreshToken(user._id!, refreshToken);
-      await rateLimitService.recordLoginAttempt(`refresh_${clientIP}`, false);
       await database.logSecurityEvent({
         userId: user._id,
         eventType: 'TOKEN_REFRESH',
@@ -182,7 +148,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Record successful token refresh
-    await rateLimitService.recordLoginAttempt(`refresh_${clientIP}`, true);
     await database.logSecurityEvent({
       userId: user._id,
       eventType: 'TOKEN_REFRESH',
@@ -224,9 +189,8 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Token refresh error:', error);
     
-    // Log security event for unexpected errors
     try {
-      const clientIP = rateLimitService.getClientIP(request);
+      const clientIP = request.headers.get('x-forwarded-for') || 'unknown';
       await database.logSecurityEvent({
         eventType: 'TOKEN_REFRESH',
         ipAddress: clientIP,
@@ -260,3 +224,4 @@ export async function OPTIONS() {
     },
   });
 }
+
