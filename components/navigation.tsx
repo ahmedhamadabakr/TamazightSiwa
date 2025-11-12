@@ -34,13 +34,6 @@ const NavigationComponent = memo(function Navigation() {
     setLocalUser(session?.user as SessionUser | null);
   }, [session]);
 
-  // Force session update on mount
-  useEffect(() => {
-    if (mounted && status !== 'loading') {
-      updateSession();
-    }
-  }, [mounted, status, updateSession]);
-
   // Subscribe to auth changes
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges(() => {
@@ -53,46 +46,9 @@ const NavigationComponent = memo(function Navigation() {
     return () => unsubscribe();
   }, [subscribeToAuthChanges, updateSession]);
 
-  // Auto-refresh session after login
-  useEffect(() => {
-    if (status === 'authenticated') {
-      // Refresh session every 30 seconds to keep navbar updated
-      const interval = setInterval(() => {
-        updateSession();
-      }, 30000);
-      
-      return () => clearInterval(interval);
-    }
-  }, [status, updateSession]);
-
-  // Listen for storage events (cross-tab login/logout)
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'session-update') {
-        updateSession();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, [updateSession]);
-
-  // Listen for focus events to refresh session
-  useEffect(() => {
-    const handleFocus = () => {
-      if (status === 'authenticated') {
-        updateSession();
-      }
-    };
-
-    window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
-  }, [status, updateSession]);
-
-  // Listen for custom session-updated event
+  // Listen for custom session-updated event (from login page)
   useEffect(() => {
     const handleSessionUpdated = () => {
-      console.log('Session updated event received');
       updateSession();
     };
 

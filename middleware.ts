@@ -86,10 +86,8 @@ export async function middleware(request: NextRequest) {
   const sessionCookie = request.cookies.get('__Secure-next-auth.session-token') ||
     request.cookies.get('next-auth.session-token');
 
-  // Debug logging (remove in production)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Middleware - Path:', pathname, 'Token:', token ? { id: token.id, role: token.role } : null);
-  }
+  // Debug logging only for auth issues
+  // Removed to reduce noise
 
   // Add security headers
   const response = NextResponse.next();
@@ -139,18 +137,14 @@ export async function middleware(request: NextRequest) {
 
   if (requiredRole && token) {
     const userRole = token.role as string;
-    console.log('Middleware - Checking role:', { userRole, requiredRole, hasAccess: hasRequiredRole(userRole, requiredRole) });
 
     if (!hasRequiredRole(userRole, requiredRole)) {
-      console.log('Middleware - Access denied, redirecting to unauthorized');
       const url = request.nextUrl.clone();
       url.pathname = '/unauthorized';
       url.searchParams.set('required', requiredRole);
       url.searchParams.set('current', userRole);
       return NextResponse.redirect(url);
     }
-
-    console.log('Middleware - Access granted for:', pathname);
   }
 
   return response;

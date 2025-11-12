@@ -95,8 +95,6 @@ export default function LoginPage() {
     setError('');
 
     try {
-      console.log('Attempting login with:', { email: formData.email, callbackUrl });
-
       const result = await signIn('credentials', {
         email: formData.email,
         password: formData.password,
@@ -104,10 +102,7 @@ export default function LoginPage() {
         callbackUrl: callbackUrl || '/',
       });
 
-      console.log('SignIn result:', result);
-
       if (result?.error) {
-        console.error('SignIn error:', result.error);
         switch (result.error) {
           case 'CredentialsSignin':
             setError('Invalid email or password');
@@ -126,22 +121,16 @@ export default function LoginPage() {
       }
 
       if (result?.ok) {
-        console.log('Login successful! Redirecting to:', result.url || callbackUrl);
-
         // Update session immediately to refresh navbar
         await update();
         
-        // Trigger storage event for cross-component communication
+        // Trigger a custom event for immediate navbar update
         if (typeof window !== 'undefined') {
-          localStorage.setItem('session-update', Date.now().toString());
-          localStorage.removeItem('session-update');
-          
-          // Trigger a custom event for immediate navbar update
           window.dispatchEvent(new Event('session-updated'));
         }
         
         // Wait for session to be fully updated
-        await new Promise(resolve => setTimeout(resolve, 300));
+        await new Promise(resolve => setTimeout(resolve, 200));
 
         // Force a hard redirect to ensure cookies are set properly
         window.location.href = result.url || callbackUrl || '/';
@@ -151,7 +140,6 @@ export default function LoginPage() {
       setError('Login failed. Please try again.');
       setLoading(false);
     } catch (err) {
-      console.error('Login error:', err);
       setError('An error occurred during login. Please try again.');
       setLoading(false);
     }
