@@ -1,21 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
-
-const CountrySelector = dynamic(() => import('@/components/ui/CountrySelector'), {
-  ssr: false,
-  loading: () => <div className="mt-1 p-2 border rounded-md bg-gray-100 text-sm">Loading countries...</div>
-});
+import CountrySelector from '@/components/ui/CountrySelector';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
