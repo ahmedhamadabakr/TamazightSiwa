@@ -135,13 +135,16 @@ export default function LoginPage() {
         if (typeof window !== 'undefined') {
           localStorage.setItem('session-update', Date.now().toString());
           localStorage.removeItem('session-update');
+          
+          // Trigger a custom event for immediate navbar update
+          window.dispatchEvent(new Event('session-updated'));
         }
         
-        // Small delay to ensure session is updated
-        await new Promise(resolve => setTimeout(resolve, 200));
+        // Wait for session to be fully updated
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         // Force a hard redirect to ensure cookies are set properly
-        window.location.replace(result.url || callbackUrl || '/');
+        window.location.href = result.url || callbackUrl || '/';
         return;
       }
 

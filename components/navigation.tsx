@@ -34,6 +34,13 @@ const NavigationComponent = memo(function Navigation() {
     setLocalUser(session?.user as SessionUser | null);
   }, [session]);
 
+  // Force session update on mount
+  useEffect(() => {
+    if (mounted && status !== 'loading') {
+      updateSession();
+    }
+  }, [mounted, status, updateSession]);
+
   // Subscribe to auth changes
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges(() => {
@@ -81,6 +88,17 @@ const NavigationComponent = memo(function Navigation() {
     window.addEventListener('focus', handleFocus);
     return () => window.removeEventListener('focus', handleFocus);
   }, [status, updateSession]);
+
+  // Listen for custom session-updated event
+  useEffect(() => {
+    const handleSessionUpdated = () => {
+      console.log('Session updated event received');
+      updateSession();
+    };
+
+    window.addEventListener('session-updated', handleSessionUpdated);
+    return () => window.removeEventListener('session-updated', handleSessionUpdated);
+  }, [updateSession]);
 
   const userRole = localUser?.role;
 

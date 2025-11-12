@@ -85,7 +85,15 @@ export const authOptions = {
       }
       return token;
     },
-    async session({ session }: any) {
+    async session({ session, token }: any) {
+      // Attach token data to session
+      if (token && session.user) {
+        (session.user as any).id = token.id || token.sub;
+        (session.user as any).role = token.role;
+        (session.user as any).fullName = token.fullName;
+      }
+      
+      // Optionally fetch fresh user data from database
       try {
         if (session?.user?.email) {
           const user = await database.findUserByEmail(session.user.email);
@@ -93,10 +101,13 @@ export const authOptions = {
             (session.user as any).id = user._id?.toString();
             (session.user as any).role = user.role;
             (session.user as any).fullName = user.fullName;
+            (session.user as any).isActive = user.isActive;
+            (session.user as any).emailVerified = user.emailVerified;
           }
         }
       } catch (e) {
-        // noop
+        // If DB fetch fails, use token data
+        console.error('Session callback error:', e);
       }
       return session;
     },

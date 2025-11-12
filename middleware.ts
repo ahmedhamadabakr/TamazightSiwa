@@ -56,20 +56,29 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Try multiple approaches to get the token
-  const secret = 'ae34ac568d6f9b6fab0aaa890d15a7b4f406f8d70f417cc874ada63af8081a8d';
+  const secret = process.env.NEXTAUTH_SECRET;
 
-  // Try different cookie names
+  // Try different cookie names based on environment
+  const cookieName = process.env.NODE_ENV === 'production' 
+    ? '__Secure-next-auth.session-token'
+    : 'next-auth.session-token';
+
   let token = await getToken({
     req: request,
     secret: secret,
-    cookieName: '__Secure-next-auth.session-token'
+    cookieName: cookieName
   });
 
+  // Fallback: try the other cookie name
   if (!token) {
+    const fallbackCookieName = process.env.NODE_ENV === 'production'
+      ? 'next-auth.session-token'
+      : '__Secure-next-auth.session-token';
+    
     token = await getToken({
       req: request,
       secret: secret,
-      cookieName: 'next-auth.session-token'
+      cookieName: fallbackCookieName
     });
   }
 
