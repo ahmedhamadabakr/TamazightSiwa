@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { database } from '@/lib/models';
 import { SecurityErrorCodes } from '@/lib/security';
-import { rateLimitService } from '@/lib/security/rate-limit';
 
 export async function DELETE(
   request: NextRequest,
@@ -10,12 +9,7 @@ export async function DELETE(
 ) {
   try {
     const { sessionId } = params;
-    
-    // Get client IP for logging
-    const clientIP = rateLimitService.getClientIP(request);
-    const userAgent = request.headers.get('user-agent') || 'Unknown';
 
-    // Get session token from NextAuth
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET
@@ -36,7 +30,6 @@ export async function DELETE(
 
     const userId = token.sub;
 
-    // Get user with refresh tokens
     const user = await database.findUserById(userId as any);
     if (!user) {
       return NextResponse.json(
@@ -51,7 +44,6 @@ export async function DELETE(
       );
     }
 
-    // Parse session ID to get token index
     const sessionParts = sessionId.split('_');
     if (sessionParts.length !== 2 || sessionParts[0] !== userId) {
       return NextResponse.json(
@@ -83,7 +75,6 @@ export async function DELETE(
     const targetToken = user.refreshTokens[tokenIndex];
     const currentRefreshToken = request.cookies.get('refreshToken')?.value;
 
-    // Prevent users from logging out their current session via this endpoint
     if (targetToken.token === currentRefreshToken) {
       return NextResponse.json(
         { 
@@ -97,21 +88,7 @@ export async function DELETE(
       );
     }
 
-    // Remove the specific refresh token
     await database.removeRefreshToken(userId as any, targetToken.token);
-
-    // Log security event
-    await database.logSecurityEvent({
-      userId: userId as any,
-      eventType: 'LOGIN_SUCCESS', // Using for session management tracking
-      ipAddress: clientIP,
-      userAgent,
-      details: { 
-        action: 'session_terminated',
-        targetDevice: targetToken.deviceInfo,
-        targetIP: targetToken.ipAddress
-      }
-    });
 
     return NextResponse.json({
       success: true,
@@ -120,22 +97,6 @@ export async function DELETE(
 
   } catch (error) {
     console.error('Session termination error:', error);
-    
-    // Log security event for unexpected errors
-    try {
-      const clientIP = rateLimitService.getClientIP(request);
-      await database.logSecurityEvent({
-        eventType: 'LOGIN_FAILED', // Using for error tracking
-        ipAddress: clientIP,
-        details: { 
-          action: 'session_termination_error',
-          sessionId: params.sessionId,
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
-      });
-    } catch (logError) {
-      console.error('Failed to log security event:', logError);
-    }
 
     return NextResponse.json(
       { 
@@ -150,7 +111,6 @@ export async function DELETE(
   }
 }
 
-// Handle OPTIONS request for CORS
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,

@@ -3,7 +3,6 @@ export * from './config';
 export * from './password';
 export * from './tokens';
 export * from './validation';
-export * from './rate-limit';
 export * from './cleanup';
 export * from './constants';
 

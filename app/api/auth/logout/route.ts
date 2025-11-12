@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { database } from '@/lib/models';
-import { rateLimitService } from '@/lib/security/rate-limit';
 import { SecurityErrorCodes } from '@/lib/security';
 
 export async function POST(request: NextRequest) {
   try {
-    // Get client IP for logging
-    const clientIP = rateLimitService.getClientIP(request);
     const userAgent = request.headers.get('user-agent') || 'Unknown';
 
-    // Get session token from NextAuth
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET
@@ -32,7 +28,6 @@ export async function POST(request: NextRequest) {
     const userId = token.sub;
     const refreshToken = request.cookies.get('refreshToken')?.value;
 
-    // Remove specific refresh token if provided
     if (refreshToken && userId) {
       try {
         await database.removeRefreshToken(userId as any, refreshToken);
@@ -41,31 +36,19 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Log security event
-    await database.logSecurityEvent({
-      userId: userId as any,
-      eventType: 'LOGIN_SUCCESS', // We'll use this for logout tracking
-      ipAddress: clientIP,
-      userAgent,
-      details: { action: 'logout', type: 'single_session' }
-    });
-
-    // Create response and clear cookies
     const response = NextResponse.json({
       success: true,
       message: 'Logged out successfully'
     });
 
-    // Clear refresh token cookie
     response.cookies.set('refreshToken', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      expires: new Date(0), // Expire immediately
+      expires: new Date(0),
     });
 
-    // Clear NextAuth session cookies
     const cookiePrefix = process.env.NODE_ENV === 'production' ? '__Secure-' : '';
     const sessionCookieName = `${cookiePrefix}next-auth.session-token`;
     const csrfCookieName = process.env.NODE_ENV === 'production' 
@@ -92,21 +75,6 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Logout error:', error);
-    
-    // Log security event for unexpected errors
-    try {
-      const clientIP = rateLimitService.getClientIP(request);
-      await database.logSecurityEvent({
-        eventType: 'LOGIN_FAILED', // Using for error tracking
-        ipAddress: clientIP,
-        details: { 
-          action: 'logout_error', 
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
-      });
-    } catch (logError) {
-      console.error('Failed to log security event:', logError);
-    }
 
     return NextResponse.json(
       { 
@@ -121,7 +89,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Handle OPTIONS request for CORS
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
