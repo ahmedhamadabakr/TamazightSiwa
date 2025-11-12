@@ -128,6 +128,18 @@ export default function LoginPage() {
       if (result?.ok) {
         console.log('Login successful! Redirecting to:', result.url || callbackUrl);
 
+        // Update session immediately to refresh navbar
+        await update();
+        
+        // Trigger storage event for cross-component communication
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('session-update', Date.now().toString());
+          localStorage.removeItem('session-update');
+        }
+        
+        // Small delay to ensure session is updated
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         // Force a hard redirect to ensure cookies are set properly
         window.location.replace(result.url || callbackUrl || '/');
         return;

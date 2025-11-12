@@ -1,9 +1,8 @@
 // Simple Service Worker for caching critical resources
-const CACHE_NAME = 'siwa-v1';
+const CACHE_NAME = 'siwa-v2';
 const FONTS_CACHE = 'fonts-v1';
 const CRITICAL_RESOURCES = [
-  '/',
-  '/siwa-oasis-sunset-salt-lakes-reflection.jpg'
+  '/'
 ];
 
 // Install event - cache critical resources
