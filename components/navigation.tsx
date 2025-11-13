@@ -46,38 +46,19 @@ const NavigationComponent = memo(function Navigation() {
     return () => unsubscribe();
   }, [subscribeToAuthChanges, updateSession]);
 
-  // Listen for login event and check session immediately
+  // Listen for login event and update session immediately
   useEffect(() => {
-    let pollInterval: NodeJS.Timeout | null = null;
-    
     const handleLoginSuccess = async () => {
-      // Poll for session updates for 5 seconds after login
-      let attempts = 0;
-      const maxAttempts = 10;
-      
-      pollInterval = setInterval(async () => {
-        attempts++;
-        await updateSession();
-        
-        // Stop polling if session is found or max attempts reached
-        if (session?.user || attempts >= maxAttempts) {
-          if (pollInterval) {
-            clearInterval(pollInterval);
-            pollInterval = null;
-          }
-        }
-      }, 500);
+      // Update session immediately
+      await updateSession();
     };
 
     window.addEventListener('user-logged-in', handleLoginSuccess);
     
     return () => {
       window.removeEventListener('user-logged-in', handleLoginSuccess);
-      if (pollInterval) {
-        clearInterval(pollInterval);
-      }
     };
-  }, [updateSession, session]);
+  }, [updateSession]);
 
   const userRole = localUser?.role;
 

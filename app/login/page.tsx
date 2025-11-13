@@ -121,19 +121,17 @@ export default function LoginPage() {
       }
 
       if (result?.ok) {
+        // Update session immediately
+        await update();
+        
         // Trigger login event for navbar to listen
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new Event('user-logged-in'));
         }
         
-        // Update session immediately
-        await update();
-        
-        // Small delay to ensure session is propagated
-        await new Promise(resolve => setTimeout(resolve, 150));
-
-        // Redirect to target page
-        window.location.href = result.url || callbackUrl || '/';
+        // Use router.push for client-side navigation (preserves session)
+        const targetUrl = result.url || callbackUrl || '/';
+        router.push(targetUrl);
         return;
       }
 
