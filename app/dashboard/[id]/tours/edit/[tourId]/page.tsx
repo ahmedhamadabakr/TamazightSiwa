@@ -3,18 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthSession } from '@/hooks/useAuthSession';
-import {
-    FiArrowLeft,
-    FiSave,
-    FiImage,
-    FiX,
-    FiMapPin,
-    FiClock,
-    FiUsers,
-    FiDollarSign,
-    FiUpload,
-    FiTrash2
-} from 'react-icons/fi';
+import { FiSave, FiImage, FiX, FiMapPin, FiClock, FiUsers, FiDollarSign, FiUpload, FiTrash2 } from 'react-icons/fi';
 import { DashboardLayout } from '@/components/dashboard/sidebar';
 import Image from 'next/image';
 

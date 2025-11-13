@@ -3,16 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthSession } from '@/hooks/useAuthSession';
-import {
-    FiPlus,
-    FiEdit,
-    FiTrash2,
-    FiEye,
-    FiMapPin,
-    FiClock,
-    FiUsers,
-    FiDollarSign
-} from 'react-icons/fi';
+import { FiPlus, FiEdit, FiTrash2, FiMapPin, FiClock, FiUsers, FiDollarSign } from 'react-icons/fi';
 import Link from 'next/link';
 import { DashboardLayout } from '@/components/dashboard/sidebar';
 import { useSession } from 'next-auth/react';
