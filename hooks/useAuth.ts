@@ -85,16 +85,22 @@ export function useAuth(): UseAuthReturn {
     allDevices?: boolean 
   }) => {
     try {
-      if (options?.allDevices) {
-        // Call logout-all API endpoint
-        await fetch('/api/auth/logout-all', {
+      // Call appropriate logout API endpoint to clean up sessions in database
+      const endpoint = options?.allDevices ? '/api/auth/logout-all' : '/api/auth/logout';
+      
+      try {
+        await fetch(endpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
         });
+      } catch (apiError) {
+        // Log but don't block logout if API call fails
+        console.warn('Logout API call failed:', apiError);
       }
 
+      // Perform NextAuth signOut (this will also trigger the signOut event in authOptions)
       if (options?.redirect === false) {
         await signOut({ redirect: false });
       } else {

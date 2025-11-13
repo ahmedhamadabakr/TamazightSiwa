@@ -1,119 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getToken } from 'next-auth/jwt';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
 import { database } from '@/lib/models';
-import { SecurityErrorCodes } from '@/lib/security';
 
-export async function POST(request: NextRequest) {
+/**
+ * API endpoint to logout from all devices
+ * Deletes all custom sessions for the current user
+ */
+export async function POST(req: NextRequest) {
   try {
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET
-    });
+    // Get current session
+    const session: any = await getServerSession(authOptions as any);
 
-    if (!token) {
+    if (!session || !session.user) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: {
-            code: SecurityErrorCodes.TOKEN_INVALID,
-            message: 'No active session found'
-          }
-        },
+        { success: false, error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const userId = token.sub;
+    const userId = session.user.id;
 
     if (!userId) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: {
-            code: SecurityErrorCodes.TOKEN_INVALID,
-            message: 'Invalid user session'
-          }
-        },
-        { status: 401 }
+        { success: false, error: 'User ID not found' },
+        { status: 400 }
       );
     }
 
-    try {
-      await database.removeAllRefreshTokens(userId as any);
-    } catch (error) {
-      console.error('Error removing all refresh tokens:', error);
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: {
-            code: 'SERVER_ERROR',
-            message: 'Failed to logout from all devices'
-          }
-        },
-        { status: 500 }
-      );
-    }
+    // Delete all custom sessions for this user
+    const deletedCount = await database.deleteCustomSessionsByUser(userId);
 
-    const response = NextResponse.json({
+    // Also remove all refresh tokens
+    await database.removeAllRefreshTokens(userId);
+
+    // Log security event
+    await database.logSecurityEvent({
+      userId,
+      eventType: 'LOGIN_SUCCESS', // Using closest available type
+      ipAddress: req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || undefined,
+      userAgent: req.headers.get('user-agent') || undefined,
+      details: { action: 'logout_all_devices', sessionsDeleted: deletedCount }
+    });
+
+    return NextResponse.json({
       success: true,
-      message: 'Logged out from all devices successfully'
+      message: 'Logged out from all devices successfully',
+      sessionsDeleted: deletedCount
     });
-
-    response.cookies.set('refreshToken', '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      expires: new Date(0),
-    });
-
-    const cookiePrefix = process.env.NODE_ENV === 'production' ? '__Secure-' : '';
-    const sessionCookieName = `${cookiePrefix}next-auth.session-token`;
-    const csrfCookieName = process.env.NODE_ENV === 'production' 
-      ? '__Host-next-auth.csrf-token' 
-      : 'next-auth.csrf-token';
-
-    response.cookies.set(sessionCookieName, '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      expires: new Date(0),
-    });
-
-    response.cookies.set(csrfCookieName, '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      expires: new Date(0),
-    });
-
-    return response;
 
   } catch (error) {
     console.error('Logout all error:', error);
-
     return NextResponse.json(
       { 
         success: false, 
-        error: {
-          code: 'SERVER_ERROR',
-          message: 'An unexpected error occurred during logout. Please try again.'
-        }
+        error: 'Failed to logout from all devices',
+        details: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
     );
   }
-}
-
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    },
-  });
 }
