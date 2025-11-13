@@ -55,59 +55,36 @@ export const authOptions = {
 
   callbacks: {
     async jwt({ token, user, account }: any) {
-      // On initial sign-in, attach user data to token and persist a custom session
+      // On initial sign-in, attach user data to token
       if (user) {
-        token.id = (user as any).id || token.id;
-        token.role = (user as any).role || token.role;
-        token.fullName = (user as any).fullName || token.fullName;
-        // Generate a tokenId to link custom session records (not used by NextAuth internally)
-        token.tokenId = token.tokenId || crypto.randomUUID();
+        token.id = user.id;
+        token.role = user.role;
+        token.fullName = user.fullName;
+        token.tokenId = crypto.randomUUID();
 
-        // Persist a custom session record (hybrid approach)
-        try {
-          const now = new Date();
-          const exp = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-          await database.createCustomSession({
-            userId: String(token.id),
-            provider: account?.provider || 'credentials',
-            tokenId: token.tokenId,
-            issuedAt: now,
-            expiresAt: exp,
-            userAgent: null,
-            ip: null,
-          });
-        } catch (e) {
-          // swallow errors to avoid breaking login
-          if (process.env.NODE_ENV === 'development') {
-            console.warn('Custom session create failed', e);
-          }
-        }
+        // Create session in background (non-blocking for faster login)
+        const now = new Date();
+        const exp = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+        database.createCustomSession({
+          userId: String(token.id),
+          provider: account?.provider || 'credentials',
+          tokenId: token.tokenId,
+          issuedAt: now,
+          expiresAt: exp,
+          userAgent: null,
+          ip: null,
+        }).catch(() => {
+          // Silently fail - don't block login
+        });
       }
       return token;
     },
     async session({ session, token }: any) {
-      // Attach token data to session
+      // Attach token data to session (fast - no DB call)
       if (token && session.user) {
         (session.user as any).id = token.id || token.sub;
         (session.user as any).role = token.role;
         (session.user as any).fullName = token.fullName;
-      }
-      
-      // Optionally fetch fresh user data from database
-      try {
-        if (session?.user?.email) {
-          const user = await database.findUserByEmail(session.user.email);
-          if (user && session.user) {
-            (session.user as any).id = user._id?.toString();
-            (session.user as any).role = user.role;
-            (session.user as any).fullName = user.fullName;
-            (session.user as any).isActive = user.isActive;
-            (session.user as any).emailVerified = user.emailVerified;
-          }
-        }
-      } catch (e) {
-        // If DB fetch fails, use token data
-        console.error('Session callback error:', e);
       }
       return session;
     },
@@ -125,20 +102,12 @@ export const authOptions = {
   },
 
   events: {
-    async signIn({ user}: any) {
-      console.log('User signed in:', { userId: user.id, email: user.email });
-    },
-
     async signOut({ token }: any) {
-      try {
-        const userId = token?.id;
-        if (userId) {
-          await database.deleteCustomSessionsByUser(String(userId));
-        }
-      } catch (e) {
-        if (process.env.NODE_ENV === 'development') {
-          console.warn('Custom session delete failed', e);
-        }
+      // Clean up sessions in background (non-blocking)
+      if (token?.id) {
+        database.deleteCustomSessionsByUser(String(token.id)).catch(() => {
+          // Silently fail - don't block logout
+        });
       }
     },
   },

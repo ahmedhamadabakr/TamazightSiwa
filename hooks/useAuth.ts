@@ -85,37 +85,23 @@ export function useAuth(): UseAuthReturn {
     allDevices?: boolean 
   }) => {
     try {
-      // Call appropriate logout API endpoint to clean up sessions in database
-      const endpoint = options?.allDevices ? '/api/auth/logout-all' : '/api/auth/logout';
-      
-      try {
-        await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-      } catch (apiError) {
-        // Log but don't block logout if API call fails
-        console.warn('Logout API call failed:', apiError);
+      // For allDevices, call API endpoint (non-blocking)
+      if (options?.allDevices) {
+        fetch('/api/auth/logout-all', { method: 'POST' }).catch(() => {});
       }
 
-      // Perform NextAuth signOut (this will also trigger the signOut event in authOptions)
-      if (options?.redirect === false) {
-        await signOut({ redirect: false });
-      } else {
-        await signOut({ 
-          callbackUrl: options?.callbackUrl || '/login',
-        });
-      }
+      // Perform NextAuth signOut (fast - handles session cleanup via event)
+      await signOut({ 
+        redirect: options?.redirect !== false,
+        callbackUrl: options?.callbackUrl || '/login',
+      });
 
-      // If not redirecting, manually navigate
+      // Manual navigation if needed
       if (options?.redirect === false) {
         router.push(options?.callbackUrl || '/login');
       }
     } catch (error) {
-      console.error('Logout error:', error);
-      // Fallback: force redirect to login
+      // Fallback: force redirect
       router.push('/login');
     }
   }, [router]);
