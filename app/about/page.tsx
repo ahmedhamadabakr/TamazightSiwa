@@ -88,7 +88,7 @@ export default function AboutContent() {
           transition={{ duration: 8, ease: "easeInOut" }}
         >
           <Image
-            src="/siwa-oasis-sunset-salt-lakes-reflection.jpg"
+            src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
             alt="Siwa Oasis landscape with palm trees and desert"
             fill
             className="object-cover"
@@ -234,7 +234,7 @@ export default function AboutContent() {
           >
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="/Siwa/WhatsApp Image 2025-10-11 at 14.22.35_c660e47a.jpg"
+                src="/Siwa/WhatsApp Image 2025-10-11 at 14.22.17_134bc8e1.jpg"
                 alt="Two people in Siwa Oasis"
                 fill
                 className="object-cover"

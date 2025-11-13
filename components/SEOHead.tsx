@@ -16,7 +16,7 @@ export function generateSEOMetadata({
   description = "Discover the magic of Siwa Oasis with authentic eco-tourism experiences, cultural heritage tours, and premium desert adventures. Book your trip now!",
   keywords = "Siwa, Siwa Oasis, desert tourism, Egypt, Siwa tours, White Desert, Great Sand Sea, natural springs, Berber heritage",
   canonical = "/",
-  ogImage = "/siwa-oasis-sunset-salt-lakes-reflection.jpg",
+  ogImage = "/siwa-oasis-sunset-salt-lakes-reflection.avif",
   ogType = "website",
   noIndex = false,
 }: SEOProps): Metadata {
@@ -107,7 +107,7 @@ export function generateStructuredData(data: {
     name: data.name,
     description: data.description,
     url: data.url || 'https://siwa-with-us.com',
-    image: data.image || 'https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.jpg',
+    image: data.image || 'https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif',
   }
 
   if (data.address) {

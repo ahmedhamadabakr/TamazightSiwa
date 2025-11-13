@@ -13,7 +13,7 @@ export const HomePageSEO = memo(() => {
       "description": "Authentic desert experiences and eco-tourism in Siwa Oasis, Egypt",
       "url": "https://siwa-with-us.com",
       "logo": "https://siwa-with-us.com/logo.png",
-      "image": "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.jpg",
+      "image": "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Siwa Oasis",
@@ -47,7 +47,7 @@ export const HomePageSEO = memo(() => {
       "name": "Siwa Oasis",
       "description": "Ancient oasis in Egypt's Western Desert known for its natural springs, salt lakes, and Berber culture",
       "image": [
-        "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.jpg",
+        "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
         "https://siwa-with-us.com/siwa-springs.jpg",
         "https://siwa-with-us.com/siwa-desert.jpg"
       ],

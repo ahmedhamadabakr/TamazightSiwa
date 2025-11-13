@@ -60,7 +60,7 @@
         ) : (
           <div className="absolute inset-0">
             <Image
-              src="/siwa-oasis-sunset-salt-lakes-reflection.jpg"
+              src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
               alt="Siwa Oasis sunset with salt lakes reflection"
               fill
               priority

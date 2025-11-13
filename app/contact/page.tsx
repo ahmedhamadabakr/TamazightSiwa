@@ -18,7 +18,7 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <Image
-          src="/siwa-oasis-sunset-salt-lakes-reflection.jpg"
+          src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
           alt="Contact Tamazight Siwa"
           fill
           className="object-cover"

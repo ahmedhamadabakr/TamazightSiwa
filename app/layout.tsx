@@ -19,7 +19,7 @@ export const metadata: Metadata = generateAdvancedMetadata({
   description: "Discover the magic of Siwa Oasis with authentic eco-tourism experiences, cultural heritage tours, and premium desert adventures. Book your trip now!",
   keywords: "Siwa, Siwa Oasis, desert tourism, Egypt, Siwa tours, White Desert, Great Sand Sea, natural springs, Berber heritage, eco-tourism, cultural heritage, desert adventures, Alexander the Great, Cleopatra Bath, Temple of Oracle, salt lakes, hot springs, sandboarding, desert camping, Berber culture, Western Desert, Matrouh, authentic travel, sustainable tourism",
   canonical: "/",
-  ogImage: "/siwa-oasis-sunset-salt-lakes-reflection.jpg",
+  ogImage: "/siwa-oasis-sunset-salt-lakes-reflection.avif",
   author: "Siwa With Us Team",
   locale: "en_US",
   alternateLocales: ["ar_EG"]
@@ -135,7 +135,7 @@ export default async function RootLayout({
         <meta name="business:contact_data:phone_number" content="+201552624123" />
 
         {/* Preload critical resources */}
-        <link rel="prefetch" href="/placeholder-logo.png" as="image" />
+        <link rel="prefetch" href="/logo.png" as="image" />
 
         {/* Canonical and alternate languages */}
         <link rel="canonical" href="https://siwa-with-us.com" />
@@ -147,7 +147,7 @@ export default async function RootLayout({
           "@type": "Organization",
           "name": "Tamazight Siwa",
           "url": "https://siwa-with-us.com",
-          "logo": "https://siwa-with-us.com/placeholder-logo.png",
+          "logo": "https://siwa-with-us.com/logo.png",
           "sameAs": [
             "https://www.facebook.com/SiwaWithUs",
             "https://www.instagram.com/",
@@ -179,7 +179,7 @@ export default async function RootLayout({
           "@type": "LocalBusiness",
           "name": "Tamazight Siwa",
           "image": [
-            "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.jpg"
+            "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
           ],
           "address": {
             "@type": "PostalAddress",

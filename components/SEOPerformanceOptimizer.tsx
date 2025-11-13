@@ -77,7 +77,7 @@ export function SEOPerformanceOptimizer() {
 
       // Preload critical resources
       const criticalResources = [
-        '/siwa-oasis-sunset-salt-lakes-reflection.jpg',
+        '/siwa-oasis-sunset-salt-lakes-reflection.avif',
         '/logo.png'
       ]
 

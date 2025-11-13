@@ -14,7 +14,7 @@ export function HeroPerformanceOptimizer() {
         }
 
         // Preload hero background image
-        preloadImage('/siwa-oasis-sunset-salt-lakes-reflection.jpg')
+        preloadImage('/siwa-oasis-sunset-salt-lakes-reflection.avif')
 
         // Remove preload for missing resources to avoid 404 errors
         const removeUnusedPreloads = () => {

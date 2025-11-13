@@ -164,7 +164,7 @@ export default function GalleryPage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <Image
-          src="/siwa-oasis-sunset-salt-lakes-reflection.jpg"
+          src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
           alt="Siwa Oasis Gallery"
           fill
           priority
@@ -201,11 +201,11 @@ export default function GalleryPage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-8">
             {[
+              '/siwa-oasis-sunset-salt-lakes-reflection.avif',
+              '/siwa-oasis-traditional-berber-architecture-at-suns.webp',
+              '/siwa-night-sky-stars-milky-way-desert.webp',
+              '/siwa-hot-springs-natural-pools-wellness.webp',
               '/siwa-oasis-photography-golden-hour-palm-trees.jpg',
-              '/siwa-oasis-sunset-salt-lakes-reflection.jpg',
-              '/siwa-night-sky-stars-milky-way-desert.jpg',
-              '/crystal-clear-natural-spring-water-in-siwa-oasis.jpg',
-              '/great-sand-sea-dunes-golden-hour.jpg',
               '/siwa-traditional-crafts-berber-culture.jpg'
             ].map((src, i) => (
               <Link

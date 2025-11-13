@@ -11,7 +11,7 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Image
-                src="/brand-logo.webp"
+                src="/logo.png"
                 alt="Tamazight Siwa logo"
                 width={32}
                 height={32}

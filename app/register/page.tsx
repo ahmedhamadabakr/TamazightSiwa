@@ -87,14 +87,9 @@ export default function RegisterPage() {
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <Link href="/" className="flex items-center justify-center gap-2 mb-6">
-            <Image
-              src="/logo.png"
-              alt="Tamazight Siwa logo"
-              width={48}
-              height={48}
-              className="rounded-xl shadow-md"
-              priority
-            />
+            <div className="w-12 h-12 flex items-center justify-center">
+              <img src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
+            </div>
             <span className="font-bold text-2xl text-foreground tracking-tight">Tamazight Siwa</span>
           </Link>
 

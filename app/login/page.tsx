@@ -151,8 +151,8 @@ export default function LoginPage() {
         {/* Logo + Title */}
         <div className="text-center">
           <Link href="/" className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-md">
-              <span className="text-primary-foreground font-bold text-xl">TS</span>
+            <div className="w-12 h-12 flex items-center justify-center">
+              <img src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
             </div>
             <span className="font-bold text-2xl text-foreground tracking-tight">Tamazight Siwa</span>
           </Link>

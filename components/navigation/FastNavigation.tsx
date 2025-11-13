@@ -190,8 +190,8 @@ export const FastNavigation = memo(function FastNavigation() {
         <div className="flex justify-between items-center h-18">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary via-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200">
-              <span className="text-white font-bold text-lg">TS</span>
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-xl text-gray-900 group-hover:text-primary transition-colors duration-200">Tamazight Siwa</span>

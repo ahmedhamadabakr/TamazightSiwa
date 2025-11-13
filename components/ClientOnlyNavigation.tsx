@@ -38,10 +38,13 @@ function NavigationSkeleton() {
 }
 
 // Dynamically import the Navigation component with no SSR
-const Navigation = dynamic(() => import('./navigation').then(mod => ({ default: mod.Navigation })), {
-  ssr: false,
-  loading: () => <NavigationSkeleton />
-})
+const Navigation = dynamic(
+  () => import('./navigation').then(mod => mod.Navigation),
+  {
+    ssr: false,
+    loading: () => <NavigationSkeleton />
+  }
+)
 
 export function ClientOnlyNavigation() {
   return (

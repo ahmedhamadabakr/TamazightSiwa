@@ -7,7 +7,7 @@ export const HeroSEO = memo(() => {
     "@type": "TouristDestination",
     "name": "Siwa Oasis Tours",
     "description": "Discover the magic of Siwa Oasis through authentic eco-tourism and cultural heritage experiences",
-    "image": "/siwa-oasis-sunset-salt-lakes-reflection.jpg",
+    "image": "/siwa-oasis-sunset-salt-lakes-reflection.avif",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Siwa Oasis",

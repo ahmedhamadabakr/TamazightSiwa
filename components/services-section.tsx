@@ -10,14 +10,14 @@ const services = [
     icon: Hotel,
     title: "Luxury Accommodation",
     description: "Comfortable accommodations ranging from eco-lodges to luxury desert camps",
-    image: "/siwa-oasis-traditional-berber-architecture-at-suns.jpg",
+    image: "/siwa-oasis-traditional-berber-architecture-at-suns.webp",
     features: ["Free WiFi", "Traditional Breakfast", "Oasis View"]
   },
   {
     icon: Car,
     title: "Safe Transportation",
     description: "Safe and reliable transport services with experienced local drivers",
-    image: "/desert-road-with-4x4-vehicle-in-siwa-landscape.jpg",
+    image: "/siwa-oasis-photography-golden-hour-palm-trees.jpg",
     features: ["Modern Vehicles", "Trained Drivers", "Full Insurance"]
   },
   {
@@ -31,7 +31,7 @@ const services = [
     icon: Compass,
     title: "Desert Safaris",
     description: "Guided adventures through the Great Sand Sea with sandboarding and camping",
-    image: "/great-sand-sea-dunes-4x4-safari.jpg",
+    image: "/siwa-night-sky-stars-milky-way-desert.webp",
     features: ["Expert Guides", "Modern Equipment", "Safe Experience"]
   },
 ]

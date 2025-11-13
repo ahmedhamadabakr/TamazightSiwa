@@ -9,12 +9,12 @@ const galleryImages = [
     category: "Nature"
   },
   {
-    src: "/crystal-clear-natural-spring-water-in-siwa-oasis.jpg",
+    src: "/siwa-hot-springs-natural-pools-wellness.webp",
     alt: "Crystal Clear Natural Springs",
     category: "Natural Springs"
   },
   {
-    src: "/golden-sand-dunes-in-siwa-great-sand-sea.jpg",
+    src: "/siwa-oasis-photography-golden-hour-palm-trees.jpg",
     alt: "Golden Dunes in the Great Sand Sea",
     category: "Desert"
   },

@@ -26,7 +26,7 @@ export function generateAdvancedMetadata(config: SEOConfig): Metadata {
     description,
     keywords,
     canonical,
-    ogImage = '/siwa-oasis-sunset-salt-lakes-reflection.jpg',
+    ogImage = '/siwa-oasis-sunset-salt-lakes-reflection.avif',
     ogType = 'website',
     twitterCard = 'summary_large_image',
     author = 'Siwa With Us',
@@ -217,7 +217,7 @@ export const generateOrganizationSchema = () => ({
   "description": "Authentic desert experiences and eco-tourism in Siwa Oasis, Egypt",
   "url": "https://siwa-with-us.com",
   "logo": "https://siwa-with-us.com/logo.png",
-  "image": "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.jpg",
+  "image": "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Siwa Oasis",

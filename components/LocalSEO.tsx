@@ -11,9 +11,9 @@ export const LocalSEO = memo(() => {
     "url": "https://siwa-with-us.com",
     "logo": "https://siwa-with-us.com/logo.png",
     "image": [
-      "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.jpg",
-      "https://siwa-with-us.com/siwa-springs.jpg",
-      "https://siwa-with-us.com/desert-safari.jpg"
+      "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
+      "https://siwa-with-us.com/logo.png",
+      "https://siwa-with-us.com/placeholder.svg"
     ],
     "address": {
       "@type": "PostalAddress",
@@ -159,10 +159,10 @@ export const LocalSEO = memo(() => {
     "alternateName": ["Siwa", "Oasis of Siwa", "Siwa Depression"],
     "description": "Ancient oasis in Egypt's Western Desert, famous for its natural springs, salt lakes, and rich Berber culture",
     "image": [
-      "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.jpg",
-      "https://siwa-with-us.com/cleopatra-bath.jpg",
-      "https://siwa-with-us.com/temple-oracle.jpg",
-      "https://siwa-with-us.com/salt-lakes.jpg"
+      "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
+      "https://siwa-with-us.com/siwa-hot-springs-natural-pools-wellness.webp",
+      "https://siwa-with-us.com/siwa-night-sky-stars-milky-way-desert.webp",
+      "https://siwa-with-us.com/siwa-oasis-traditional-berber-architecture-at-suns.webp"
     ],
     "address": {
       "@type": "PostalAddress",
