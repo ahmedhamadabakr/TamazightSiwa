@@ -33,7 +33,7 @@ export function generateAdvancedMetadata(config: SEOConfig): Metadata {
     publishedTime,
     modifiedTime,
     locale = 'en_US',
-    alternateLocales = ['ar_EG'],
+    alternateLocales = ['ar-EG'],
     noindex = false,
     nofollow = false
   } = config
@@ -63,10 +63,7 @@ export function generateAdvancedMetadata(config: SEOConfig): Metadata {
       languages: {
         'en-US': '/en',
         'ar-EG': '/ar',
-        ...alternateLocales.reduce((acc, locale) => {
-          acc[locale] = `/${locale.split('_')[0]}`
-          return acc
-        }, {} as Record<string, string>)
+        'x-default': '/'
       }
     },
     openGraph: {

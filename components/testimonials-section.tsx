@@ -120,9 +120,9 @@ export function TestimonialsSection() {
                                 </p>
 
                                 <div>
-                                    <h4 className="font-bold text-gray-900 text-lg">
+                                    <p className="font-bold text-gray-900 text-lg">
                                         {testimonials[currentIndex].name}
-                                    </h4>
+                                    </p>
                                     <p className="text-gray-600">{testimonials[currentIndex].location}</p>
                                     <p className="text-sm text-primary mt-1">{testimonials[currentIndex].tour}</p>
                                 </div>
@@ -135,6 +135,7 @@ export function TestimonialsSection() {
                                     size="icon"
                                     onClick={prevTestimonial}
                                     className="rounded-full"
+                                    aria-label="Previous testimonial"
                                 >
                                     <ChevronLeft className="w-5 h-5" />
                                 </Button>
@@ -143,6 +144,7 @@ export function TestimonialsSection() {
                                     size="icon"
                                     onClick={nextTestimonial}
                                     className="rounded-full"
+                                    aria-label="Next testimonial"
                                 >
                                     <ChevronRight className="w-5 h-5" />
                                 </Button>
@@ -157,11 +159,10 @@ export function TestimonialsSection() {
                                             setCurrentIndex(index)
                                             setIsAutoPlaying(false)
                                         }}
-                                        className={`w-2 h-2 rounded-full transition-all ${
-                                            index === currentIndex
-                                                ? "bg-primary w-8"
-                                                : "bg-gray-300 hover:bg-gray-400"
-                                        }`}
+                                        className={`w-2 h-2 rounded-full transition-all ${index === currentIndex
+                                            ? "bg-primary w-8"
+                                            : "bg-gray-300 hover:bg-gray-400"
+                                            }`}
                                         aria-label={`Go to testimonial ${index + 1}`}
                                     />
                                 ))}

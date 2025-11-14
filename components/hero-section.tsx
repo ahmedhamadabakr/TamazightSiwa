@@ -83,7 +83,7 @@ export function HeroSection() {
         </div>
       )}
 
-      <div className="absolute inset-0 hero-gradient opacity-50"></div>
+      <div className="absolute inset-0 hero-gradient opacity-50" style={{ willChange: 'auto' }}></div>
 
       {/* Floating Elements - Memoized for better performance */}
       <div className="absolute top-20 right-10 hidden lg:block animate-fade-in-up" style={{ animationDelay: '0.5s' }}>

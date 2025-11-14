@@ -32,7 +32,7 @@ export const metadata: Metadata = generateAdvancedMetadata({
   ogImage: "/siwa-oasis-sunset-salt-lakes-reflection.avif",
   author: "Siwa With Us Team",
   locale: "en_US",
-  alternateLocales: ["ar_EG"]
+  alternateLocales: ["ar-EG"]
 })
 
 const cairo = Cairo({ subsets: ["latin"], weight: ["400", "700"], display: "swap" })
@@ -132,6 +132,11 @@ export default async function RootLayout({
         <meta property="og:locale:alternate" content="ar_EG" />
         <meta property="article:author" content="Siwa With Us" />
         <meta property="article:publisher" content="https://www.facebook.com/SiwaWithUs" />
+
+        {/* Alternate Language Links - SEO Critical */}
+        <link rel="alternate" hrefLang="en" href="https://siwa-with-us.com/en" />
+        <link rel="alternate" hrefLang="ar" href="https://siwa-with-us.com/ar" />
+        <link rel="alternate" hrefLang="x-default" href="https://siwa-with-us.com" />
 
         {/* Twitter Additional */}
         <meta name="twitter:domain" content="siwa-with-us.com" />
