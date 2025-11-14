@@ -9,7 +9,9 @@
     "lint": "next lint",
     "start": "next start",
     "optimize": "set NEXT_PUBLIC_ENV=production && set NODE_ENV=production && next build && next start",
-    "optimize:analyze": "set NEXT_PUBLIC_ENV=production && set NODE_ENV=production && set ANALYZE=true && next build"
+    "optimize:analyze": "set NEXT_PUBLIC_ENV=production && set NODE_ENV=production && set ANALYZE=true && next build",
+    "optimize-images": "node scripts/optimize-images.js",
+    "lighthouse-check": "node scripts/check-lighthouse.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",
