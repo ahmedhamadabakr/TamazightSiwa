@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import zxcvbn from 'zxcvbn';
 import { SECURITY_CONFIG } from './config';
 
 export interface PasswordStrength {
@@ -12,9 +11,12 @@ export interface PasswordStrength {
 }
 
 /**
- * Validates password strength using zxcvbn
+ * Validates password strength using zxcvbn (loaded dynamically)
+ * هذه الدالة تحمل zxcvbn فقط عند الحاجة لتقليل حجم الحزمة
  */
-export function validatePasswordStrength(password: string, userInputs?: string[]): PasswordStrength {
+export async function validatePasswordStrength(password: string, userInputs?: string[]): Promise<PasswordStrength> {
+    // تحميل ديناميكي لـ zxcvbn فقط عند الحاجة
+    const zxcvbn = (await import('zxcvbn')).default;
     const result = zxcvbn(password, userInputs);
 
     return {

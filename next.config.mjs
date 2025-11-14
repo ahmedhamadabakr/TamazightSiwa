@@ -28,7 +28,7 @@ const nextConfig = {
       '@radix-ui/react-navigation-menu'
     ],
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB'],
-    serverComponentsExternalPackages: ['mongodb', 'bcryptjs'],
+    serverComponentsExternalPackages: ['mongodb', 'bcryptjs', 'zxcvbn'],
     optimizeCss: true,
     scrollRestoration: true,
     largePageDataBytes: 128 * 1000, // 128KB
@@ -128,6 +128,20 @@ const nextConfig = {
             test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
             priority: 40,
             enforce: true,
+          },
+          // عزل framer-motion في حزمة منفصلة
+          framerMotion: {
+            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+            name: 'framer-motion',
+            priority: 35,
+            reuseExistingChunk: true,
+          },
+          // عزل zxcvbn في حزمة منفصلة (يتم تحميلها فقط عند الحاجة)
+          zxcvbn: {
+            test: /[\\/]node_modules[\\/]zxcvbn[\\/]/,
+            name: 'zxcvbn',
+            priority: 35,
+            reuseExistingChunk: true,
           },
           lib: {
             test(module) {
