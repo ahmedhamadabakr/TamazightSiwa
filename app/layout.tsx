@@ -1,9 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Suspense } from "react"
+import dynamicImport from "next/dynamic"
 import { getServerAuthSession } from '@/lib/server-auth'
 import { Cairo } from "next/font/google"
 
@@ -11,8 +10,19 @@ import "./globals.css"
 import Loading from "./loading"
 import { AuthProvider } from "@/components/auth-provider"
 import { generateAdvancedMetadata } from "@/components/SEOOptimizer"
-import { PerformanceMonitor, ResourceHints } from "@/components/PerformanceMonitor"
+import { ResourceHints } from "@/components/PerformanceMonitor"
 import { ErrorBoundary } from "@/components/ErrorBoundary"
+
+// Dynamic imports للمكونات غير الحرجة - تحميل بعد التفاعل
+const Analytics = dynamicImport(() => import("@vercel/analytics/next").then(m => ({ default: m.Analytics })), {
+  ssr: false
+})
+const SpeedInsights = dynamicImport(() => import("@vercel/speed-insights/next").then(m => ({ default: m.SpeedInsights })), {
+  ssr: false
+})
+const PerformanceMonitor = dynamicImport(() => import("@/components/PerformanceMonitor").then(m => ({ default: m.PerformanceMonitor })), {
+  ssr: false
+})
 
 export const metadata: Metadata = generateAdvancedMetadata({
   title: "Siwa With Us - Authentic Desert Experiences in Siwa Oasis",
@@ -142,61 +152,67 @@ export default async function RootLayout({
         <link rel="alternate" hrefLang="x-default" href="https://siwa-with-us.com" />
 
         {/* JSON-LD Structured Data */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "Tamazight Siwa",
-          "url": "https://siwa-with-us.com",
-          "logo": "https://siwa-with-us.com/logo.png",
-          "sameAs": [
-            "https://www.facebook.com/SiwaWithUs",
-            "https://www.instagram.com/",
-            "https://x.com/"
-          ],
-          "contactPoint": [{
-            "@type": "ContactPoint",
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Tamazight Siwa",
+            "url": "https://siwa-with-us.com",
+            "logo": "https://siwa-with-us.com/logo.png",
+            "sameAs": [
+              "https://www.facebook.com/SiwaWithUs",
+              "https://www.instagram.com/",
+              "https://x.com/"
+            ],
+            "contactPoint": [{
+              "@type": "ContactPoint",
+              "telephone": "+201552624123",
+              "contactType": "customer service",
+              "areaServed": "EG",
+              "availableLanguage": ["en", "ar"]
+            }]
+          })
+        }} />
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Tamazight Siwa",
+            "url": "https://siwa-with-us.com",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://siwa-with-us.com/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })
+        }} />
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Tamazight Siwa",
+            "image": [
+              "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
+            ],
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Siwa Oasis",
+              "addressLocality": "Siwa",
+              "addressRegion": "Matrouh Governorate",
+              "addressCountry": "EG"
+            },
             "telephone": "+201552624123",
-            "contactType": "customer service",
-            "areaServed": "EG",
-            "availableLanguage": ["en", "ar"]
-          }]
-        }) }} />
-
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": "Tamazight Siwa",
-          "url": "https://siwa-with-us.com",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://siwa-with-us.com/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
-        }) }} />
-
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          "name": "Tamazight Siwa",
-          "image": [
-            "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
-          ],
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Siwa Oasis",
-            "addressLocality": "Siwa",
-            "addressRegion": "Matrouh Governorate",
-            "addressCountry": "EG"
-          },
-          "telephone": "+201552624123",
-          "url": "https://siwa-with-us.com",
-          "priceRange": "$$",
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 29.205,
-            "longitude": 25.519
-          }
-        }) }} />
+            "url": "https://siwa-with-us.com",
+            "priceRange": "$$",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 29.205,
+              "longitude": 25.519
+            }
+          })
+        }} />
 
         {/* Resource Hints */}
         <ResourceHints />

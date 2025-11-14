@@ -2,13 +2,26 @@
 
 import { useState, useEffect } from "react"
 import React from "react"
-import { ClientOnlyNavigation } from "@/components/ClientOnlyNavigation"
-import { Footer } from "@/components/footer"
+import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { MotionDiv } from "@/components/Motion"
 import { Tour } from "@/types/tour"
-import { TourCard } from "@/components/TourCard"
+
+// Dynamic imports للمكونات غير الحرجة
+const ClientOnlyNavigation = dynamic(() => import("@/components/ClientOnlyNavigation").then(m => ({ default: m.ClientOnlyNavigation })), {
+  ssr: false,
+  loading: () => <div className="h-16 bg-background" />
+})
+
+const Footer = dynamic(() => import("@/components/footer").then(m => ({ default: m.Footer })), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-muted" />
+})
+
+const MotionDiv = dynamic(() => import("@/components/Motion").then(m => ({ default: m.MotionDiv })), { ssr: false })
+const TourCard = dynamic(() => import("@/components/TourCard").then(m => ({ default: m.TourCard })), {
+  loading: () => <div className="animate-pulse h-96 bg-muted rounded-lg" />
+})
 const categories = ["All", "Cultural", "Adventure", "Wellness", "Photography", "Extreme"]
 
 export default function ToursContent() {

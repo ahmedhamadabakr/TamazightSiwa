@@ -10,13 +10,13 @@ const nextConfig = {
   swcMinify: true,
   compress: true,
   poweredByHeader: false,
-  
+
   // Performance optimizations
   experimental: {
     optimizePackageImports: [
-      'react', 
-      'react-dom', 
-      'framer-motion', 
+      'react',
+      'react-dom',
+      'framer-motion',
       'lucide-react',
       'react-icons',
       'react-icons/fa',
@@ -25,7 +25,13 @@ const nextConfig = {
       '@radix-ui/react-accordion',
       '@radix-ui/react-dialog',
       '@radix-ui/react-dropdown-menu',
-      '@radix-ui/react-navigation-menu'
+      '@radix-ui/react-navigation-menu',
+      '@radix-ui/react-avatar',
+      '@radix-ui/react-select',
+      '@radix-ui/react-popover',
+      'next-cloudinary',
+      'react-hook-form',
+      'next-auth'
     ],
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB'],
     serverComponentsExternalPackages: ['mongodb', 'bcryptjs', 'zxcvbn'],
@@ -33,13 +39,13 @@ const nextConfig = {
     scrollRestoration: true,
     largePageDataBytes: 128 * 1000, // 128KB
   },
-  
+
   // Production optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
     reactRemoveProperties: process.env.NODE_ENV === 'production',
   },
-  
+
   // Security and performance headers
   headers: async () => [
     {
@@ -74,14 +80,14 @@ const nextConfig = {
       ],
     },
   ],
-  
+
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
   },
-  
+
   // Enhanced image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -109,10 +115,10 @@ const nextConfig = {
       },
     ],
   },
-  
+
   // Output optimization - removed standalone for development
   // output: 'standalone', // Enable only for production deployment
-  
+
   // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
@@ -140,6 +146,27 @@ const nextConfig = {
           zxcvbn: {
             test: /[\\/]node_modules[\\/]zxcvbn[\\/]/,
             name: 'zxcvbn',
+            priority: 35,
+            reuseExistingChunk: true,
+          },
+          // عزل @radix-ui في حزمة منفصلة
+          radixUI: {
+            test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
+            name: 'radix-ui',
+            priority: 35,
+            reuseExistingChunk: true,
+          },
+          // عزل next-cloudinary في حزمة منفصلة
+          cloudinary: {
+            test: /[\\/]node_modules[\\/](next-cloudinary|cloudinary)[\\/]/,
+            name: 'cloudinary',
+            priority: 35,
+            reuseExistingChunk: true,
+          },
+          // عزل react-hook-form في حزمة منفصلة
+          reactHookForm: {
+            test: /[\\/]node_modules[\\/]react-hook-form[\\/]/,
+            name: 'react-hook-form',
             priority: 35,
             reuseExistingChunk: true,
           },

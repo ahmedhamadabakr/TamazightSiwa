@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation"
 import Image from "next/image"
+import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Users, Star, User } from "lucide-react"
@@ -10,18 +11,41 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Session } from "next-auth";
-import { BookingForm } from '@/components/BookingForm'
-import { ImageGalleryFallback } from '@/components/ImageGalleryFallback'
 import { TourLoading } from '@/components/tour/tour-loading'
 import { TourNotFound } from '@/components/tour/tour-not-found'
-import { TourReviews } from '@/components/tour/TourReviews'
 import { TourBreadcrumbs } from '@/components/tour/TourBreadcrumbs'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+
+// Dynamic imports لتحسين الأداء - تحميل المكونات الثقيلة فقط عند الحاجة
+const BookingForm = dynamic(() => import('@/components/BookingForm').then(m => ({ default: m.BookingForm })), {
+  loading: () => <div className="animate-pulse h-64 bg-muted rounded-lg" />,
+  ssr: false
+})
+
+const ImageGalleryFallback = dynamic(() => import('@/components/ImageGalleryFallback').then(m => ({ default: m.ImageGalleryFallback })), {
+  loading: () => <div className="animate-pulse h-96 bg-muted rounded-lg" />,
+  ssr: false
+})
+
+const TourReviews = dynamic(() => import('@/components/tour/TourReviews').then(m => ({ default: m.TourReviews })), {
+  loading: () => <div className="animate-pulse h-64 bg-muted rounded-lg" />,
+  ssr: false
+})
+
+const Dialog = dynamic(() => import("@/components/ui/dialog").then(m => ({
+  default: m.Dialog
+})), { ssr: false })
+
+const DialogContent = dynamic(() => import("@/components/ui/dialog").then(m => ({
+  default: m.DialogContent
+})), { ssr: false })
+
+const DialogHeader = dynamic(() => import("@/components/ui/dialog").then(m => ({
+  default: m.DialogHeader
+})), { ssr: false })
+
+const DialogTitle = dynamic(() => import("@/components/ui/dialog").then(m => ({
+  default: m.DialogTitle
+})), { ssr: false })
 
 // Inside your component
 

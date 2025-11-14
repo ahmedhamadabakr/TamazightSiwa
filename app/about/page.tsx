@@ -1,12 +1,26 @@
 import type React from "react";
-export const dynamic = "force-static";
-import { ClientOnlyNavigation } from "@/components/ClientOnlyNavigation";
-import { Footer } from "@/components/footer";
+import dynamic from "next/dynamic";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Heart, Leaf, Award, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
-import { MotionDiv, MotionH1, MotionP } from "@/components/Motion";
 import Link from "next/link";
+
+export const dynamicParams = false;
+
+// Dynamic imports للمكونات غير الحرجة
+const ClientOnlyNavigation = dynamic(() => import("@/components/ClientOnlyNavigation").then(m => ({ default: m.ClientOnlyNavigation })), {
+  ssr: false,
+  loading: () => <div className="h-16 bg-background" />
+});
+
+const Footer = dynamic(() => import("@/components/footer").then(m => ({ default: m.Footer })), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-muted" />
+});
+
+const MotionDiv = dynamic(() => import("@/components/Motion").then(m => ({ default: m.MotionDiv })), { ssr: false });
+const MotionH1 = dynamic(() => import("@/components/Motion").then(m => ({ default: m.MotionH1 })), { ssr: false });
+const MotionP = dynamic(() => import("@/components/Motion").then(m => ({ default: m.MotionP })), { ssr: false });
 
 // ♻️ Reusable Value Card
 function ValueCard({
