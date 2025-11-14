@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { memo, ReactNode } from 'react'
 
 interface ArticleSEOProps {
@@ -64,7 +65,7 @@ export const ArticleSEO = memo(({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
-      
+
       {/* Article Header */}
       <header className="article-header mb-8">
         <h1 className="article-title text-4xl font-bold mb-4">{title}</h1>
@@ -105,10 +106,10 @@ export const ArticleSEO = memo(({
 })
 
 // FAQ component with SEO optimization
-export const FAQSectionSEO = memo(({ 
+export const FAQSectionSEO = memo(({
   faqs,
   title = "Frequently Asked Questions"
-}: { 
+}: {
   faqs: Array<{ question: string; answer: string }>
   title?: string
 }) => {
@@ -132,9 +133,9 @@ export const FAQSectionSEO = memo(({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      
+
       <h2 className="faq-title text-3xl font-bold mb-8">{title}</h2>
-      
+
       <div className="faq-list space-y-6">
         {faqs.map((faq, index) => (
           <div key={index} className="faq-item border-b border-gray-200 pb-6">
@@ -152,10 +153,10 @@ export const FAQSectionSEO = memo(({
 })
 
 // Breadcrumb component with SEO
-export const BreadcrumbSEO = memo(({ 
-  items 
-}: { 
-  items: Array<{ name: string; url: string }> 
+export const BreadcrumbSEO = memo(({
+  items
+}: {
+  items: Array<{ name: string; url: string }>
 }) => {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -174,7 +175,7 @@ export const BreadcrumbSEO = memo(({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      
+
       <ol className="breadcrumb-list flex items-center space-x-2 text-sm text-gray-600">
         {items.map((item, index) => (
           <li key={index} className="breadcrumb-item">
@@ -184,12 +185,12 @@ export const BreadcrumbSEO = memo(({
                 {item.name}
               </span>
             ) : (
-              <a 
-                href={item.url} 
+              <Link
+                href={item.url}
                 className="link hover:text-primary transition-colors"
               >
                 {item.name}
-              </a>
+              </Link>
             )}
           </li>
         ))}
@@ -199,11 +200,11 @@ export const BreadcrumbSEO = memo(({
 })
 
 // Review/Rating component with SEO
-export const ReviewSectionSEO = memo(({ 
+export const ReviewSectionSEO = memo(({
   reviews,
   overallRating,
   totalReviews
-}: { 
+}: {
   reviews: Array<{
     author: string
     rating: number
@@ -249,14 +250,14 @@ export const ReviewSectionSEO = memo(({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
       />
-      
+
       <div className="reviews-header mb-8">
         <h2 className="reviews-title text-3xl font-bold mb-4">Customer Reviews</h2>
         <div className="overall-rating flex items-center mb-4">
           <div className="rating-stars flex mr-3">
             {[...Array(5)].map((_, i) => (
-              <span 
-                key={i} 
+              <span
+                key={i}
                 className={`star ${i < Math.floor(overallRating) ? 'text-yellow-400' : 'text-gray-300'}`}
               >
                 ★
@@ -278,8 +279,8 @@ export const ReviewSectionSEO = memo(({
             <div className="review-header flex items-center mb-3">
               <div className="review-rating flex mr-3">
                 {[...Array(5)].map((_, i) => (
-                  <span 
-                    key={i} 
+                  <span
+                    key={i}
                     className={`star ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
                   >
                     ★

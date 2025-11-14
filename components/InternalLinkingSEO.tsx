@@ -24,7 +24,7 @@ export const SEOLink = memo(({
 }: SEOLinkProps) => {
   const isExternal = href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')
   const isDownload = href.includes('/download/') || href.endsWith('.pdf')
-  
+
   const linkProps = {
     title,
     className,
@@ -40,9 +40,9 @@ export const SEOLink = memo(({
 
   if (isExternal) {
     return (
-      <a href={href} {...linkProps}>
+      <link href={href} {...linkProps}>
         {children}
-      </a>
+      </link>
     )
   }
 
@@ -54,10 +54,10 @@ export const SEOLink = memo(({
 })
 
 // Related content component for internal linking
-export const RelatedContentSEO = memo(({ 
+export const RelatedContentSEO = memo(({
   items,
   title = "Related Content"
-}: { 
+}: {
   items: Array<{
     title: string
     url: string
@@ -70,30 +70,30 @@ export const RelatedContentSEO = memo(({
   return (
     <section className="related-content-seo bg-gray-50 p-6 rounded-lg">
       <h3 className="related-title text-2xl font-bold mb-6 text-center">{title}</h3>
-      
+
       <div className="related-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((item, index) => (
           <article key={index} className="related-item bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
             {item.image && (
               <div className="related-image">
-                <Image 
-                  src={item.image} 
+                <Image
+                  src={item.image}
                   alt={item.title}
                   className="w-full h-48 object-cover"
                   loading="lazy"
                 />
               </div>
             )}
-            
+
             <div className="related-content p-4">
               {item.category && (
                 <span className="related-category text-xs text-primary font-medium uppercase tracking-wide">
                   {item.category}
                 </span>
               )}
-              
+
               <h4 className="related-item-title font-semibold mb-2 hover:text-primary transition-colors">
-                <SEOLink 
+                <SEOLink
                   href={item.url}
                   title={`Read more about ${item.title}`}
                   aria-label={`Navigate to ${item.title}`}
@@ -101,7 +101,7 @@ export const RelatedContentSEO = memo(({
                   {item.title}
                 </SEOLink>
               </h4>
-              
+
               {item.description && (
                 <p className="related-description text-gray-600 text-sm line-clamp-3">
                   {item.description}
@@ -116,10 +116,10 @@ export const RelatedContentSEO = memo(({
 })
 
 // Navigation breadcrumb with internal linking
-export const NavigationSEO = memo(({ 
+export const NavigationSEO = memo(({
   currentPage,
-  category 
-}: { 
+  category
+}: {
   currentPage: string
   category?: string
 }) => {
@@ -138,11 +138,10 @@ export const NavigationSEO = memo(({
           <li key={item.name} className="nav-item">
             <SEOLink
               href={item.url}
-              className={`nav-link px-4 py-2 rounded-lg transition-colors ${
-                currentPage === item.name.toLowerCase() 
-                  ? 'bg-primary text-white' 
+              className={`nav-link px-4 py-2 rounded-lg transition-colors ${currentPage === item.name.toLowerCase()
+                  ? 'bg-primary text-white'
                   : 'text-gray-700 hover:bg-primary/10 hover:text-primary'
-              }`}
+                }`}
               aria-label={`Navigate to ${item.name} page`}
               title={`Visit our ${item.name} page`}
             >
@@ -209,10 +208,10 @@ export const FooterSEO = memo(() => {
             </div>
           ))}
         </div>
-        
+
         <div className="footer-bottom border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="copyright text-gray-400">
-            © 2024 Siwa With Us. All rights reserved. 
+            © 2024 Siwa With Us. All rights reserved.
             <SEOLink href="/privacy" className="ml-2 hover:text-white">
               Privacy Policy
             </SEOLink>

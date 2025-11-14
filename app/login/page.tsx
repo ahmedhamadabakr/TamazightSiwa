@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -123,12 +124,12 @@ export default function LoginPage() {
       if (result?.ok) {
         // Update session immediately
         await update();
-        
+
         // Trigger login event for navbar to listen
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new Event('user-logged-in'));
         }
-        
+
         // Use router.push for client-side navigation (preserves session)
         const targetUrl = result.url || callbackUrl || '/';
         router.push(targetUrl);
@@ -150,7 +151,13 @@ export default function LoginPage() {
         <div className="text-center">
           <Link href="/" className="flex items-center justify-center gap-2 mb-6">
             <div className="w-12 h-12 flex items-center justify-center">
-              <img src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
+              <Image
+                src="/icon.svg"
+                alt="Tamazight Siwa Logo - Authentic Desert Experiences"
+                width={48}
+                height={48}
+                className="w-full h-full"
+              />
             </div>
             <span className="font-bold text-2xl text-foreground tracking-tight">Tamazight Siwa</span>
           </Link>

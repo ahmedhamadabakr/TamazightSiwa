@@ -49,6 +49,9 @@ import { ResourceHints } from "@/components/PerformanceMonitor"
 import { GlobalPerformanceOptimizer, CriticalCSS } from "@/components/GlobalPerformanceOptimizer"
 import { HomePageSEO } from "@/components/PageSEO"
 import { LocalSEO } from "@/components/LocalSEO"
+import { SEOEnhancements } from "@/components/SEOEnhancements"
+import { AccessibilityEnhancements } from "@/components/AccessibilityEnhancements"
+import { PerformanceOptimizations } from "@/components/PerformanceOptimizations"
 
 export default function HomePage() {
   return (
@@ -56,13 +59,16 @@ export default function HomePage() {
       {/* SEO Optimization */}
       <HomePageSEO />
       <LocalSEO />
+      <SEOEnhancements page="home" />
+      <AccessibilityEnhancements />
+      <PerformanceOptimizations />
 
       {/* Essential optimizations only */}
       <CriticalCSS />
       <ResourceHints />
       <GlobalPerformanceOptimizer />
 
-      <main className="min-h-screen">
+      <main className="min-h-screen" id="main-content">
         <ClientOnlyNavigation />
         <HeroSection />
         <FeaturedTours />

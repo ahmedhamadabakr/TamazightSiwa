@@ -42,7 +42,7 @@ const NavigationComponent = memo(function Navigation() {
       // Close any open dropdowns
       setIsOpen(false);
     });
-    
+
     return () => unsubscribe();
   }, [subscribeToAuthChanges, updateSession]);
 
@@ -54,7 +54,7 @@ const NavigationComponent = memo(function Navigation() {
     };
 
     window.addEventListener('user-logged-in', handleLoginSuccess);
-    
+
     return () => {
       window.removeEventListener('user-logged-in', handleLoginSuccess);
     };
@@ -97,8 +97,8 @@ const NavigationComponent = memo(function Navigation() {
 
   const profileLink = useMemo(() => {
     if (!localUser?.id) return '/login';
-    return (userRole === 'manager' || userRole === 'admin') 
-      ? `/dashboard/${localUser.id}` 
+    return (userRole === 'manager' || userRole === 'admin')
+      ? `/dashboard/${localUser.id}`
       : `/user/${localUser.id}`;
   }, [localUser?.id, userRole]);
 
@@ -113,14 +113,14 @@ const NavigationComponent = memo(function Navigation() {
   const handleSignOut = useCallback(async () => {
     if (isSigningOut) return;
     setIsSigningOut(true);
-    
+
     try {
       setIsOpen(false);
-      await logout({ 
+      await logout({
         callbackUrl: '/',
         redirect: true
       });
-      
+
       // Reset local state
       setLocalUser(null);
     } catch (error) {
@@ -132,11 +132,10 @@ const NavigationComponent = memo(function Navigation() {
     }
   }, [isSigningOut, logout]);
 
-  const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-    scrolled
-      ? "bg-white/98 backdrop-blur-lg border-b border-gray-200/80 shadow-lg"
-      : "bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-sm"
-  }`;
+  const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+    ? "bg-white/98 backdrop-blur-lg border-b border-gray-200/80 shadow-lg"
+    : "bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-sm"
+    }`;
 
   return (
     <nav className={navClasses} suppressHydrationWarning>
@@ -145,7 +144,13 @@ const NavigationComponent = memo(function Navigation() {
           {/* Logo */}
           <Link href="/" prefetch={false} className="flex items-center space-x-3 group">
             <div className="w-10 h-10 flex items-center justify-center">
-              <img src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
+              <Image
+                src="/icon.svg"
+                alt="Tamazight Siwa Logo - Authentic Desert Experiences in Siwa Oasis"
+                width={40}
+                height={40}
+                className="w-full h-full"
+              />
             </div>
             <div>
               <span className="font-bold text-xl text-gray-900 group-hover:text-primary transition-colors">
@@ -163,11 +168,10 @@ const NavigationComponent = memo(function Navigation() {
                   key={item.name}
                   href={item.href}
                   prefetch={false}
-                  className={`relative px-4 py-2 font-medium rounded-lg transition-all ${
-                    isActive(item.href)
-                      ? "text-primary bg-primary/10 shadow-sm"
-                      : "text-gray-700 hover:text-primary hover:bg-gray-50"
-                  }`}
+                  className={`relative px-4 py-2 font-medium rounded-lg transition-all ${isActive(item.href)
+                    ? "text-primary bg-primary/10 shadow-sm"
+                    : "text-gray-700 hover:text-primary hover:bg-gray-50"
+                    }`}
                 >
                   {item.name}
                   {mounted && isActive(item.href) && (
@@ -186,7 +190,9 @@ const NavigationComponent = memo(function Navigation() {
                       {localUser.image ? (
                         <Image
                           src={localUser.image}
-                          alt={localUser.name || "User"}
+                          alt={`${localUser.name || "User"} profile picture`}
+                          width={36}
+                          height={36}
                           className="h-9 w-9 rounded-full object-cover ring-2 ring-primary/20 hover:ring-primary/30 transition-all"
                         />
                       ) : (
@@ -241,6 +247,7 @@ const NavigationComponent = memo(function Navigation() {
               onClick={() => setIsOpen((prev) => !prev)}
               className="text-gray-700 hover:bg-gray-100"
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isOpen}
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               <span className="sr-only">{isOpen ? "Close menu" : "Open menu"}</span>
@@ -257,11 +264,10 @@ const NavigationComponent = memo(function Navigation() {
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive(item.href)
-                      ? "text-primary bg-primary/10"
-                      : "text-gray-700 hover:text-primary hover:bg-gray-50"
-                  }`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${isActive(item.href)
+                    ? "text-primary bg-primary/10"
+                    : "text-gray-700 hover:text-primary hover:bg-gray-50"
+                    }`}
                 >
                   {item.name}
                 </Link>
@@ -275,7 +281,9 @@ const NavigationComponent = memo(function Navigation() {
                     {localUser.image ? (
                       <Image
                         src={localUser.image}
-                        alt={localUser.name || "User"}
+                        alt={`${localUser.name || "User"} profile picture`}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 rounded-full object-cover"
                       />
                     ) : (
@@ -299,7 +307,7 @@ const NavigationComponent = memo(function Navigation() {
                     >
                       <Settings className="w-5 h-5 text-blue-600 mr-3" />
                       <span className="font-medium text-gray-900">
-                      Dashboard
+                        Dashboard
                       </span>
                     </Link>
                   )}

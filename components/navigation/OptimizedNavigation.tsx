@@ -32,7 +32,7 @@ export function OptimizedNavigation() {
   const user = session?.user as SessionUser | undefined;
   const userRole = user?.role;
 
-  const profileLink = user?.id 
+  const profileLink = user?.id
     ? user.role === 'manager' || user.role === 'admin' ? `/dashboard/${user.id}` : `/user/${user.id}`
     : '/login';
 
@@ -59,7 +59,7 @@ export function OptimizedNavigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="w-10 h-10 flex items-center justify-center">
-              <img src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
+              <Image src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-xl text-gray-900 group-hover:text-primary transition-colors duration-300">Tamazight Siwa</span>
@@ -171,29 +171,29 @@ export function OptimizedNavigation() {
         {isOpen && (
           <div className="md:hidden py-2 space-y-2">
             <div className="px-2 space-y-1">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={() => setIsOpen(false)}
               >
                 Home
               </Link>
-              <Link 
-                href="/about" 
+              <Link
+                href="/about"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={() => setIsOpen(false)}
               >
                 About Us
               </Link>
-              <Link 
-                href="/tours" 
+              <Link
+                href="/tours"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={() => setIsOpen(false)}
               >
                 Tours & Experiences
               </Link>
-              <Link 
-                href="/gallery" 
+              <Link
+                href="/gallery"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={() => setIsOpen(false)}
               >
@@ -222,7 +222,7 @@ export function OptimizedNavigation() {
                   </div>
                 </div>
                 <div className="px-2 space-y-1">
-                  <Link 
+                  <Link
                     href={profileLink}
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                     onClick={() => setIsOpen(false)}
@@ -240,15 +240,15 @@ export function OptimizedNavigation() {
             ) : (
               <div className="pt-4 border-t border-gray-200">
                 <div className="px-2 space-y-2">
-                  <Link 
-                    href="/login" 
+                  <Link
+                    href="/login"
                     className="block w-full text-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                     onClick={() => setIsOpen(false)}
                   >
                     Sign in
                   </Link>
-                  <Link 
-                    href="/register" 
+                  <Link
+                    href="/register"
                     className="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90"
                     onClick={() => setIsOpen(false)}
                   >

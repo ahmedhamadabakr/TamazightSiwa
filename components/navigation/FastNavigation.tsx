@@ -2,7 +2,7 @@
 
 import { useState, memo, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Menu, X, User, LogOut } from "lucide-react";
@@ -28,12 +28,12 @@ export const FastNavigation = memo(function FastNavigation() {
   const { logout, subscribeToAuthChanges } = useAuth();
   const [localUser, setLocalUser] = useState<SessionUser | undefined>();
   const [isSigningOut, setIsSigningOut] = useState(false);
-  
+
   // Keep local state in sync with session
   useEffect(() => {
     setLocalUser(session?.user as SessionUser | undefined);
   }, [session]);
-  
+
   // Subscribe to auth changes
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges(() => {
@@ -50,15 +50,15 @@ export const FastNavigation = memo(function FastNavigation() {
         setIsOpen(false);
       });
     });
-    
+
     return () => unsubscribe();
   }, [subscribeToAuthChanges, update]);
-  
+
   const userRole = localUser?.role;
 
-  const profileLink = localUser?.id 
-    ? (localUser.role === 'manager' || localUser.role === 'admin') 
-      ? `/dashboard/${localUser.id}` 
+  const profileLink = localUser?.id
+    ? (localUser.role === 'manager' || localUser.role === 'admin')
+      ? `/dashboard/${localUser.id}`
       : `/user/${localUser.id}`
     : '/login';
 
@@ -77,25 +77,25 @@ export const FastNavigation = memo(function FastNavigation() {
   const handleSignOut = useCallback(async () => {
     if (isSigningOut) return;
     setIsSigningOut(true);
-    
+
     try {
       // Clear UI state immediately
       setLocalUser(undefined);
       setIsDropdownOpen(false);
       setIsOpen(false);
-      
+
       // Clear all auth-related data from client storage
       if (typeof window !== 'undefined') {
         // Clear all auth-related data
-        const authKeys = Object.keys(localStorage).filter(key => 
-          key.startsWith('next-auth.') || 
+        const authKeys = Object.keys(localStorage).filter(key =>
+          key.startsWith('next-auth.') ||
           key.startsWith('auth.') ||
           key.startsWith('token')
         );
-        
+
         authKeys.forEach(key => localStorage.removeItem(key));
         sessionStorage.clear();
-        
+
         // Clear any service worker caches that might contain auth data
         if ('caches' in window) {
           caches.keys().then(cacheNames => {
@@ -103,13 +103,13 @@ export const FastNavigation = memo(function FastNavigation() {
           });
         }
       }
-      
+
       // Perform the actual logout
-      await logout({ 
+      await logout({
         callbackUrl: '/',
         redirect: false // We'll handle the redirect manually
       });
-      
+
       // Force a hard redirect with cache busting
       window.location.href = `/?logout=${Date.now()}`;
     } catch (error) {
@@ -174,7 +174,12 @@ export const FastNavigation = memo(function FastNavigation() {
 
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <Button variant="ghost" size="icon" className="text-gray-700">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-gray-700"
+                aria-label="Open navigation menu"
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -191,7 +196,13 @@ export const FastNavigation = memo(function FastNavigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="w-10 h-10 flex items-center justify-center">
-              <img src="/icon.svg" alt="Tamazight Siwa Logo" className="w-full h-full" />
+              <Image
+                src="/icon.svg"
+                alt="Tamazight Siwa Logo - Authentic Desert Experiences in Siwa Oasis"
+                width={40}
+                height={40}
+                className="w-full h-full"
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-xl text-gray-900 group-hover:text-primary transition-colors duration-200">Tamazight Siwa</span>
@@ -219,15 +230,20 @@ export const FastNavigation = memo(function FastNavigation() {
             {status === 'authenticated' && localUser ? (
               <div className="flex items-center space-x-4 ml-4">
                 <div className="relative">
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     className="relative h-10 w-10 rounded-full p-0"
                     onClick={toggleDropdown}
+                    aria-label="Open user menu"
+                    aria-expanded={isDropdownOpen}
+                    aria-haspopup="true"
                   >
                     {localUser.image ? (
                       <Image
                         src={localUser.image}
-                        alt={localUser.name || 'User'}
+                        alt={`${localUser.name || 'User'} profile picture`}
+                        width={40}
+                        height={40}
                         className="h-10 w-10 rounded-full object-cover"
                         loading="lazy"
                       />
@@ -245,27 +261,27 @@ export const FastNavigation = memo(function FastNavigation() {
                         <p className="text-sm font-medium text-gray-900">{localUser.name || 'User'}</p>
                         <p className="text-xs text-gray-500 truncate">{localUser.email || ''}</p>
                       </div>
-                      
+
                       {(userRole === 'manager' || userRole === 'admin') && (
-                        <Link 
-                          href={profileLink} 
+                        <Link
+                          href={profileLink}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                           onClick={() => setIsDropdownOpen(false)}
                         >
                           Dashboard
                         </Link>
                       )}
-                      
+
                       {userRole === 'user' && (
-                        <Link 
-                          href={profileLink} 
+                        <Link
+                          href={profileLink}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                           onClick={() => setIsDropdownOpen(false)}
                         >
                           Profile
                         </Link>
                       )}
-                      
+
                       <div className="border-t border-gray-100 mt-1 pt-1">
                         <button
                           onClick={handleSignOut}
@@ -302,9 +318,11 @@ export const FastNavigation = memo(function FastNavigation() {
               size="icon"
               onClick={toggleMobileMenu}
               className="text-gray-700 hover:bg-gray-100"
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isOpen}
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              <span className="sr-only">Toggle menu</span>
+              <span className="sr-only">{isOpen ? "Close menu" : "Open menu"}</span>
             </Button>
           </div>
         </div>
@@ -313,29 +331,29 @@ export const FastNavigation = memo(function FastNavigation() {
         {isOpen && (
           <div className="md:hidden py-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
             <div className="px-2 space-y-1">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={closeMobileMenu}
               >
                 Home
               </Link>
-              <Link 
-                href="/about" 
+              <Link
+                href="/about"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={closeMobileMenu}
               >
                 About Us
               </Link>
-              <Link 
-                href="/tours" 
+              <Link
+                href="/tours"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={closeMobileMenu}
               >
                 Tours
               </Link>
-              <Link 
-                href="/gallery" 
+              <Link
+                href="/gallery"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                 onClick={closeMobileMenu}
               >
@@ -350,7 +368,9 @@ export const FastNavigation = memo(function FastNavigation() {
                     {localUser.image ? (
                       <Image
                         src={localUser.image}
-                        alt={localUser.name || 'User'}
+                        alt={`${localUser.name || 'User'} profile picture`}
+                        width={40}
+                        height={40}
                         className="w-full h-full object-cover"
                         loading="lazy"
                       />
@@ -364,7 +384,7 @@ export const FastNavigation = memo(function FastNavigation() {
                   </div>
                 </div>
                 <div className="px-2 space-y-1">
-                  <Link 
+                  <Link
                     href={profileLink}
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50"
                     onClick={closeMobileMenu}
@@ -372,7 +392,7 @@ export const FastNavigation = memo(function FastNavigation() {
                     {(userRole === 'manager' || userRole === 'admin') ? 'Dashboard' : 'Profile'}
                   </Link>
                   <button
-                    onClick={handleSignOutClick}
+                    onClick={handleSignOut}
                     className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
                   >
                     Logout
@@ -382,15 +402,15 @@ export const FastNavigation = memo(function FastNavigation() {
             ) : (
               <div className="pt-4 border-t border-gray-200">
                 <div className="px-2 space-y-2">
-                  <Link 
-                    href="/login" 
+                  <Link
+                    href="/login"
                     className="block w-full text-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                     onClick={closeMobileMenu}
                   >
                     Sign in
                   </Link>
-                  <Link 
-                    href="/register" 
+                  <Link
+                    href="/register"
                     className="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90"
                     onClick={closeMobileMenu}
                   >
@@ -405,8 +425,8 @@ export const FastNavigation = memo(function FastNavigation() {
 
       {/* Click outside to close dropdown */}
       {isDropdownOpen && (
-        <div 
-          className="fixed inset-0 z-40" 
+        <div
+          className="fixed inset-0 z-40"
           onClick={() => setIsDropdownOpen(false)}
         />
       )}

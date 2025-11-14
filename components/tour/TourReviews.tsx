@@ -6,6 +6,7 @@ import { ReviewsList } from '@/components/reviews/ReviewsList'
 import { ReviewStats } from '@/components/reviews/ReviewStats'
 import { ReviewForm } from '@/components/reviews/ReviewForm'
 import { Review, ReviewStats as ReviewStatsType, calculateReviewStats } from '@/models/Review'
+import Link from 'next/link'
 
 interface TourReviewsProps {
   tourId: string
@@ -94,7 +95,7 @@ export function TourReviews({ tourId, currentUserId, className = '' }: TourRevie
       })
 
       const data = await response.json()
-      
+
       if (data.success) {
         setShowReviewForm(false)
         await fetchReviews() // Refresh reviews
@@ -135,7 +136,7 @@ export function TourReviews({ tourId, currentUserId, className = '' }: TourRevie
           <MessageSquare className="h-6 w-6" />
           Tour Reviews
         </h2>
-        
+
         {reviewEligibility?.canReview && !showReviewForm && (
           <button
             onClick={() => setShowReviewForm(true)}
@@ -159,21 +160,20 @@ export function TourReviews({ tourId, currentUserId, className = '' }: TourRevie
 
       {/* Review Eligibility Messages */}
       {reviewEligibility && !reviewEligibility.canReview && !showReviewForm && (
-        <div className={`border rounded-lg p-4 ${
-          reviewEligibility.reason === 'not_logged_in' 
-            ? 'bg-blue-50 border-blue-200' 
+        <div className={`border rounded-lg p-4 ${reviewEligibility.reason === 'not_logged_in'
+            ? 'bg-blue-50 border-blue-200'
             : reviewEligibility.reason === 'already_reviewed'
-            ? 'bg-green-50 border-green-200'
-            : 'bg-yellow-50 border-yellow-200'
-        }`}>
+              ? 'bg-green-50 border-green-200'
+              : 'bg-yellow-50 border-yellow-200'
+          }`}>
           <div className="flex items-center gap-2">
             {reviewEligibility.reason === 'not_logged_in' && (
               <>
                 <MessageSquare className="h-5 w-5 text-blue-600" />
                 <p className="text-blue-800">
-                  <a href="/login" className="font-medium hover:underline">
+                  <Link href="/login" className="font-medium hover:underline">
                     Log in
-                  </a>
+                  </Link>
                   {' '}to add a review for this tour
                 </p>
               </>
@@ -213,19 +213,16 @@ export function TourReviews({ tourId, currentUserId, className = '' }: TourRevie
 
       {/* Booking Status Info */}
       {reviewEligibility?.canReview && (
-        <div className={`border rounded-lg p-4 ${
-          reviewEligibility.hasBooking 
-            ? 'bg-green-50 border-green-200' 
+        <div className={`border rounded-lg p-4 ${reviewEligibility.hasBooking
+            ? 'bg-green-50 border-green-200'
             : 'bg-blue-50 border-blue-200'
-        }`}>
+          }`}>
           <div className="flex items-center gap-2">
-            <Star className={`h-5 w-5 ${
-              reviewEligibility.hasBooking ? 'text-green-600' : 'text-blue-600'
-            }`} />
+            <Star className={`h-5 w-5 ${reviewEligibility.hasBooking ? 'text-green-600' : 'text-blue-600'
+              }`} />
             <div>
-              <p className={`font-medium ${
-                reviewEligibility.hasBooking ? 'text-green-800' : 'text-blue-800'
-              }`}>
+              <p className={`font-medium ${reviewEligibility.hasBooking ? 'text-green-800' : 'text-blue-800'
+                }`}>
                 {reviewEligibility.message}
               </p>
               {reviewEligibility.hasBooking && reviewEligibility.bookingStatus && (
