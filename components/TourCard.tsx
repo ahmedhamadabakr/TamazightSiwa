@@ -32,7 +32,7 @@ export function TourCard({ tour, index = 0 }: TourCardProps) {
 
   return (
     <MotionDiv
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 1, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       viewport={{ once: true }}
@@ -120,6 +120,6 @@ export function TourCard({ tour, index = 0 }: TourCardProps) {
           </div>
         </CardContent>
       </Card>
-  </MotionDiv>
+    </MotionDiv>
   )
 }
