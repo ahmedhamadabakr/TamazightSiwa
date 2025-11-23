@@ -49,6 +49,20 @@ export default async function RootLayout({
   return (
     <html lang="en" dir="ltr" className="scroll-smooth">
       <head>
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/cairo/v29/SLXGc1lmY02EHTj4d6W_Y02S2.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/cairo/v29/SLXGc1lmY02EHTj4d6W_Y02S0.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         {/* DNS Prefetch for external domains */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />

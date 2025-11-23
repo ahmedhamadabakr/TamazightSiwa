@@ -189,7 +189,7 @@ export default function GalleryPage() {
       </Suspense>
 
       {/* CTA Section */}
-  
+
 
       {/* Instagram Feed */}
       <section className="py-20 px-4">
@@ -212,7 +212,7 @@ export default function GalleryPage() {
                 key={src}
                 href="https://www.instagram.com/tamazight_siwa/"
                 target="_blank"
-          
+
                 className="relative aspect-square rounded-lg overflow-hidden group cursor-pointer"
                 aria-label={`Open Instagram post ${i + 1}`}
               >
@@ -222,6 +222,10 @@ export default function GalleryPage() {
                   fill
                   sizes="(min-width: 768px) 16.6vw, (min-width: 640px) 33vw, 50vw"
                   className="object-cover hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                  quality={60}
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNkNGE1NzQ7c3RvcC1vcGFjaXR5OjEgdHlwZT0iYmlybWFuIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM4YjQ1MTM7c3RvcC1vcGFjaXR5OjEgdHlwZT0iYmlybWFuIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIvPgogIDwvc3ZnPg=="
                 />
               </Link>
             ))}
@@ -230,7 +234,7 @@ export default function GalleryPage() {
           <Link
             href="https://www.instagram.com/tamazight_siwa/"
             target="_blank"
-       
+
           >
             <Button
               size="lg"
