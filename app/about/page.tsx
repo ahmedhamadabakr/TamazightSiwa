@@ -1,4 +1,4 @@
-import type React from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Heart, Leaf, Award, MapPin, Clock } from "lucide-react";
