@@ -75,6 +75,7 @@ export function GalleryPreview() {
                 fill
                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
+                quality={85}
                 priority={false}
                 loading="lazy"
                 fetchPriority="low"
