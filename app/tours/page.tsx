@@ -18,7 +18,7 @@ const toursStructuredData = generateStructuredData({
   type: 'LocalBusiness',
   name: 'Siwa With Us Tours',
   description: 'Authentic desert tours and cultural experiences in Siwa Oasis, Egypt',
-  url: 'https://siwa-with-us.com/tours',
+  url: 'https://www.tamazight-siwa.com/tours',
   priceRange: '$$-$$$',
 })
 

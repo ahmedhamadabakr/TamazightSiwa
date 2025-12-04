@@ -135,13 +135,13 @@ export default async function RootLayout({
         <meta property="article:publisher" content="https://www.facebook.com/SiwaWithUs" />
 
         {/* Alternate Language Links - SEO Critical */}
-        <link rel="alternate" hrefLang="en" href="https://siwa-with-us.com/en" />
-        <link rel="alternate" hrefLang="ar" href="https://siwa-with-us.com/ar" />
-        <link rel="alternate" hrefLang="x-default" href="https://siwa-with-us.com" />
+        <link rel="alternate" hrefLang="en" href="https://www.tamazight-siwa.com/en" />
+        <link rel="alternate" hrefLang="ar" href="https://www.tamazight-siwa.com/ar" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
 
         {/* Twitter Additional */}
-        <meta name="twitter:domain" content="siwa-with-us.com" />
-        <meta name="twitter:url" content="https://siwa-with-us.com" />
+        <meta name="twitter:domain" content="tamazight-siwa.com" />
+        <meta name="twitter:url" content="https://www.tamazight-siwa.com" />
 
         {/* Business Information */}
         <meta name="business:contact_data:street_address" content="Siwa Oasis" />
@@ -154,8 +154,8 @@ export default async function RootLayout({
         <link rel="prefetch" href="/logo.png" as="image" />
 
         {/* Canonical and alternate languages */}
-        <link rel="canonical" href="https://siwa-with-us.com" />
-        <link rel="alternate" hrefLang="x-default" href="https://siwa-with-us.com" />
+        <link rel="canonical" href="https://www.tamazight-siwa.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
 
         {/* JSON-LD Structured Data */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
@@ -163,8 +163,8 @@ export default async function RootLayout({
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Tamazight Siwa",
-            "url": "https://siwa-with-us.com",
-            "logo": "https://siwa-with-us.com/logo.png",
+            "url": "https://www.tamazight-siwa.com",
+            "logo": "https://www.tamazight-siwa.com/logo.png",
             "sameAs": [
               "https://www.facebook.com/SiwaWithUs",
               "https://www.instagram.com/",
@@ -185,10 +185,10 @@ export default async function RootLayout({
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "Tamazight Siwa",
-            "url": "https://siwa-with-us.com",
+            "url": "https://www.tamazight-siwa.com",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "https://siwa-with-us.com/search?q={search_term_string}",
+              "target": "https://www.tamazight-siwa.com/search?q={search_term_string}",
               "query-input": "required name=search_term_string"
             }
           })
@@ -200,7 +200,7 @@ export default async function RootLayout({
             "@type": "LocalBusiness",
             "name": "Tamazight Siwa",
             "image": [
-              "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
+              "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
             ],
             "address": {
               "@type": "PostalAddress",
@@ -210,7 +210,7 @@ export default async function RootLayout({
               "addressCountry": "EG"
             },
             "telephone": "+201552624123",
-            "url": "https://siwa-with-us.com",
+            "url": "https://www.tamazight-siwa.com",
             "priceRange": "$$",
             "geo": {
               "@type": "GeoCoordinates",

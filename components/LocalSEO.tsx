@@ -8,18 +8,18 @@ export const LocalSEO = memo(() => {
     "name": "Siwa With Us",
     "alternateName": "Siwa Tours Egypt",
     "description": "Leading eco-tourism and cultural heritage tour operator in Siwa Oasis, Egypt",
-    "url": "https://siwa-with-us.com",
-    "logo": "https://siwa-with-us.com/logo.png",
+    "url": "https://www.tamazight-siwa.com",
+    "logo": "https://www.tamazight-siwa.com/logo.png",
     "image": [
-      "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
-      "https://siwa-with-us.com/logo.png",
-      "https://siwa-with-us.com/placeholder.svg"
+      "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
+      "https://www.tamazight-siwa.com/logo.png",
+      "https://www.tamazight-siwa.com/placeholder.svg"
     ],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Siwa Oasis",
       "addressLocality": "Siwa",
-      "addressRegion": "Matrouh Governorate", 
+      "addressRegion": "Matrouh Governorate",
       "postalCode": "51714",
       "addressCountry": "EG"
     },
@@ -37,7 +37,7 @@ export const LocalSEO = memo(() => {
         "hoursAvailable": {
           "@type": "OpeningHoursSpecification",
           "dayOfWeek": [
-            "Monday", "Tuesday", "Wednesday", "Thursday", 
+            "Monday", "Tuesday", "Wednesday", "Thursday",
             "Friday", "Saturday", "Sunday"
           ],
           "opens": "08:00",
@@ -53,7 +53,7 @@ export const LocalSEO = memo(() => {
     ],
     "sameAs": [
       "https://www.facebook.com/SiwaWithUs",
-      "https://www.instagram.com/SiwaWithUs", 
+      "https://www.instagram.com/SiwaWithUs",
       "https://www.twitter.com/SiwaWithUs",
       "https://www.youtube.com/SiwaWithUs",
       "https://www.tripadvisor.com/SiwaWithUs"
@@ -67,7 +67,7 @@ export const LocalSEO = memo(() => {
         "name": "Siwa Oasis"
       },
       {
-        "@type": "Place", 
+        "@type": "Place",
         "name": "Western Desert"
       },
       {
@@ -81,7 +81,7 @@ export const LocalSEO = memo(() => {
     ],
     "serviceType": [
       "Desert Safari Tours",
-      "Cultural Heritage Tours", 
+      "Cultural Heritage Tours",
       "Eco-tourism",
       "Adventure Tourism",
       "Photography Tours",
@@ -102,7 +102,7 @@ export const LocalSEO = memo(() => {
           "priceCurrency": "USD"
         },
         {
-          "@type": "Offer", 
+          "@type": "Offer",
           "itemOffered": {
             "@type": "TouristTrip",
             "name": "Cultural Heritage Tour",
@@ -159,10 +159,10 @@ export const LocalSEO = memo(() => {
     "alternateName": ["Siwa", "Oasis of Siwa", "Siwa Depression"],
     "description": "Ancient oasis in Egypt's Western Desert, famous for its natural springs, salt lakes, and rich Berber culture",
     "image": [
-      "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
-      "https://siwa-with-us.com/siwa-hot-springs-natural-pools-wellness.webp",
-      "https://siwa-with-us.com/siwa-night-sky-stars-milky-way-desert.webp",
-      "https://siwa-with-us.com/siwa-oasis-traditional-berber-architecture-at-suns.webp"
+      "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
+      "https://www.tamazight-siwa.com/siwa-hot-springs-natural-pools-wellness.webp",
+      "https://www.tamazight-siwa.com/siwa-night-sky-stars-milky-way-desert.webp",
+      "https://www.tamazight-siwa.com/siwa-oasis-traditional-berber-architecture-at-suns.webp"
     ],
     "address": {
       "@type": "PostalAddress",
@@ -191,7 +191,7 @@ export const LocalSEO = memo(() => {
         "name": "Cleopatra's Bath",
         "description": "Natural spring pool where legend says Cleopatra bathed",
         "geo": {
-          "@type": "GeoCoordinates", 
+          "@type": "GeoCoordinates",
           "latitude": 29.2025,
           "longitude": 25.5203
         }
@@ -219,7 +219,7 @@ export const LocalSEO = memo(() => {
     ],
     "touristType": [
       "Adventure Tourism",
-      "Eco-tourism", 
+      "Eco-tourism",
       "Cultural Heritage Tourism",
       "Photography Tourism",
       "Wellness Tourism"

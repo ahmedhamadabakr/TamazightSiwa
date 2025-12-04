@@ -31,13 +31,13 @@ export const SEOEnhancements = memo(function SEOEnhancements({
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://siwa-with-us.com"
+                "item": "https://www.tamazight-siwa.com"
             },
             ...(page !== 'home' ? [{
                 "@type": "ListItem",
                 "position": 2,
                 "name": page.charAt(0).toUpperCase() + page.slice(1),
-                "item": `https://siwa-with-us.com/${page}`
+                "item": `https://www.tamazight-siwa.com/${page}`
             }] : [])
         ]
     };
@@ -93,12 +93,12 @@ export const SEOEnhancements = memo(function SEOEnhancements({
             "price": tourData.price,
             "priceCurrency": tourData.currency,
             "availability": "https://schema.org/InStock",
-            "url": "https://siwa-with-us.com/tours"
+            "url": "https://www.tamazight-siwa.com/tours"
         },
         "provider": {
             "@type": "Organization",
             "name": "Tamazight Siwa",
-            "url": "https://siwa-with-us.com"
+            "url": "https://www.tamazight-siwa.com"
         },
         ...(tourData.rating && tourData.reviewCount ? {
             "aggregateRating": {

@@ -44,7 +44,7 @@ export const ArticleSEO = memo(({
       "name": "Siwa With Us",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://siwa-with-us.com/logo.png"
+        "url": "https://www.tamazight-siwa.com/logo.png"
       }
     },
     "datePublished": datePublished,

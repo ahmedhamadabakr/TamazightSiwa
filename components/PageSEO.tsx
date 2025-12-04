@@ -11,9 +11,9 @@ export const HomePageSEO = memo(() => {
       "@type": "TravelAgency",
       "name": "Siwa With Us",
       "description": "Authentic desert experiences and eco-tourism in Siwa Oasis, Egypt",
-      "url": "https://siwa-with-us.com",
-      "logo": "https://siwa-with-us.com/logo.png",
-      "image": "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
+      "url": "https://www.tamazight-siwa.com",
+      "logo": "https://www.tamazight-siwa.com/logo.png",
+      "image": "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Siwa Oasis",
@@ -39,7 +39,7 @@ export const HomePageSEO = memo(() => {
       },
       "serviceType": "Eco-tourism, Cultural Heritage Tours, Desert Adventures"
     },
-    
+
     // Tourist Destination Schema
     {
       "@context": "https://schema.org",
@@ -47,9 +47,9 @@ export const HomePageSEO = memo(() => {
       "name": "Siwa Oasis",
       "description": "Ancient oasis in Egypt's Western Desert known for its natural springs, salt lakes, and Berber culture",
       "image": [
-        "https://siwa-with-us.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
-        "https://siwa-with-us.com/siwa-springs.jpg",
-        "https://siwa-with-us.com/siwa-desert.jpg"
+        "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
+        "https://www.tamazight-siwa.com/siwa-springs.jpg",
+        "https://www.tamazight-siwa.com/siwa-desert.jpg"
       ],
       "address": {
         "@type": "PostalAddress",
@@ -70,7 +70,7 @@ export const HomePageSEO = memo(() => {
           "description": "Natural spring where legend says Cleopatra bathed"
         },
         {
-          "@type": "TouristAttraction", 
+          "@type": "TouristAttraction",
           "name": "Great Sand Sea",
           "description": "Vast desert landscape perfect for sandboarding and camping"
         },
@@ -87,7 +87,7 @@ export const HomePageSEO = memo(() => {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Siwa With Us",
-      "url": "https://siwa-with-us.com",
+      "url": "https://www.tamazight-siwa.com",
       "description": "Discover the magic of Siwa Oasis through authentic eco-tourism experiences",
       "publisher": {
         "@type": "Organization",
@@ -95,7 +95,7 @@ export const HomePageSEO = memo(() => {
       },
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://siwa-with-us.com/search?q={search_term_string}",
+        "target": "https://www.tamazight-siwa.com/search?q={search_term_string}",
         "query-input": "required name=search_term_string"
       },
       "inLanguage": ["en", "ar"]
@@ -110,7 +110,7 @@ export const HomePageSEO = memo(() => {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://siwa-with-us.com"
+          "item": "https://www.tamazight-siwa.com"
         }
       ]
     }
@@ -134,7 +134,7 @@ export const ToursPageSEO = memo(() => {
           "position": 1,
           "name": "3-Day Desert Safari",
           "description": "Explore the Great Sand Sea with camping under the stars",
-          "image": "https://siwa-with-us.com/desert-safari.jpg",
+          "image": "https://www.tamazight-siwa.com/desert-safari.jpg",
           "offers": {
             "@type": "Offer",
             "price": "299",
@@ -152,7 +152,7 @@ export const ToursPageSEO = memo(() => {
           "position": 2,
           "name": "Cultural Heritage Tour",
           "description": "Discover Berber culture and ancient traditions",
-          "image": "https://siwa-with-us.com/cultural-tour.jpg",
+          "image": "https://www.tamazight-siwa.com/cultural-tour.jpg",
           "offers": {
             "@type": "Offer",
             "price": "199",
@@ -177,13 +177,13 @@ export const ToursPageSEO = memo(() => {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://siwa-with-us.com"
+          "item": "https://www.tamazight-siwa.com"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Tours",
-          "item": "https://siwa-with-us.com/tours"
+          "item": "https://www.tamazight-siwa.com/tours"
         }
       ]
     }
@@ -200,11 +200,11 @@ export const GalleryPageSEO = memo(() => {
       "@type": "ImageGallery",
       "name": "Siwa Oasis Photo Gallery",
       "description": "Beautiful photos showcasing the natural beauty and culture of Siwa Oasis",
-      "url": "https://siwa-with-us.com/gallery",
+      "url": "https://www.tamazight-siwa.com/gallery",
       "image": [
-        "https://siwa-with-us.com/gallery/siwa-sunset.jpg",
-        "https://siwa-with-us.com/gallery/salt-lakes.jpg",
-        "https://siwa-with-us.com/gallery/desert-landscape.jpg"
+        "https://www.tamazight-siwa.com/gallery/siwa-sunset.jpg",
+        "https://www.tamazight-siwa.com/gallery/salt-lakes.jpg",
+        "https://www.tamazight-siwa.com/gallery/desert-landscape.jpg"
       ],
       "author": {
         "@type": "Organization",
@@ -224,7 +224,7 @@ export const ContactPageSEO = memo(() => {
       "@type": "ContactPage",
       "name": "Contact Siwa With Us",
       "description": "Get in touch with us to plan your Siwa Oasis adventure",
-      "url": "https://siwa-with-us.com/contact",
+      "url": "https://www.tamazight-siwa.com/contact",
       "mainEntity": {
         "@type": "Organization",
         "name": "Siwa With Us",
@@ -268,13 +268,13 @@ export const FAQPageSEO = memo(({ faqs }: { faqs: Array<{ question: string; answ
 })
 
 // Review/Testimonial Schema
-export const ReviewSEO = memo(({ reviews }: { 
+export const ReviewSEO = memo(({ reviews }: {
   reviews: Array<{
     author: string
     rating: number
     text: string
     date: string
-  }> 
+  }>
 }) => {
   const schemas = [
     {
