@@ -28,6 +28,7 @@ export default function ToursContent() {
   const [activeCategory, setActiveCategory] = useState("All")
   const [tour, setTour] = useState<Tour[]>([])
   const [loading, setLoading] = useState(true)
+  const [visibleCount, setVisibleCount] = useState(6)
 
   const fetchTour = async () => {
     try {
@@ -49,6 +50,7 @@ export default function ToursContent() {
   // استدعاء fetchTour عند تحميل الكومبوننت
   React.useEffect(() => {
     fetchTour();
+    setVisibleCount(6) // إعادة ضبط عدد الكروت عند تغيير الفئة
   }, [activeCategory]);
 
   // Polling للتأكد من إضافة أي رحلات جديدة أثناء تصفح المستخدم
@@ -98,11 +100,28 @@ export default function ToursContent() {
               ))}
             </div>
           ) : (
-            <MotionDiv layout={true} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {tour?.map((tourItem, index) => (
-                <TourCard key={tourItem._id} tour={tourItem} index={index} />
-              ))}
-            </MotionDiv>
+            <>
+              <MotionDiv layout={true} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {tour
+                  ?.slice(0, visibleCount)
+                  .map((tourItem, index) => (
+                    <TourCard key={tourItem._id} tour={tourItem} index={index} />
+                  ))}
+              </MotionDiv>
+
+              {/* Load more button */}
+              {tour && tour.length > visibleCount && (
+                <div className="flex justify-center mt-10">
+                  <Button
+                    variant="outline"
+                    onClick={() => setVisibleCount(prev => prev + 6)}
+                    className="px-6 py-2"
+                  >
+                    Load more tours
+                  </Button>
+                </div>
+              )}
+            </>
           )}
 
           {/* Empty State */}
