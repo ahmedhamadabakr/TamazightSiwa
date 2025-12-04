@@ -51,6 +51,15 @@ export default function ToursContent() {
     fetchTour();
   }, [activeCategory]);
 
+  // Polling للتأكد من إضافة أي رحلات جديدة أثناء تصفح المستخدم
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchTour();
+    }, 30000); // كل 30 ثانية
+
+    return () => clearInterval(intervalId);
+  }, [activeCategory]);
+
   if (!tour) {
     return <div className="p-10 text-center text-red-500">Tour not found!</div>
   }

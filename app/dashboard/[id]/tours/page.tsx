@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { useRouter } from 'next/navigation';
 import { useAuthSession } from '@/hooks/useAuthSession';
 import { FiPlus, FiEdit, FiTrash2, FiMapPin, FiClock, FiUsers, FiDollarSign } from 'react-icons/fi';
@@ -30,7 +31,7 @@ interface ToursPageProps {
 }
 
 export default function ToursPage({ params }: ToursPageProps) {
-   
+
     const router = useRouter();
     const [tours, setTours] = useState<Tour[]>([]);
     const [loading, setLoading] = useState(true);
@@ -76,6 +77,17 @@ export default function ToursPage({ params }: ToursPageProps) {
 
     useEffect(() => {
         fetchTours();
+    }, [session]);
+
+    // Poll for new tours periodically so the list stays up to date
+    useEffect(() => {
+        if (!session) return;
+
+        const intervalId = setInterval(() => {
+            fetchTours();
+        }, 30000); // every 30 seconds
+
+        return () => clearInterval(intervalId);
     }, [session]);
 
     // Delete tour
@@ -199,23 +211,23 @@ export default function ToursPage({ params }: ToursPageProps) {
 
                                     {/* Tour Details */}
                                     <div className="space-y-2 mb-4">
-                                            <div className="flex items-center text-sm text-gray-500">
-                                                <FiMapPin className="w-4 h-4 mr-2" />
-                                                {tour.location} {tour.location.split(',').length > 1 ? 'Locations' : 'Location'}
-                                            </div>
-                                            <div className="flex items-center text-sm text-gray-500">
-                                                <FiClock className="w-4 h-4 mr-2" />
-                                                {parseInt(tour.duration) > 1 ? `${tour.duration} days` : `${tour.duration} day`}
-                                            </div>
-                                            <div className="flex items-center text-sm text-gray-500">
-                                                <FiUsers className="w-4 h-4 mr-2" />
-                                                {tour.groupSize} {parseInt(tour.groupSize) > 1 ? 'People' : 'Person'}
-                                            </div>
-                                            <div className="flex items-center text-sm font-semibold text-green-600">
-                                                <FiDollarSign className="w-4 h-4 mr-2" />
-                                                ${tour.price}
-                                            </div>
+                                        <div className="flex items-center text-sm text-gray-500">
+                                            <FiMapPin className="w-4 h-4 mr-2" />
+                                            {tour.location} {tour.location.split(',').length > 1 ? 'Locations' : 'Location'}
                                         </div>
+                                        <div className="flex items-center text-sm text-gray-500">
+                                            <FiClock className="w-4 h-4 mr-2" />
+                                            {parseInt(tour.duration) > 1 ? `${tour.duration} days` : `${tour.duration} day`}
+                                        </div>
+                                        <div className="flex items-center text-sm text-gray-500">
+                                            <FiUsers className="w-4 h-4 mr-2" />
+                                            {tour.groupSize} {parseInt(tour.groupSize) > 1 ? 'People' : 'Person'}
+                                        </div>
+                                        <div className="flex items-center text-sm font-semibold text-green-600">
+                                            <FiDollarSign className="w-4 h-4 mr-2" />
+                                            ${tour.price}
+                                        </div>
+                                    </div>
 
                                     {/* Actions */}
                                     <div className="flex flex-col sm:flex-row gap-2">

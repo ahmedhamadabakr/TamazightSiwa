@@ -6,7 +6,13 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 
-export default function NewTrip() {
+interface NewTripPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function NewTrip({ params }: NewTripPageProps) {
   const router = useRouter()
 
   const [formData, setFormData] = useState<{
@@ -65,7 +71,7 @@ export default function NewTrip() {
       const data = await response.json()
       if (data.success) {
         alert('Trip added successfully!')
-        router.push('/dashboard/trips')
+        router.push(`/dashboard/${params.id}/tours`)
       } else {
         alert(data.error || 'Failed to add trip.')
       }
@@ -205,7 +211,7 @@ export default function NewTrip() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className="text-sm font-medium text-gray-600 block mb-1">
-                 Start Date
+                  Start Date
                 </label>
                 <input
                   type="date"
@@ -217,7 +223,7 @@ export default function NewTrip() {
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-600 block mb-1">
-                 End Date
+                  End Date
                 </label>
                 <input
                   type="date"
