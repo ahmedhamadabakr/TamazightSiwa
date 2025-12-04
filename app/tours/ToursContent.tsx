@@ -35,7 +35,7 @@ export default function ToursContent() {
       const params = new URLSearchParams();
       if (activeCategory !== "All") params.append('category', activeCategory as string);
 
-      const response = await fetch(`/api/tours?${params.toString()}`);
+      const response = await fetch(`/api/tours?${params.toString()}`, { cache: 'no-store' });
       const data = await response.json();
       if (data.success) {
         setTour(data.data || []);

@@ -38,10 +38,19 @@ export async function GET(request: NextRequest) {
       .sort({ createdAt: -1 })
       .toArray();
 
-    return NextResponse.json({
-      success: true,
-      data: images
-    });
+    // Disable caching so new gallery images are always fetched fresh
+    return NextResponse.json(
+      {
+        success: true,
+        data: images
+      },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
 
   } catch (error) {
     console.error('Error fetching gallery images:', error);
@@ -56,7 +65,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerAuthSession();
-    
+
     if (!session?.user || session.user.role !== 'manager') {
       return NextResponse.json(
         { success: false, message: 'You are not authorized to perform this action' },
@@ -98,7 +107,7 @@ export async function POST(request: NextRequest) {
       data: insertedImage,
       message: 'Image added successfully'
     });
-    
+
   } catch (error) {
     console.error('Error creating gallery image:', error);
     return NextResponse.json(

@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     if (process.env.NODE_ENV !== 'development') {
       // Check if we're in build time only in production
       const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-      
+
       if (isBuildTime) {
         return NextResponse.json({
           success: false,
@@ -72,7 +72,16 @@ export async function GET(request: NextRequest) {
       _id: tour._id.toString()
     }));
 
-    return NextResponse.json({ success: true, data: serializedTours });
+    // Explicitly disable caching so new tours are always visible immediately
+    return NextResponse.json(
+      { success: true, data: serializedTours },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching tours:', error);
     return NextResponse.json(
@@ -89,7 +98,7 @@ export async function POST(request: NextRequest) {
     if (process.env.NODE_ENV !== 'development') {
       // Check if we're in build time only in production
       const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-      
+
       if (isBuildTime) {
         return NextResponse.json({
           success: false,
@@ -137,7 +146,7 @@ export async function POST(request: NextRequest) {
     // Validate dates
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     if (start >= end) {
       return NextResponse.json(
         { success: false, error: 'End date must be after start date' },
@@ -154,7 +163,7 @@ export async function POST(request: NextRequest) {
 
     // Generate slug from title
     const baseSlug = generateSlug(title);
-    
+
     // Check if slug already exists and make it unique
     let slug = baseSlug;
     let counter = 1;
@@ -184,10 +193,10 @@ export async function POST(request: NextRequest) {
     };
 
     const result = await db.collection('tours').insertOne(tourData);
-    const newTour = { 
-      ...tourData, 
+    const newTour = {
+      ...tourData,
       id: result.insertedId.toString(),
-      _id: result.insertedId.toString() 
+      _id: result.insertedId.toString()
     };
 
     return NextResponse.json({ success: true, data: newTour }, { status: 201 });

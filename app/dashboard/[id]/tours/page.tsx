@@ -60,6 +60,7 @@ export default function ToursPage({ params }: ToursPageProps) {
         try {
             setLoading(true);
             const res = await fetch('/api/tours', {
+                cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json',
                     ...((session?.user as any)?.accessToken && {
