@@ -375,7 +375,7 @@ function generateBookingEmailHTML(booking: any): string {
           <p><strong>Thank you for choosing us!</strong></p>
           <div class="contact-info">
             <p>📞 For inquiries: 966501234567+</p>
-            <p>📧 Email: info@tamazight-siwa.com</p>
+            <p>📧 Email: tamazight.siwa@gmail.com</p>
             <p>🌐 Website: www.tamazight-siwa.com</p>
           </div>
         </div>
@@ -439,7 +439,7 @@ Important Notes:
 
 For inquiries:
 Phone: 966501234567+
-Email: info@tamazight-siwa.com
+Email: tamazight.siwa@gmail.com
 
 Thank you for choosing us!
 Tamazight Siwa Team

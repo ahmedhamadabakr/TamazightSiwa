@@ -81,8 +81,8 @@ export default function UnauthorizedPage() {
         <div className="text-center">
           <p className="text-xs text-gray-400">
             Need help? Contact support at{' '}
-            <Link href="mailto:support@tamazight-siwa.com" className="text-blue-600 hover:text-blue-500">
-              support@tamazight-siwa.com
+            <Link href="mailto:tamazight.siwa@gmail.com" className="text-blue-600 hover:text-blue-500">
+              tamazight.siwa@gmail.com
             </Link>
           </p>
         </div>

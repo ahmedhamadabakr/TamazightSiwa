@@ -411,7 +411,7 @@ export function generateBookingHTML(booking: BookingData): string {
             <li>Please keep this confirmation for your records</li>
             <li>You can cancel the booking before 48 hours from the tour date</li>
             <li>For inquiries: 966501234567+</li>
-            <li>Email: info@tamazight-siwa.com</li>
+            <li>Email: tamazight.siwa@gmail.com</li>
             <li>Please verify the accuracy of all the information above</li>
             <li>In case of any error, please contact us immediately</li>
           </ul>
@@ -490,8 +490,8 @@ IMPORTANT NOTES
 • Please keep this confirmation for your records
 • Cancellation allowed up to 48 hours before tour date
 • For inquiries: +966501234567
-• Email: info@tamazight-siwa.com
-
+• Email: tamazight.siwa@gmail.com
+ 
 Thank you for choosing our services!
   `
 }

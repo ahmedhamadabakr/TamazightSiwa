@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
   });
 
   // إعداد رابط التأكيد
-  const verificationLink = `https://tamazight-siwa.vercel.app/verify-token?token=${token}`;
+  const verificationLink = `www.tamazight-siwa.com/verify-token?token=${token}`;
 
   // إعداد الإيميل
   const mailOptions = {

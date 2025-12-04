@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 
 import { Suspense } from "react"
 import dynamicImport from "next/dynamic"
+import Script from "next/script"
 import { getServerAuthSession } from '@/lib/server-auth'
 import { Cairo } from "next/font/google"
 
@@ -223,6 +224,20 @@ export default async function RootLayout({
         <ResourceHints />
       </head>
       <body className={`${cairo.className} font-cairo antialiased`} suppressHydrationWarning>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZMS386HG6N"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-ZMS386HG6N');
+          `}
+        </Script>
         <ErrorBoundary>
           <Suspense fallback={<Loading />}>
             <AuthProvider session={session}>

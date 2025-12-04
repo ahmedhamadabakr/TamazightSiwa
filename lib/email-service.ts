@@ -205,7 +205,7 @@ export async function sendBookingConfirmationEmail(
           <p><strong>Thank you for your trust!</strong></p>
           <div class="contact-info">
             <p>📞 For inquiries: 966501234567+</p>
-            <p>📧 Email: info@tamazight-siwa.com</p>
+            <p>📧 Email: tamazight.siwa@gmail.com</p>
             <p>🌐 website: www.tamazight-siwa.com</p>
           </div>
         </div>
@@ -239,7 +239,7 @@ Important Notes:
 
 For inquiries:
 Phone: 966501234567+
-Email: info@tamazight-siwa.com
+Email: tamazight.siwa@gmail.com
 
 Thank you for your trust!
 Tamazight Siwa Team
@@ -418,7 +418,7 @@ export async function sendBookingCancellationEmail(
           <p><strong>We hope to serve you again soon!</strong></p>
           <div class="contact-info">
             <p>📞 For inquiries: 966501234567+</p>
-            <p>📧 Email: info@tamazight-siwa.com</p>
+            <p>📧 Email: tamazight.siwa@gmail.com</p>
             <p>🌐 website: www.tamazight-siwa.com</p>
           </div>
         </div>

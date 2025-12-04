@@ -174,7 +174,7 @@ async function sendResetPasswordEmail(email: string, name: string, resetUrl: str
         
         <div class="footer">
           <p>This email was sent automatically, please do not reply to it.</p>
-          <p>For support: info@tamazight-siwa.com</p>
+          <p>For support: tamazight.siwa@gmail.com</p>
         </div>
       </div>
     </body>
@@ -196,7 +196,7 @@ Warning:
 - If you did not request a password reset, please ignore this email
 - Do not share this link with anyone else
 
-For support: info@tamazight-siwa.com
+For support: tamazight.siwa@gmail.com
   `
 
   const mailOptions = {
