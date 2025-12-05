@@ -20,7 +20,7 @@ export const HeroContent = memo(({ showVideo, onToggleVideo }: HeroContentProps)
       </div>
 
       <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight gpu-accelerated">
-        <span className="bg-gradient-to-r from-white via-yellow-200 to-primary bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-white via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_4px_16px_rgba(255,255,255,0.35)]">
           Siwa
         </span>
         <br />

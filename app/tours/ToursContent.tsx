@@ -47,7 +47,7 @@ export default function ToursContent() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [tour, setTour] = useState<Tour[]>([]);
   const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState<number>(6);
 
   const fetchTour = async () => {
     try {
@@ -61,7 +61,10 @@ export default function ToursContent() {
       const data = await response.json();
 
       if (data.success) {
-        setTour(data.data || []);
+        const allTours = data.data || [];
+        setTour(allTours);
+        // Always show all tours fetched so "All" really displays everything
+        setVisibleCount(allTours.length);
       }
     } catch (error) {
       console.error("Error fetching tours:", error);

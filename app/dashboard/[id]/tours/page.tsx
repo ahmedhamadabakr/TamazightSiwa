@@ -35,7 +35,7 @@ export default function ToursPage({ params }: ToursPageProps) {
     const router = useRouter();
     const [tours, setTours] = useState<Tour[]>([]);
     const [loading, setLoading] = useState(true);
-    const [visibleCount, setVisibleCount] = useState(9);
+    const [visibleCount, setVisibleCount] = useState<number>(9);
 
     const { data: session, status: sessionStatus } = useSession();
 
@@ -73,6 +73,8 @@ export default function ToursPage({ params }: ToursPageProps) {
                 const data = await res.json();
                 if (data.success && data.data) {
                     setTours(data.data);
+                    // Always show everything fetched so the list is complete
+                    setVisibleCount(data.data.length);
                 }
             }
         } catch (error) {

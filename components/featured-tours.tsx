@@ -19,30 +19,38 @@ interface Tour {
 
 export function FeaturedTours() {
 
-const [tours, setTours] = useState<Tour[]>([]);
+  const [tours, setTours] = useState<Tour[]>([]);
 
-const fetchTours = useCallback(async () => {
+  // Limit description words for consistent card height
+  const truncateWords = (text: string, limit = 20) => {
+    if (!text) return '';
+    const words = text.trim().split(/\s+/);
+    if (words.length <= limit) return text;
+    return `${words.slice(0, limit).join(' ')}...`;
+  };
+
+  const fetchTours = useCallback(async () => {
     try {
-        const response = await fetch(`/api/tours`, { cache: 'no-store' });
-        const data = await response.json();
-        if (data.success) {
-            setTours(data.data || []);
-        }
+      const response = await fetch(`/api/tours`, { cache: 'no-store' });
+      const data = await response.json();
+      if (data.success) {
+        setTours(data.data || []);
+      }
     } catch (error) {
-        console.error('Error fetching tours:', error);
+      console.error('Error fetching tours:', error);
     }
-}, []);
+  }, []);
 
-useEffect(() => {
+  useEffect(() => {
     fetchTours();
 
     // Keep the homepage cards fresh so new trips show up quickly
     const intervalId = setInterval(() => {
-        fetchTours();
+      fetchTours();
     }, 30000);
 
     return () => clearInterval(intervalId);
-}, [fetchTours]);
+  }, [fetchTours]);
 
   const firstFourItems = tours.slice(0, 4);
   return (
@@ -74,7 +82,7 @@ useEffect(() => {
                   priority={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
+
                 {/* Image Count Badge */}
                 {tour.images.length > 1 && (
                   <div className="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
@@ -89,11 +97,13 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              
+
               <CardContent className="p-6 flex flex-col h-full">
                 <h3 className="text-xl font-bold text-foreground mb-3 text-balance line-clamp-2">{tour.title}</h3>
-                <p className="text-muted-foreground mb-4 text-pretty line-clamp-3 flex-grow">{tour.description}</p>
-                
+                <p className="text-muted-foreground mb-4 text-pretty line-clamp-3 flex-grow">
+                  {truncateWords(tour.description, 24)}
+                </p>
+
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Clock className="w-4 h-4 mr-2 text-primary" />
@@ -108,7 +118,7 @@ useEffect(() => {
                     <span>{tour.location} {tour.location.split(',').length > 1 ? 'Locations' : 'Location'}</span>
                   </div>
                 </div>
-                
+
                 <Link href={`/tours/${tour.slug || tour.id}`} className="w-full mt-auto" aria-label={`Discover more about ${tour.title}`}>
                   <Button variant="outline" className="w-full hover:bg-primary hover:text-white transition-colors" aria-label={`Discover more about ${tour.title}`}>
                     Discover More
