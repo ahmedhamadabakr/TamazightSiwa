@@ -41,7 +41,7 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden hero-section">
       {/* Background Video/Image */}
       {showVideo && shouldPreloadVideo ? (
         <div className="absolute inset-0">
@@ -83,7 +83,7 @@ export function HeroSection() {
         </div>
       )}
 
-      <div className="absolute inset-0 hero-gradient opacity-50" style={{ willChange: 'auto' }}></div>
+      <div className="absolute inset-0 hero-gradient opacity-50 pointer-events-none" style={{ willChange: 'auto' }}></div>
 
       {/* Floating Elements - Memoized for better performance */}
       <div className="absolute top-20 right-10 hidden lg:block animate-fade-in-up" style={{ animationDelay: '0.5s' }}>

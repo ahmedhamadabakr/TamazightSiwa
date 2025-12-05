@@ -14,8 +14,8 @@ const galleryImages = [
     category: "Natural Springs"
   },
   {
-    src: "/siwa-oasis-photography-golden-hour-palm-trees.jpg",
-    alt: "Golden Dunes in the Great Sand Sea",
+    src: "/siwa-oasis-sunset-salt-lakes-reflection.avif",
+    alt: "Siwa Oasis sunset with salt lakes reflection",
     category: "Desert"
   },
   {

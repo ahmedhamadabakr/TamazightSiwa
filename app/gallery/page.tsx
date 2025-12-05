@@ -189,7 +189,7 @@ export default function GalleryPage() {
       </Suspense>
 
       {/* CTA Section */}
-  
+
 
       {/* Instagram Feed */}
       <section className="py-20 px-4">
@@ -205,14 +205,14 @@ export default function GalleryPage() {
               '/siwa-oasis-traditional-berber-architecture-at-suns.webp',
               '/siwa-night-sky-stars-milky-way-desert.webp',
               '/siwa-hot-springs-natural-pools-wellness.webp',
-              '/siwa-oasis-photography-golden-hour-palm-trees.jpg',
+              '/siwa-oasis-sunset-salt-lakes-reflection.avif',
               '/siwa-traditional-crafts-berber-culture.jpg'
             ].map((src, i) => (
               <Link
                 key={src}
                 href="https://www.instagram.com/tamazight_siwa/"
                 target="_blank"
-          
+
                 className="relative aspect-square rounded-lg overflow-hidden group cursor-pointer"
                 aria-label={`Open Instagram post ${i + 1}`}
               >
@@ -230,7 +230,7 @@ export default function GalleryPage() {
           <Link
             href="https://www.instagram.com/tamazight_siwa/"
             target="_blank"
-       
+
           >
             <Button
               size="lg"

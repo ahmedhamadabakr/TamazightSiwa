@@ -19,7 +19,7 @@ export function VideoShowcase() {
       setSourcesLoaded(true)
       // defer actual play to next tick after sources mount
       setTimeout(() => {
-        el.play().catch(() => {/* ignore */})
+        el.play().catch(() => {/* ignore */ })
         setIsPlaying(true)
       }, 0)
       return
@@ -28,7 +28,7 @@ export function VideoShowcase() {
       el.pause()
       setIsPlaying(false)
     } else {
-      el.play().catch(() => {/* ignore */})
+      el.play().catch(() => {/* ignore */ })
       setIsPlaying(true)
     }
   }
@@ -80,7 +80,7 @@ export function VideoShowcase() {
               loop
               playsInline
               preload="none"
-              poster="/siwa-oasis-photography-golden-hour-palm-trees.jpg"
+              poster="/siwa-oasis-sunset-salt-lakes-reflection.avif"
               onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime || 0)}
               onLoadedMetadata={() => setDuration(videoRef.current?.duration || 0)}
             >

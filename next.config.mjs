@@ -57,7 +57,7 @@ const nextConfig = {
         { key: 'X-DNS-Prefetch-Control', value: 'on' },
         {
           key: 'Content-Security-Policy',
-          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://res.cloudinary.com https://images.unsplash.com data:; connect-src 'self' https://vercel.live wss://ws.pusherapp.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'none';"
+          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://res.cloudinary.com https://images.unsplash.com data:; connect-src 'self' https://vercel.live wss://ws.pusherapp.com https://fonts.googleapis.com https://fonts.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none';"
         },
       ],
     },
