@@ -85,7 +85,7 @@ export default function TourDetailsPage() {
     try {
       setIsLoading(true);
       const apiUrl = `/api/tours/${slug}`;
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, { cache: 'no-store' });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);

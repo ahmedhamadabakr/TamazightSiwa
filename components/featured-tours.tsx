@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { MapPin, Clock, Users } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 
 interface Tour {
@@ -21,13 +21,9 @@ export function FeaturedTours() {
 
 const [tours, setTours] = useState<Tour[]>([]);
 
-useEffect(() => {
-    fetchTours();
-}, []);
-
-const fetchTours = async () => {
+const fetchTours = useCallback(async () => {
     try {
-        const response = await fetch(`/api/tours`);
+        const response = await fetch(`/api/tours`, { cache: 'no-store' });
         const data = await response.json();
         if (data.success) {
             setTours(data.data || []);
@@ -35,7 +31,18 @@ const fetchTours = async () => {
     } catch (error) {
         console.error('Error fetching tours:', error);
     }
-};
+}, []);
+
+useEffect(() => {
+    fetchTours();
+
+    // Keep the homepage cards fresh so new trips show up quickly
+    const intervalId = setInterval(() => {
+        fetchTours();
+    }, 30000);
+
+    return () => clearInterval(intervalId);
+}, [fetchTours]);
 
   const firstFourItems = tours.slice(0, 4);
   return (

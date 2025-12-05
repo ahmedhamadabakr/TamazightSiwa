@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import dbConnect from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
+
+// Always hit the DB for tour detail mutations and reads
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 // GET a single tour by ID or slug
 export async function GET(
@@ -42,7 +48,14 @@ export async function GET(
       updatedAt: tour.updatedAt?.toISOString()
     };
 
-    return NextResponse.json({ success: true, data: serializedTour });
+    return NextResponse.json(
+      { success: true, data: serializedTour },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching tour:', error);
     return NextResponse.json(
@@ -147,7 +160,18 @@ export async function PUT(
 
     const updatedTour = await db.collection('tours').findOne({ _id: new ObjectId(id) });
 
-    return NextResponse.json({ success: true, data: updatedTour });
+    // Revalidate pages that show tours so updates propagate instantly
+    revalidatePath('/');
+    revalidatePath('/tours');
+
+    return NextResponse.json(
+      { success: true, data: updatedTour },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error updating tour:', error);
     return NextResponse.json(
@@ -182,7 +206,18 @@ export async function DELETE(
       );
     }
 
-    return NextResponse.json({ success: true, message: 'Tour deleted successfully' });
+    // Revalidate cached routes after deletion
+    revalidatePath('/');
+    revalidatePath('/tours');
+
+    return NextResponse.json(
+      { success: true, message: 'Tour deleted successfully' },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error deleting tour:', error);
     return NextResponse.json(

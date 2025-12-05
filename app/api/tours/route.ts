@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import dbConnect from '@/lib/mongodb';
+
+// Force every request to hit the database and skip any caching layer
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 // Helper function to generate slug from title
 function generateSlug(title: string): string {
@@ -199,7 +205,19 @@ export async function POST(request: NextRequest) {
       _id: result.insertedId.toString()
     };
 
-    return NextResponse.json({ success: true, data: newTour }, { status: 201 });
+    // Ensure any statically cached routes get revalidated right after creation
+    revalidatePath('/');
+    revalidatePath('/tours');
+
+    return NextResponse.json(
+      { success: true, data: newTour },
+      {
+        status: 201,
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error creating tour:', error);
     return NextResponse.json(
