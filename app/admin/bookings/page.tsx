@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { MotionTr } from '@/components/Motion'
@@ -54,27 +54,7 @@ export default function AdminBookings() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [paymentFilter, setPaymentFilter] = useState<string>('all')
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login')
-      return
-    }
-
-    if (status === 'authenticated') {
-      const role = (session?.user as any)?.role?.toString().toLowerCase()
-      if (role !== 'manager') {
-        router.push('/')
-        return
-      }
-      fetchBookings()
-    }
-  }, [status, session])
-
-  useEffect(() => {
-    filterBookings()
-  }, [bookings, searchTerm, statusFilter, paymentFilter])
-
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
     try {
       const response = await fetch('/api/admin/bookings')
       const data = await response.json()
@@ -90,7 +70,41 @@ export default function AdminBookings() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login')
+      return
+    }
+
+    if (status === 'authenticated') {
+      const role = (session?.user as any)?.role?.toString().toLowerCase()
+      if (role !== 'manager') {
+        router.push('/')
+        return
+      }
+      fetchBookings()
+    }
+  }, [status, session, fetchBookings])
+
+  useEffect(() => {
+    filterBookings()
+  }, [bookings, searchTerm, statusFilter, paymentFilter])
+
+  // Auto-refresh on focus and every 30s to keep data fresh
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleFocus = () => fetchBookings()
+    const intervalId = setInterval(fetchBookings, 30_000)
+
+    window.addEventListener('focus', handleFocus)
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      clearInterval(intervalId)
+    }
+  }, [fetchBookings])
 
   const filterBookings = () => {
     let filtered = bookings

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { 
   Star, 
   MessageSquare, 
@@ -44,7 +44,7 @@ export default function ReviewsManager({ className = '' }: ReviewsManagerProps) 
   const [adminResponse, setAdminResponse] = useState('')
 
   // Fetch reviews
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       setLoading(true)
       const params = new URLSearchParams()
@@ -70,7 +70,7 @@ export default function ReviewsManager({ className = '' }: ReviewsManagerProps) 
     } finally {
       setLoading(false)
     }
-  }
+  }, [searchTerm, statusFilter])
 
   // Calculate statistics
   const calculateStats = (reviewsList: Review[]) => {
@@ -92,7 +92,21 @@ export default function ReviewsManager({ className = '' }: ReviewsManagerProps) 
 
   useEffect(() => {
     fetchReviews()
-  }, [searchTerm, statusFilter])
+  }, [fetchReviews, searchTerm, statusFilter])
+
+  // Auto-refresh on window focus or periodic interval to keep data fresh
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleFocus = () => fetchReviews()
+    const interval = setInterval(fetchReviews, 30_000)
+
+    window.addEventListener('focus', handleFocus)
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      clearInterval(interval)
+    }
+  }, [fetchReviews])
 
   // Update review status
   const updateReviewStatus = async (reviewId: string, status: string) => {
