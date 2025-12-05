@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { MotionTr } from '@/components/Motion'
-import { 
-  Search, 
-  Filter, 
-  Download, 
-  Eye, 
-  CheckCircle, 
-  XCircle, 
+import {
+  Search,
+  Filter,
+  Download,
+  Eye,
+  CheckCircle,
+  XCircle,
   Clock,
   Users,
   Calendar,
@@ -61,7 +61,8 @@ export default function AdminBookings() {
     }
 
     if (status === 'authenticated') {
-      if ((session?.user as any)?.role !== 'manager') {
+      const role = (session?.user as any)?.role?.toString().toLowerCase()
+      if (role !== 'manager') {
         router.push('/')
         return
       }
@@ -248,7 +249,7 @@ export default function AdminBookings() {
                 <option value="refunded">Refunded</option>
                 <option value="failed">Failed</option>
               </select>
-            </div>            
+            </div>
           </div>
         </div>
 
@@ -405,7 +406,7 @@ export default function AdminBookings() {
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        
+
                         {booking.status === 'pending' && (
                           <Button
                             variant="outline"
@@ -416,7 +417,7 @@ export default function AdminBookings() {
                             Confirm
                           </Button>
                         )}
-                        
+
                         {(booking.status === 'pending' || booking.status === 'confirmed') && (
                           <Button
                             variant="outline"
