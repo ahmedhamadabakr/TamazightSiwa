@@ -13,6 +13,7 @@ import { AuthProvider } from "@/components/auth-provider"
 import { generateAdvancedMetadata } from "@/components/SEOOptimizer"
 import { ResourceHints } from "@/components/PerformanceMonitor"
 import { ErrorBoundary } from "@/components/ErrorBoundary"
+import Link from "next/link"
 
 // Dynamic imports للمكونات غير الحرجة - تحميل بعد التفاعل
 const Analytics = dynamicImport(() => import("@vercel/analytics/next").then(m => ({ default: m.Analytics })), {
@@ -51,14 +52,14 @@ export default async function RootLayout({
     <html lang="en" dir="ltr" className="scroll-smooth">
       <head>
         {/* DNS Prefetch for external domains */}
-        <link rel="dns-prefetch" href="//res.cloudinary.com" />
-        <link rel="dns-prefetch" href="//images.unsplash.com" />
-        <link rel="dns-prefetch" href="//vercel.live" />
+        <Link rel="dns-prefetch" href="//res.cloudinary.com" />
+        <Link rel="dns-prefetch" href="//images.unsplash.com" />
+        <Link rel="dns-prefetch" href="//vercel.live" />
 
         {/* Preconnect for critical resources */}
-        <link rel="preconnect" href="https://vercel.live" />
-        <link rel="preconnect" href="https://res.cloudinary.com" />
-        <link rel="preconnect" href="https://images.unsplash.com" />
+        <Link rel="preconnect" href="https://vercel.live" />
+        <Link rel="preconnect" href="https://res.cloudinary.com" />
+        <Link rel="preconnect" href="https://images.unsplash.com" />
 
         {/* Optimize JavaScript loading */}
         <script dangerouslySetInnerHTML={{
@@ -103,8 +104,8 @@ export default async function RootLayout({
         }} />
 
         {/* Favicon and app icons */}
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="manifest" href="/manifest.json" />
+        <Link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <Link rel="manifest" href="/manifest.json" />
 
         {/* Theme and viewport */}
         <meta name="theme-color" content="#D4A574" />
@@ -135,9 +136,9 @@ export default async function RootLayout({
         <meta property="article:publisher" content="https://www.facebook.com/SiwaWithUs" />
 
         {/* Alternate Language Links - SEO Critical */}
-        <link rel="alternate" hrefLang="en" href="https://www.tamazight-siwa.com/en" />
-        <link rel="alternate" hrefLang="ar" href="https://www.tamazight-siwa.com/ar" />
-        <link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
+        <Link rel="alternate" hrefLang="en" href="https://www.tamazight-siwa.com/en" />
+        <Link rel="alternate" hrefLang="ar" href="https://www.tamazight-siwa.com/ar" />
+        <Link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
 
         {/* Twitter Additional */}
         <meta name="twitter:domain" content="tamazight-siwa.com" />
@@ -151,11 +152,11 @@ export default async function RootLayout({
         <meta name="business:contact_data:phone_number" content="+201552624123" />
 
         {/* Preload critical resources */}
-        <link rel="prefetch" href="/logo.png" as="image" />
+        <Link rel="prefetch" href="/logo.png" as="image" />
 
         {/* Canonical and alternate languages */}
-        <link rel="canonical" href="https://www.tamazight-siwa.com" />
-        <link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
+        <Link rel="canonical" href="https://www.tamazight-siwa.com" />
+        <Link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
 
         {/* JSON-LD Structured Data */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
