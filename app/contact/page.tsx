@@ -26,7 +26,7 @@ export default function ContactPage() {
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black to-black" />
         <MotionDiv
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -34,10 +34,10 @@ export default function ContactPage() {
           className="relative z-10 text-center text-white max-w-4xl mx-auto px-4"
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Contact Us</h1>
-          <p className="text-xl md:text-2xl opacity-90">
+          <p className="text-xl md:text-2xl opacity-100">
             Ready to start your Siwa adventure? We&apos;re here to help plan your perfect journey
           </p>
-  </MotionDiv>
+        </MotionDiv>
       </section>
 
       {/* Contact Section */}
@@ -50,7 +50,7 @@ export default function ContactPage() {
               Tell us about your dream Siwa experience and we&apos;ll create the perfect itinerary for you.
             </p>
 
-          <ContactSection />
+            <ContactSection />
           </MotionDiv>
 
           {/* Contact Info */}
@@ -122,21 +122,21 @@ export default function ContactPage() {
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {[
-              { 
-                name: "WhatsApp", 
-                color: "bg-green-500", 
+              {
+                name: "WhatsApp",
+                color: "bg-green-500",
                 icon: <MessageCircle className="w-8 h-8 text-white" />,
                 url: "https://wa.me/+201552624123"
               },
-              { 
-                name: "Instagram", 
-                color: "bg-gradient-to-r from-pink-500 to-purple-500", 
+              {
+                name: "Instagram",
+                color: "bg-gradient-to-r from-pink-500 to-purple-500",
                 icon: <span className="text-white font-bold text-xl">IG</span>,
                 url: "https://instagram.com/tamazight_siwa"
               },
-              { 
-                name: "Facebook", 
-                color: "bg-blue-600", 
+              {
+                name: "Facebook",
+                color: "bg-blue-600",
                 icon: <span className="text-white font-bold text-xl">FB</span>,
                 url: "https://facebook.com/tamazight.siwa"
               },
@@ -148,13 +148,13 @@ export default function ContactPage() {
                   </div>
                   <h3 className="font-semibold text-lg mb-4">{social.name}</h3>
                   <Link
-                    href={social.url} 
-                    target="_blank" 
+                    href={social.url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-auto inline-block w-full"
                   >
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="w-full bg-transparent hover:bg-foreground/5 transition-colors"
                     >
                       Connect on {social.name}

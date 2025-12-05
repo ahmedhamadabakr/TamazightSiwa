@@ -48,7 +48,7 @@ export function ContactSection() {
       })
 
       const data = await res.json()
-      
+
       if (res.ok && data.success) {
         toast.success(data.message || "Message sent successfully!")
         setFormData({ name: "", email: "", subject: "", message: "" })
@@ -95,7 +95,7 @@ export function ContactSection() {
           </div>
 
           {/* Contact Form */}
-          <Card className="border border-border/50 bg-background/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden">
+          <Card className="border border-border/50 bg-background backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden">
             <CardContent className="p-6 sm:p-8 md:p-10">
               <div className="text-center mb-8">
                 <h3 className="font-montserrat font-bold text-2xl md:text-3xl text-foreground mb-2">

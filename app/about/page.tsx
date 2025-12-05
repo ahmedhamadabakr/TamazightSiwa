@@ -41,7 +41,7 @@ function ValueCard({
       viewport={{ once: true, margin: "-100px" }}
       className="h-full"
     >
-      <Card className="text-center border-0 shadow-lg h-full group hover:shadow-2xl transition-all duration-300 overflow-hidden bg-background/50 backdrop-blur-sm">
+      <Card className="text-center border-0 shadow-lg h-full group hover:shadow-2xl transition-all duration-300 overflow-hidden bg-background backdrop-blur-sm">
         <CardContent className="p-8 h-full flex flex-col">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors duration-300">
             <Icon className="w-10 h-10 text-primary" />
@@ -112,7 +112,7 @@ export default function AboutContent() {
             placeholder="empty"
           />
         </MotionDiv>
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
           <MotionDiv
             initial={{ opacity: 0, y: 20 }}
@@ -120,7 +120,7 @@ export default function AboutContent() {
             transition={{ duration: 0.8 }}
             className="mb-6"
           >
-            <span className="inline-block px-4 py-2 bg-background/20 backdrop-blur-sm rounded-full text-sm font-medium mb-4 border border-white/20">
+            <span className="inline-block px-4 py-2 bg-background backdrop-blur-sm rounded-full text-sm font-medium mb-4 border border-white/20">
               Since 2010
             </span>
           </MotionDiv>
@@ -133,7 +133,7 @@ export default function AboutContent() {
             Discover the Heart of Siwa
           </MotionH1>
           <MotionP
-            className="text-xl md:text-2xl text-balance max-w-3xl mx-auto text-black/60"
+            className="text-xl md:text-2xl text-balance max-w-3xl mx-auto text-black"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
