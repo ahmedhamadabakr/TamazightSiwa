@@ -35,7 +35,8 @@ function isPublicRoute(pathname: string): boolean {
 }
 
 function getRequiredRole(pathname: string): string | null {
-  if (pathname.startsWith('/admin')) return 'admin';
+  // Allow managers (and admins via hierarchy) to access /admin
+  if (pathname.startsWith('/admin')) return 'manager';
   if (pathname.startsWith('/dashboard') && pathname !== '/dashboard') return 'manager';
   if (pathname.startsWith('/user')) return 'user';
   if (pathname === '/dashboard' || pathname === '/security') return 'user'; // Any authenticated user
