@@ -161,7 +161,7 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
@@ -170,11 +170,11 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Booking confirmed successfully!</h1>
           <p className="text-gray-600">Booking reference: {booking.bookingReference}</p>
-  </MotionDiv>
+        </MotionDiv>
 
         {/* Booking Details Card */}
         <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="bg-white rounded-lg shadow-lg overflow-hidden mb-6"
@@ -290,11 +290,11 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
               </div>
             </div>
           </div>
-  </MotionDiv>
+        </MotionDiv>
 
         {/* Action Buttons */}
         <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -312,11 +312,11 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
           <Button variant="outline" onClick={() => router.push(`/user/${(session?.user as any)?.id}`)}>
             View My Bookings
           </Button>
-  </MotionDiv>
+        </MotionDiv>
 
         {/* Important Notes */}
         <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6"
@@ -340,7 +340,7 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
               You can cancel the booking before 48 hours from the tour date
             </li>
           </ul>
-  </MotionDiv>
+        </MotionDiv>
       </div>
     </div>
   )

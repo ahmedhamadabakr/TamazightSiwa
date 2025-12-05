@@ -131,7 +131,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
 
   return (
     <MotionDiv
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 1, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={`bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow ${
         booking.status === 'cancelled' ? 'opacity-75' : ''

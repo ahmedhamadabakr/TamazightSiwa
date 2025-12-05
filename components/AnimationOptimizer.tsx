@@ -12,21 +12,21 @@ export function AnimationOptimizer() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     // Check for reduced motion preference
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setShouldReduceMotion(mediaQuery.matches)
-    
+
     const handleChange = (e: MediaQueryListEvent) => {
       setShouldReduceMotion(e.matches)
     }
-    
+
     mediaQuery.addEventListener('change', handleChange)
 
     // Detect device capabilities
     const detectCapabilities = () => {
       if (typeof navigator === 'undefined') return;
-      
+
       const connection = (navigator as any).connection
       const memory = (navigator as any).deviceMemory
       const hardwareConcurrency = navigator.hardwareConcurrency
@@ -55,7 +55,7 @@ export function AnimationOptimizer() {
   // Apply CSS optimizations
   useEffect(() => {
     if (typeof document === 'undefined') return;
-    
+
     const style = document.createElement('style')
     style.textContent = `
       /* Animation optimizations */
@@ -114,7 +114,7 @@ export function AnimationOptimizer() {
         }
       }
     `
-    
+
     document.head.appendChild(style)
 
     return () => {

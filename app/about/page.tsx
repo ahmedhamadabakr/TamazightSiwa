@@ -34,7 +34,7 @@ function ValueCard({
 }) {
   return (
     <MotionDiv
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 1, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       whileHover={{ y: -10 }}
       transition={{ duration: 0.4, type: 'spring', stiffness: 300 }}
@@ -69,7 +69,7 @@ function TeamCard({
 }) {
   return (
     <MotionDiv
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 1, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
@@ -115,7 +115,7 @@ export default function AboutContent() {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
           <MotionDiv
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="mb-6"
@@ -126,7 +126,7 @@ export default function AboutContent() {
           </MotionDiv>
           <MotionH1
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 1, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
           >
@@ -134,14 +134,14 @@ export default function AboutContent() {
           </MotionH1>
           <MotionP
             className="text-xl md:text-2xl text-balance max-w-3xl mx-auto text-black"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             Where ancient traditions meet sustainable adventures in Egypt's most magical oasis
           </MotionP>
           <MotionDiv
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             className="mt-12"
@@ -159,7 +159,7 @@ export default function AboutContent() {
       <section id="our-story" className="py-24 px-4 scroll-mt-20">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <MotionDiv
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 1, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -241,7 +241,7 @@ export default function AboutContent() {
 
           <MotionDiv
             className="relative"
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 1, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             viewport={{ once: true, margin: "-100px" }}

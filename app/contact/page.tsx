@@ -28,7 +28,7 @@ export default function ContactPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black to-black" />
         <MotionDiv
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 1, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="relative z-10 text-center text-white max-w-4xl mx-auto px-4"
@@ -44,7 +44,7 @@ export default function ContactPage() {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <MotionDiv initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+          <MotionDiv initial={{ opacity: 1, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
             <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
             <p className="text-muted-foreground mb-8">
               Tell us about your dream Siwa experience and we&apos;ll create the perfect itinerary for you.
@@ -54,7 +54,7 @@ export default function ContactPage() {
           </MotionDiv>
 
           {/* Contact Info */}
-          <MotionDiv initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+          <MotionDiv initial={{ opacity: 1, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
             <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
             <p className="text-muted-foreground mb-8">
               We&apos;re available 24/7 to answer your questions and help you plan your Siwa adventure.

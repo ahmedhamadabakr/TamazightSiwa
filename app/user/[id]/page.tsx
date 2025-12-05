@@ -248,7 +248,7 @@ export default function UserDashboard({ params }: UserDashboardProps) {
         {/* Main Content */}
         <MotionDiv
           key={activeTab}
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity:1, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
           className="flex-1 bg-white rounded-2xl shadow border border-gray-200 p-6"
