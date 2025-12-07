@@ -1,25 +1,3 @@
-import type { Metadata } from "next";
-
-// SEO Metadata
-export const metadata: Metadata = {
-  title: "About Us - Discover Our Story | Siwa With Us",
-  description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences in Siwa Oasis. Discover our story, values, and commitment to sustainable tourism since 2010.",
-  keywords: "about Siwa With Us, Siwa tour company, eco-tourism Egypt, sustainable travel Siwa, Berber culture tours, desert tour operator, Siwa Oasis guide, authentic travel experiences",
-  openGraph: {
-    title: "About Us - Discover Our Story",
-    description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences in Siwa Oasis.",
-    images: ["/siwa-oasis-sunset-salt-lakes-reflection.avif"],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "About Us - Discover Our Story",
-    description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences.",
-    images: ["/siwa-oasis-sunset-salt-lakes-reflection.avif"],
-  },
-};
-
-// Client Component
 "use client";
 
 import type React from "react";
@@ -28,10 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Users, Heart, Leaf, Award, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 
-/* -------------------------------------------------------
-   ⚡ Dynamic Imports — optimized
-------------------------------------------------------- */
+// --------------------- Dynamic Imports ---------------------
 const ClientOnlyNavigation = dynamic(
   () =>
     import("@/components/ClientOnlyNavigation").then(
@@ -52,17 +29,21 @@ const Footer = dynamic(
 );
 
 const Motion = {
-  Div: dynamic(() => import("framer-motion").then((mod) => mod.motion.div), { ssr: false }),
-  H1: dynamic(() => import("framer-motion").then((mod) => mod.motion.h1), { ssr: false }),
-  H2: dynamic(() => import("framer-motion").then((mod) => mod.motion.h2), { ssr: false }),
-  P: dynamic(() => import("framer-motion").then((mod) => mod.motion.p), { ssr: false }),
-  Section: dynamic(() => import("framer-motion").then((mod) => mod.motion.section), { ssr: false }),
+  Div: dynamic(
+    () => import("framer-motion").then((mod) => mod.motion.div),
+    { ssr: false }
+  ),
+  H1: dynamic(
+    () => import("framer-motion").then((mod) => mod.motion.h1),
+    { ssr: false }
+  ),
+  P: dynamic(
+    () => import("framer-motion").then((mod) => mod.motion.p),
+    { ssr: false }
+  ),
 };
 
-
-/* -------------------------------------------------------
-   ♻️ Reusable Value Card
-------------------------------------------------------- */
+// --------------------- Value Card ---------------------
 function ValueCard({
   icon: Icon,
   title,
@@ -96,9 +77,7 @@ function ValueCard({
   );
 }
 
-/* -------------------------------------------------------
-   ♻️ Reusable Team Card
-------------------------------------------------------- */
+// --------------------- Team Card ---------------------
 function TeamCard({
   icon: Icon,
   name,
@@ -111,33 +90,33 @@ function TeamCard({
   bio: string;
 }) {
   return (
-    <Motion.Section
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-      viewport={{ once: true }}
-      className="py-16 md:py-24 lg:py-32"
-    >
-      <Card className="text-center border-0 shadow-lg">
-        <CardContent className="p-8">
-          <div className="w-24 h-24 bg-primary/10 rounded-full mx-auto mb-6 flex items-center justify-center">
-            <Icon className="w-12 h-12 text-primary" />
-          </div>
-          <h3 className="text-xl font-semibold mb-2">{name}</h3>
-          <p className="text-primary mb-4">{role}</p>
-          <p className="text-muted-foreground">{bio}</p>
-        </CardContent>
-      </Card>
-    </Motion.Section>
+    <Card className="text-center border-0 shadow-lg">
+      <CardContent className="p-8">
+        <div className="w-24 h-24 bg-primary/10 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <Icon className="w-12 h-12 text-primary" />
+        </div>
+        <h3 className="text-xl font-semibold mb-2">{name}</h3>
+        <p className="text-primary mb-4">{role}</p>
+        <p className="text-muted-foreground">{bio}</p>
+      </CardContent>
+    </Card>
   );
 }
 
-/* -------------------------------------------------------
-   🔥 Full Page Component
-------------------------------------------------------- */
-function AboutContent() {
+// --------------------- About Page ---------------------
+export default function AboutContent() {
   return (
     <>
+      <Head>
+        <title>About Us - Discover Our Story | Siwa With Us</title>
+        <meta name="description" content="Learn about Siwa With Us, your trusted partner for authentic desert experiences in Siwa Oasis. Discover our story, values, and commitment to sustainable tourism since 2010." />
+        <meta property="og:title" content="About Siwa With Us" />
+        <meta property="og:description" content="Learn about our mission to provide authentic desert experiences in Siwa Oasis." />
+        <meta property="og:image" content="/siwa-oasis-sunset-salt-lakes-reflection.avif" />
+        <meta property="og:url" content="https://www.tamazight-siwa.com/about" />
+        <link rel="canonical" href="https://www.tamazight-siwa.com/about" />
+      </Head>
+
       {/* SEO Structured Data */}
       <script
         type="application/ld+json"
@@ -167,12 +146,9 @@ function AboutContent() {
       <div className="min-h-screen bg-background">
         <ClientOnlyNavigation />
 
-        {/* -------------------------------------------------------
-         ⭐ HERO Section (Improved: no janky animation)
-      ------------------------------------------------------- */}
+        {/* HERO Section */}
         <section className="relative min-h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden py-20 md:py-0">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-accent/40" />
-
           <Image
             src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
             alt="Siwa Oasis landscape with palm trees and desert"
@@ -182,7 +158,6 @@ function AboutContent() {
             quality={85}
             sizes="100vw"
           />
-
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
           <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
@@ -227,9 +202,7 @@ function AboutContent() {
           </div>
         </section>
 
-        {/* -------------------------------------------------------
-         OUR STORY
-      ------------------------------------------------------- */}
+        {/* OUR STORY */}
         <section id="our-story" className="py-24 px-4 scroll-mt-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
             <Motion.Div
@@ -243,7 +216,7 @@ function AboutContent() {
               </span>
 
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
-                Hidden deep in Egypt's<br />
+                Hidden deep in Egypt&apos;s<br />
                 <span className="text-primary">far west</span>
               </h2>
 
@@ -312,9 +285,7 @@ function AboutContent() {
           </div>
         </section>
 
-        {/* -------------------------------------------------------
-         VALUES
-      ------------------------------------------------------- */}
+        {/* VALUES */}
         <section className="py-20 bg-muted/30">
           <div className="max-w-6xl mx-auto px-4">
             <div className="text-center mb-16">
@@ -352,9 +323,7 @@ function AboutContent() {
           </div>
         </section>
 
-        {/* -------------------------------------------------------
-         TEAM
-      ------------------------------------------------------- */}
+        {/* TEAM */}
         <section className="py-20 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -394,5 +363,3 @@ function AboutContent() {
     </>
   );
 }
-
-export default AboutContent;
