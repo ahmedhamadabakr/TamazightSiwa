@@ -62,7 +62,7 @@ export default async function TourDetailsPage({ params }: any) {
       </div>
 
       {/* HERO */}
-      <header className="relative h-[60vh]">
+      <header className="relative h-[60vh] overflow-hidden">
         {tour.images?.length > 0 ? (
           <Image
             src={tour.images[0]}
@@ -70,7 +70,10 @@ export default async function TourDetailsPage({ params }: any) {
             fill
             className="object-cover"
             priority
-            quality={85}
+            quality={75}
+            sizes="100vw"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
           />
         ) : (
           <div className="w-full h-full bg-gray-500" />
@@ -90,9 +93,12 @@ export default async function TourDetailsPage({ params }: any) {
             <div key={i} className="relative h-40 rounded-lg overflow-hidden">
               <Image
                 src={img}
-                alt={tour.title}
+                alt={`${tour.title} - Image ${i + 1}`}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 50vw, 25vw"
+                quality={75}
+                loading="lazy"
               />
             </div>
           ))}
@@ -156,7 +162,7 @@ export default async function TourDetailsPage({ params }: any) {
         </div>
 
         {/* REVIEWS */}
-        <div className="mt-16 border-t pt-16">
+        <div className="mt-16 border-t pt-16 min-h-[400px]">
           <TourReviews tourId={tour.id} className="max-w-4xl" />
         </div>
       </main>

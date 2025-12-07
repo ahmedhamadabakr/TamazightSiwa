@@ -91,17 +91,19 @@ export default async function RootLayout({
             *{box-sizing:border-box}
             body{font-family:system-ui,-apple-system,sans-serif;margin:0;padding:0;background:#f8f5f0;color:#3d2914;font-display:swap;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
             .hero-section{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;contain:layout style paint}
-            h1{font-size:2.5rem;font-weight:700;line-height:1.1;margin:0 0 1rem 0;contain:layout style paint;text-rendering:optimizeSpeed}
+            h1{font-size:2.5rem;font-weight:700;line-height:1.1;margin:0 0 1rem 0;contain:layout style paint;text-rendering:optimizeSpeed;content-visibility:auto}
             @media(min-width:768px){h1{font-size:3.75rem}}
             @media(min-width:1024px){h1{font-size:4.5rem}}
             .gpu-accelerated{transform:translateZ(0);will-change:transform;backface-visibility:hidden}
-            img{max-width:100%;height:auto;display:block}
+            img{max-width:100%;height:auto;display:block;content-visibility:auto}
             .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
             @keyframes loading{0%{background-position:-200% 0}100%{background-position:200% 0}}
             .animate-fade-in-up{animation:fadeInUp 0.6s ease-out forwards}
             @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-            footer{min-height:400px;contain:layout style paint}
+            footer{min-height:400px;contain:layout style paint;content-visibility:auto}
             footer img{width:32px;height:32px}
+            header{content-visibility:auto;contain-intrinsic-size:0 60vh}
+            .relative{position:relative;contain:layout}
           `
         }} />
 
@@ -154,8 +156,7 @@ export default async function RootLayout({
         <meta name="business:contact_data:country_name" content="Egypt" />
         <meta name="business:contact_data:phone_number" content="+201552624123" />
 
-        {/* Preload critical resources */}
-        <link rel="prefetch" href="/logo.png" as="image" />
+        {/* Preload critical resources - removed logo prefetch to reduce initial load */}
 
         {/* Canonical and alternate languages */}
         <link rel="canonical" href="https://www.tamazight-siwa.com" />

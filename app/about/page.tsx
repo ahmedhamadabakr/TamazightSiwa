@@ -1,24 +1,33 @@
-import type React from "react";
 import type { Metadata } from "next";
+
+// SEO Metadata
+export const metadata: Metadata = {
+  title: "About Us - Discover Our Story | Siwa With Us",
+  description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences in Siwa Oasis. Discover our story, values, and commitment to sustainable tourism since 2010.",
+  keywords: "about Siwa With Us, Siwa tour company, eco-tourism Egypt, sustainable travel Siwa, Berber culture tours, desert tour operator, Siwa Oasis guide, authentic travel experiences",
+  openGraph: {
+    title: "About Us - Discover Our Story",
+    description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences in Siwa Oasis.",
+    images: ["/siwa-oasis-sunset-salt-lakes-reflection.avif"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us - Discover Our Story",
+    description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences.",
+    images: ["/siwa-oasis-sunset-salt-lakes-reflection.avif"],
+  },
+};
+
+// Client Component
+"use client";
+
+import type React from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Heart, Leaf, Award, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { generateAdvancedMetadata } from "@/components/SEOOptimizer";
-
-// SEO Metadata
-export const metadata: Metadata = generateAdvancedMetadata({
-  title: "About Us - Discover Our Story",
-  description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences in Siwa Oasis. Discover our story, values, and commitment to sustainable tourism since 2010.",
-  keywords: "about Siwa With Us, Siwa tour company, eco-tourism Egypt, sustainable travel Siwa, Berber culture tours, desert tour operator, Siwa Oasis guide, authentic travel experiences",
-  canonical: "/about",
-  ogImage: "/siwa-oasis-sunset-salt-lakes-reflection.avif",
-  ogType: "website",
-  author: "Siwa With Us Team",
-});
-
-export const dynamicParams = false;
 
 /* -------------------------------------------------------
    ⚡ Dynamic Imports — optimized
@@ -126,7 +135,7 @@ function TeamCard({
 /* -------------------------------------------------------
    🔥 Full Page Component
 ------------------------------------------------------- */
-export default function AboutContent() {
+function AboutContent() {
   return (
     <>
       {/* SEO Structured Data */}
@@ -385,3 +394,5 @@ export default function AboutContent() {
     </>
   );
 }
+
+export default AboutContent;
