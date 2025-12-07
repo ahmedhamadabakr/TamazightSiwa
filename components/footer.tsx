@@ -4,7 +4,7 @@ import { Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background py-16">
+    <footer className="bg-foreground text-background py-16" style={{ minHeight: '400px', contain: 'layout style paint' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -17,6 +17,7 @@ export function Footer() {
                 height={32}
                 className="rounded"
                 loading="lazy"
+                style={{ width: '32px', height: '32px' }}
               />
               <span className="font-bold text-xl">Tamazight Siwa</span>
             </div>

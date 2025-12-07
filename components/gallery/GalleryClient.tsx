@@ -23,7 +23,7 @@ export function GalleryClient({ images }: { images: GalleryImage[] }) {
   const [loading, setLoading] = useState(false)
 
   const categories = useMemo(() => {
-    const set = new Set<string>(["all"]) 
+    const set = new Set<string>(["all"])
     images.forEach((img) => set.add(img.category))
     return Array.from(set)
   }, [images])
@@ -80,7 +80,8 @@ export function GalleryClient({ images }: { images: GalleryImage[] }) {
                       alt={image.title}
                       fill
                       className="group-hover:scale-110 transition-transform duration-500 w-full h-full object-cover"
-                      quality={75}
+                      loading="lazy"
+                      quality={80}
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     />
 
@@ -115,7 +116,8 @@ export function GalleryClient({ images }: { images: GalleryImage[] }) {
               width={1200}
               height={800}
               className="rounded-lg mx-auto"
-              quality={95}
+              quality={90}
+              sizes="(max-width: 1200px) 100vw, 1200px"
             />
             <p className="text-center text-white mt-4 text-lg">{lightbox.title}</p>
           </div>

@@ -41,14 +41,14 @@ function ValueCard({
       viewport={{ once: true, margin: "-100px" }}
       className="h-full"
     >
-      <Card className="text-center border-0 shadow-lg h-full group hover:shadow-2xl transition-all duration-300 overflow-hidden bg-background backdrop-blur-sm">
-        <CardContent className="p-8 h-full flex flex-col">
-          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-            <Icon className="w-10 h-10 text-primary" />
+      <Card className="text-center border-0 shadow-lg h-full group hover:shadow-2xl transition-all duration-300 overflow-hidden bg-background/80 backdrop-blur-sm">
+        <CardContent className="p-4 sm:p-6 md:p-8 h-full flex flex-col">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:bg-primary/20 transition-colors duration-300">
+            <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
           </div>
-          <h3 className="text-xl font-bold mb-4 text-foreground">{title}</h3>
-          <p className="text-muted-foreground flex-grow">{description}</p>
-          <div className="mt-6 h-1 w-12 bg-primary/20 mx-auto group-hover:w-20 transition-all duration-300"></div>
+          <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4 text-foreground">{title}</h3>
+          <p className="text-sm sm:text-base text-muted-foreground flex-grow">{description}</p>
+          <div className="mt-4 sm:mt-6 h-1 w-10 sm:w-12 bg-primary/20 mx-auto group-hover:w-16 sm:group-hover:w-20 transition-all duration-300"></div>
         </CardContent>
       </Card>
     </MotionDiv>
@@ -93,8 +93,8 @@ export default function AboutContent() {
     <div className="min-h-screen bg-background">
       <ClientOnlyNavigation />
       {/* Hero Section */}
-      <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30" />
+      <section className="relative h-auto min-h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden py-20 md:py-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-accent/40" />
         <MotionDiv
           className="absolute inset-0"
           initial={{ scale: 1.1 }}
@@ -108,6 +108,7 @@ export default function AboutContent() {
             className="object-cover"
             priority
             fetchPriority="high"
+            quality={85}
             sizes="100vw"
             placeholder="empty"
           />
@@ -253,7 +254,8 @@ export default function AboutContent() {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                priority
+                loading="lazy"
+                quality={85}
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />

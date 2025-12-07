@@ -16,7 +16,7 @@ export default function ContactPage() {
       <ClientOnlyNavigation />
 
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-auto min-h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden py-16 md:py-0">
         <Image
           src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
           alt="Contact Tamazight Siwa"
@@ -24,25 +24,26 @@ export default function ContactPage() {
           className="object-cover"
           priority
           placeholder="blur"
+          sizes="100vw"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black to-black" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/70" />
         <MotionDiv
-          initial={{ opacity: 1, y: 40 }}
+          initial={{ opacity: 1, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 text-center text-white max-w-4xl mx-auto px-4"
+          transition={{ duration: 0.6 }}
+          className="relative z-10 text-center text-white max-w-4xl mx-auto px-4 w-full"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Contact Us</h1>
-          <p className="text-xl md:text-2xl opacity-100">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 px-4">Contact Us</h1>
+          <p className="text-lg sm:text-xl md:text-2xl opacity-100 px-4">
             Ready to start your Siwa adventure? We&apos;re here to help plan your perfect journey
           </p>
         </MotionDiv>
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Form */}
           <MotionDiv initial={{ opacity: 1, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
             <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
@@ -69,8 +70,8 @@ export default function ContactPage() {
               ].map((item, i) => (
                 <Card key={i} className="border-0 shadow-lg hover:shadow-xl transition-all">
                   <CardContent className="p-6 flex gap-4 items-start">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <item.icon className="w-6 h-6 text-primary" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
@@ -87,8 +88,8 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4">
+      <section className="py-12 sm:py-16 md:py-20 bg-muted/30">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
             <p className="text-xl text-muted-foreground">Quick answers to common questions about visiting Siwa</p>

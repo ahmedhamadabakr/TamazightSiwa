@@ -45,7 +45,9 @@ export function TourCard({ tour, index = 0 }: TourCardProps) {
             alt={tour.title}
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-500"
-            loading="lazy"
+            loading={index === 0 ? "eager" : "lazy"}
+            fetchPriority={index === 0 ? "high" : "auto"}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
 
           {/* Gradient Overlay */}

@@ -171,7 +171,7 @@ export default function GalleryPage() {
           fetchPriority="high"
           sizes="100vw"
           className="object-cover"
-          quality={60}
+          quality={85}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
         <div className="relative z-10 text-center text-white max-w-3xl mx-auto px-4">
@@ -222,6 +222,8 @@ export default function GalleryPage() {
                   fill
                   sizes="(min-width: 768px) 16.6vw, (min-width: 640px) 33vw, 50vw"
                   className="object-cover hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                  quality={75}
                 />
               </Link>
             ))}

@@ -41,7 +41,7 @@ export function ImageGalleryFallback({ images, title, className = "" }: ImageGal
     // Add keyboard event listeners
     useEffect(() => {
         if (typeof document === 'undefined') return;
-        
+
         const handleKeyDownWrapper = (e: KeyboardEvent) => handleKeyDown(e)
 
         if (isOpen) {
@@ -106,6 +106,9 @@ export function ImageGalleryFallback({ images, title, className = "" }: ImageGal
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 priority
+                                fetchPriority="high"
+                                quality={85}
+                                sizes="(max-width: 768px) 100vw, 50vw"
                                 onError={() => handleImageError(0)}
                             />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
@@ -140,6 +143,9 @@ export function ImageGalleryFallback({ images, title, className = "" }: ImageGal
                                             alt={`${title} - Image ${index + 2}`}
                                             fill
                                             className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                            loading="lazy"
+                                            quality={75}
+                                            sizes="(max-width: 768px) 25vw, 15vw"
                                             onError={() => handleImageError(index + 1)}
                                         />
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
@@ -209,6 +215,8 @@ export function ImageGalleryFallback({ images, title, className = "" }: ImageGal
                                     fill
                                     className="object-contain drop-shadow-2xl"
                                     priority
+                                    quality={90}
+                                    sizes="100vw"
                                     onError={() => handleImageError(currentIndex)}
                                 />
                             )}
@@ -246,6 +254,9 @@ export function ImageGalleryFallback({ images, title, className = "" }: ImageGal
                                                 alt={`Small Image ${index + 1}`}
                                                 fill
                                                 className="object-cover"
+                                                loading="lazy"
+                                                quality={60}
+                                                sizes="56px"
                                                 onError={() => handleImageError(index)}
                                             />
                                         )}
