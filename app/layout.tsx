@@ -13,7 +13,7 @@ import { AuthProvider } from "@/components/auth-provider"
 import { generateAdvancedMetadata } from "@/components/SEOOptimizer"
 import { ResourceHints } from "@/components/PerformanceMonitor"
 import { ErrorBoundary } from "@/components/ErrorBoundary"
-import Link from "next/link"
+
 
 // Dynamic imports للمكونات غير الحرجة - تحميل بعد التفاعل
 const Analytics = dynamicImport(() => import("@vercel/analytics/next").then(m => ({ default: m.Analytics })), {

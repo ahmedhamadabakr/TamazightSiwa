@@ -1,4 +1,4 @@
-
+import type { Metadata } from "next"
 import { ClientOnlyNavigation } from "@/components/ClientOnlyNavigation"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -8,6 +8,17 @@ import Image from "next/image"
 import { GalleryClient } from "@/components/gallery/GalleryClient"
 import { Suspense } from "react"
 import { headers } from "next/headers"
+import { generateAdvancedMetadata } from "@/components/SEOOptimizer"
+
+// SEO Metadata
+export const metadata: Metadata = generateAdvancedMetadata({
+  title: "Photo Gallery - Stunning Images of Siwa Oasis",
+  description: "Explore our stunning photo gallery showcasing the natural beauty, cultural heritage, and breathtaking landscapes of Siwa Oasis. View images of salt lakes, desert dunes, ancient temples, and traditional Berber life.",
+  keywords: "Siwa gallery, Siwa photos, Siwa Oasis images, desert photography, Egypt travel photos, Siwa landscapes, salt lakes photos, Great Sand Sea images, Berber culture photos, Siwa attractions",
+  canonical: "/gallery",
+  ogImage: "/siwa-oasis-sunset-salt-lakes-reflection.avif",
+  ogType: "website",
+});
 
 interface GalleryImage {
   _id: string
@@ -158,95 +169,120 @@ function LoadingSection() {
 
 export default function GalleryPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <ClientOnlyNavigation />
+    <>
+      {/* SEO Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ImageGallery",
+            "name": "Siwa Oasis Photo Gallery",
+            "description": "Beautiful photos showcasing the natural beauty and culture of Siwa Oasis",
+            "url": "https://www.tamazight-siwa.com/gallery",
+            "image": [
+              "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif",
+              "https://www.tamazight-siwa.com/siwa-hot-springs-natural-pools-wellness.webp",
+              "https://www.tamazight-siwa.com/siwa-night-sky-stars-milky-way-desert.webp"
+            ],
+            "author": {
+              "@type": "Organization",
+              "name": "Siwa With Us"
+            }
+          })
+        }}
+      />
 
-      {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-        <Image
-          src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
-          alt="Siwa Oasis Gallery"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="100vw"
-          className="object-cover"
-          quality={85}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
-        <div className="relative z-10 text-center text-white max-w-3xl mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Siwa Gallery</h1>
-          <p className="text-lg md:text-2xl opacity-90">
-            Discover the beauty of Siwa Oasis through our collection
-          </p>
-        </div>
-      </section>
+      <div className="min-h-screen bg-background">
+        <ClientOnlyNavigation />
 
-      <Suspense fallback={<LoadingSection />}>
-        {/* Stats + Gallery stream in without blocking hero */}
-        {/* Filters + Grid + Lightbox (Client) */}
-        <ImagesData />
-      </Suspense>
-
-      {/* CTA Section */}
-
-
-      {/* Instagram Feed */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Follow our journey</h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Stay updated with the latest moments from Siwa Oasis
-          </p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-8">
-            {[
-              '/siwa-oasis-sunset-salt-lakes-reflection.avif',
-              '/siwa-oasis-traditional-berber-architecture-at-suns.webp',
-              '/siwa-night-sky-stars-milky-way-desert.webp',
-              '/siwa-hot-springs-natural-pools-wellness.webp',
-              '/siwa-oasis-sunset-salt-lakes-reflection.avif',
-              '/siwa-traditional-crafts-berber-culture.jpg'
-            ].map((src, i) => (
-              <Link
-                key={src}
-                href="https://www.instagram.com/tamazight_siwa/"
-                target="_blank"
-
-                className="relative aspect-square rounded-lg overflow-hidden group cursor-pointer"
-                aria-label={`Open Instagram post ${i + 1}`}
-              >
-                <Image
-                  src={src}
-                  alt={`Instagram Post ${i + 1}`}
-                  fill
-                  sizes="(min-width: 768px) 16.6vw, (min-width: 640px) 33vw, 50vw"
-                  className="object-cover hover:scale-110 transition-transform duration-500"
-                  loading="lazy"
-                  quality={75}
-                />
-              </Link>
-            ))}
+        {/* Hero Section */}
+        <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+          <Image
+            src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
+            alt="Siwa Oasis Gallery"
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-cover"
+            quality={85}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
+          <div className="relative z-10 text-center text-white max-w-3xl mx-auto px-4">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">Siwa Gallery</h1>
+            <p className="text-lg md:text-2xl opacity-90">
+              Discover the beauty of Siwa Oasis through our collection
+            </p>
           </div>
+        </section>
 
-          <Link
-            href="https://www.instagram.com/tamazight_siwa/"
-            target="_blank"
+        <Suspense fallback={<LoadingSection />}>
+          {/* Stats + Gallery stream in without blocking hero */}
+          {/* Filters + Grid + Lightbox (Client) */}
+          <ImagesData />
+        </Suspense>
 
-          >
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white border-0"
+        {/* CTA Section */}
+
+
+        {/* Instagram Feed */}
+        <section className="py-20 px-4">
+          <div className="max-w-6xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Follow our journey</h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Stay updated with the latest moments from Siwa Oasis
+            </p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-8">
+              {[
+                '/siwa-oasis-sunset-salt-lakes-reflection.avif',
+                '/siwa-oasis-traditional-berber-architecture-at-suns.webp',
+                '/siwa-night-sky-stars-milky-way-desert.webp',
+                '/siwa-hot-springs-natural-pools-wellness.webp',
+                '/siwa-oasis-sunset-salt-lakes-reflection.avif',
+                '/siwa-traditional-crafts-berber-culture.jpg'
+              ].map((src, i) => (
+                <Link
+                  key={src}
+                  href="https://www.instagram.com/tamazight_siwa/"
+                  target="_blank"
+
+                  className="relative aspect-square rounded-lg overflow-hidden group cursor-pointer"
+                  aria-label={`Open Instagram post ${i + 1}`}
+                >
+                  <Image
+                    src={src}
+                    alt={`Instagram Post ${i + 1}`}
+                    fill
+                    sizes="(min-width: 768px) 16.6vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-cover hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
+                    quality={75}
+                  />
+                </Link>
+              ))}
+            </div>
+
+            <Link
+              href="https://www.instagram.com/tamazight_siwa/"
+              target="_blank"
+
             >
-              Follow on Instagram
-            </Button>
-          </Link>
-        </div>
-      </section>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white border-0"
+              >
+                Follow on Instagram
+              </Button>
+            </Link>
+          </div>
+        </section>
 
-      {/* Lightbox moved to client component */}
+        {/* Lightbox moved to client component */}
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   )
 }

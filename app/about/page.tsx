@@ -1,11 +1,22 @@
-"use client";
-
 import type React from "react";
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Heart, Leaf, Award, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { generateAdvancedMetadata } from "@/components/SEOOptimizer";
+
+// SEO Metadata
+export const metadata: Metadata = generateAdvancedMetadata({
+  title: "About Us - Discover Our Story",
+  description: "Learn about Siwa With Us, your trusted partner for authentic desert experiences in Siwa Oasis. Discover our story, values, and commitment to sustainable tourism since 2010.",
+  keywords: "about Siwa With Us, Siwa tour company, eco-tourism Egypt, sustainable travel Siwa, Berber culture tours, desert tour operator, Siwa Oasis guide, authentic travel experiences",
+  canonical: "/about",
+  ogImage: "/siwa-oasis-sunset-salt-lakes-reflection.avif",
+  ogType: "website",
+  author: "Siwa With Us Team",
+});
 
 export const dynamicParams = false;
 
@@ -117,232 +128,260 @@ function TeamCard({
 ------------------------------------------------------- */
 export default function AboutContent() {
   return (
-    <div className="min-h-screen bg-background">
-      <ClientOnlyNavigation />
+    <>
+      {/* SEO Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "name": "About Siwa With Us",
+            "description": "Learn about our mission to provide authentic desert experiences in Siwa Oasis",
+            "url": "https://www.tamazight-siwa.com/about",
+            "mainEntity": {
+              "@type": "Organization",
+              "name": "Siwa With Us",
+              "foundingDate": "2010",
+              "description": "Leading eco-tourism and cultural heritage tour operator in Siwa Oasis",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Siwa Oasis",
+                "addressRegion": "Matrouh Governorate",
+                "addressCountry": "Egypt"
+              }
+            }
+          })
+        }}
+      />
 
-      {/* -------------------------------------------------------
+      <div className="min-h-screen bg-background">
+        <ClientOnlyNavigation />
+
+        {/* -------------------------------------------------------
          ⭐ HERO Section (Improved: no janky animation)
       ------------------------------------------------------- */}
-      <section className="relative min-h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden py-20 md:py-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-accent/40" />
+        <section className="relative min-h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden py-20 md:py-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-accent/40" />
 
-        <Image
-          src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
-          alt="Siwa Oasis landscape with palm trees and desert"
-          fill
-          className="object-cover"
-          priority
-          quality={85}
-          sizes="100vw"
-        />
+          <Image
+            src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
+            alt="Siwa Oasis landscape with palm trees and desert"
+            fill
+            className="object-cover"
+            priority
+            quality={85}
+            sizes="100vw"
+          />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
-        <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
-          <Motion.Div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-6"
-          >
-            <span className="inline-block px-4 py-2 bg-background/60 backdrop-blur-sm rounded-full text-sm font-medium border border-white/20">
-              Since 2010
-            </span>
-          </Motion.Div>
-
-          <Motion.H1
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            Discover the Heart of Siwa
-          </Motion.H1>
-
-          <Motion.P
-            className="text-xl md:text-2xl max-w-3xl mx-auto text-black"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-          >
-            Where ancient traditions meet sustainable adventures.
-          </Motion.P>
-
-          <div className="mt-12">
-            <Link
-              href="#our-story"
-              className="inline-flex items-center justify-center w-12 h-12 rounded-full border-2 border-white/50 hover:border-white transition-colors"
-              aria-label="Scroll to Our Story"
+          <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
+            <Motion.Div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-6"
             >
-              <span className="block w-2 h-4 border-r-2 border-b-2 border-white rotate-45 translate-y-1/4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+              <span className="inline-block px-4 py-2 bg-background/60 backdrop-blur-sm rounded-full text-sm font-medium border border-white/20">
+                Since 2010
+              </span>
+            </Motion.Div>
 
-      {/* -------------------------------------------------------
+            <Motion.H1
+              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              Discover the Heart of Siwa
+            </Motion.H1>
+
+            <Motion.P
+              className="text-xl md:text-2xl max-w-3xl mx-auto text-black"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+            >
+              Where ancient traditions meet sustainable adventures.
+            </Motion.P>
+
+            <div className="mt-12">
+              <Link
+                href="#our-story"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-full border-2 border-white/50 hover:border-white transition-colors"
+                aria-label="Scroll to Our Story"
+              >
+                <span className="block w-2 h-4 border-r-2 border-b-2 border-white rotate-45 translate-y-1/4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* -------------------------------------------------------
          OUR STORY
       ------------------------------------------------------- */}
-      <section id="our-story" className="py-24 px-4 scroll-mt-20">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <Motion.Div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <span className="text-sm font-medium text-primary mb-3 block">
-              Our Story
-            </span>
+        <section id="our-story" className="py-24 px-4 scroll-mt-20">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <Motion.Div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <span className="text-sm font-medium text-primary mb-3 block">
+                Our Story
+              </span>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
-              Hidden deep in Egypt's<br />
-              <span className="text-primary">far west</span>
-            </h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
+                Hidden deep in Egypt's<br />
+                <span className="text-primary">far west</span>
+              </h2>
 
-            <div className="space-y-6 text-lg text-muted-foreground">
-              <p>
-                Siwa feels like another world — a place where time slows down
-                and life follows the rhythm of nature.
-              </p>
+              <div className="space-y-6 text-lg text-muted-foreground">
+                <p>
+                  Siwa feels like another world — a place where time slows down
+                  and life follows the rhythm of nature.
+                </p>
 
-              <h3 className="text-2xl font-bold text-foreground mt-8 mb-4">
-                My Journey to Siwa
-              </h3>
+                <h3 className="text-2xl font-bold text-foreground mt-8 mb-4">
+                  My Journey to Siwa
+                </h3>
 
-              <p>
-                Coming here felt like stepping into a dream — pure, alive, and
-                timeless.
-              </p>
+                <p>
+                  Coming here felt like stepping into a dream — pure, alive, and
+                  timeless.
+                </p>
 
-              <p>
-                With time, Siwa became more than a destination — it became a way
-                of life.
-              </p>
+                <p>
+                  With time, Siwa became more than a destination — it became a way
+                  of life.
+                </p>
 
-              <p className="text-xl font-semibold text-primary italic">
-                From Siwa to the world: live slowly, love deeply, and find peace
-                in the desert.
-              </p>
-            </div>
+                <p className="text-xl font-semibold text-primary italic">
+                  From Siwa to the world: live slowly, love deeply, and find peace
+                  in the desert.
+                </p>
+              </div>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/tours"
-                className="group relative inline-flex items-center px-8 py-3.5 font-semibold rounded-xl text-white bg-gradient-to-r from-primary to-accent shadow-lg hover:-translate-y-1 transition-all"
-              >
-                Explore Our Tours
-              </Link>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link
+                  href="/tours"
+                  className="group relative inline-flex items-center px-8 py-3.5 font-semibold rounded-xl text-white bg-gradient-to-r from-primary to-accent shadow-lg hover:-translate-y-1 transition-all"
+                >
+                  Explore Our Tours
+                </Link>
 
-              <Link
-                href="/contact"
-                className="px-8 py-3.5 font-semibold rounded-xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all"
-              >
-                Contact Us
-              </Link>
-            </div>
-          </Motion.Div>
+                <Link
+                  href="/contact"
+                  className="px-8 py-3.5 font-semibold rounded-xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all"
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </Motion.Div>
 
-          <Motion.Div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="relative"
-          >
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="/Siwa/WhatsApp Image 2025-10-11 at 14.22.17_134bc8e1.jpg"
-                alt="People in Siwa Oasis desert"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                loading="lazy"
-                quality={85}
-              />
-            </div>
-          </Motion.Div>
-        </div>
-      </section>
+            <Motion.Div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="relative"
+            >
+              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/Siwa/WhatsApp Image 2025-10-11 at 14.22.17_134bc8e1.jpg"
+                  alt="People in Siwa Oasis desert"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
+                  quality={85}
+                />
+              </div>
+            </Motion.Div>
+          </div>
+        </section>
 
-      {/* -------------------------------------------------------
+        {/* -------------------------------------------------------
          VALUES
       ------------------------------------------------------- */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Our Values
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Every journey with us is guided by principles that honor both our
-              guests and our homeland.
-            </p>
-          </div>
+        <section className="py-20 bg-muted/30">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-foreground mb-4">
+                Our Values
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Every journey with us is guided by principles that honor both our
+                guests and our homeland.
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <ValueCard
-              icon={Leaf}
-              title="Sustainability"
-              description="Protecting Siwa's fragile ecosystem through responsible tourism."
-            />
-            <ValueCard
-              icon={Heart}
-              title="Authenticity"
-              description="Connecting you with real Siwan culture and traditions."
-            />
-            <ValueCard
-              icon={Users}
-              title="Community"
-              description="Supporting local families and traditional livelihoods."
-            />
-            <ValueCard
-              icon={Award}
-              title="Excellence"
-              description="Delivering unforgettable experiences with care."
-            />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <ValueCard
+                icon={Leaf}
+                title="Sustainability"
+                description="Protecting Siwa's fragile ecosystem through responsible tourism."
+              />
+              <ValueCard
+                icon={Heart}
+                title="Authenticity"
+                description="Connecting you with real Siwan culture and traditions."
+              />
+              <ValueCard
+                icon={Users}
+                title="Community"
+                description="Supporting local families and traditional livelihoods."
+              />
+              <ValueCard
+                icon={Award}
+                title="Excellence"
+                description="Delivering unforgettable experiences with care."
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* -------------------------------------------------------
+        {/* -------------------------------------------------------
          TEAM
       ------------------------------------------------------- */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Meet Our Team
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Local experts passionate about sharing the magic of Siwa Oasis.
-            </p>
-          </div>
+        <section className="py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-foreground mb-4">
+                Meet Our Team
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Local experts passionate about sharing the magic of Siwa Oasis.
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <TeamCard
-              icon={Users}
-              name="Ahmed Al-Siwi"
-              role="Founder & Head Guide"
-              bio="Born and raised in Siwa with 15+ years of experience."
-            />
-            <TeamCard
-              icon={MapPin}
-              name="Fatima Amazigh"
-              role="Cultural Specialist"
-              bio="A keeper of Siwan traditions ensuring authentic experiences."
-            />
-            <TeamCard
-              icon={Clock}
-              name="Omar Desert"
-              role="Adventure Coordinator"
-              bio="Expert in desert navigation and expedition safety."
-            />
+            <div className="grid md:grid-cols-3 gap-8">
+              <TeamCard
+                icon={Users}
+                name="Ahmed Al-Siwi"
+                role="Founder & Head Guide"
+                bio="Born and raised in Siwa with 15+ years of experience."
+              />
+              <TeamCard
+                icon={MapPin}
+                name="Fatima Amazigh"
+                role="Cultural Specialist"
+                bio="A keeper of Siwan traditions ensuring authentic experiences."
+              />
+              <TeamCard
+                icon={Clock}
+                name="Omar Desert"
+                role="Adventure Coordinator"
+                bio="Expert in desert navigation and expedition safety."
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 }

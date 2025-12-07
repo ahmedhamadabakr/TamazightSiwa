@@ -2,10 +2,10 @@
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { Clock, Users, Star, User } from "lucide-react"
+import { Clock, Users, Star } from "lucide-react"
 import Link from "next/link"
-import {BookingForm} from "@/components/BookingForm"
-import {TourReviews} from "@/components/tour/TourReviews"
+import { BookingForm } from "@/components/BookingForm"
+import { TourReviews } from "@/components/tour/TourReviews"
 import { TourBreadcrumbs } from "@/components/tour/TourBreadcrumbs"
 
 // ======== SEO ==========
