@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const passwordStrength = validatePasswordStrength(password, [name, email]);
+    const passwordStrength = await validatePasswordStrength(password, [name, email]);
     if (!passwordStrength.isValid) {
       return NextResponse.json(
         {
