@@ -1,17 +1,17 @@
 interface BookingEmailData {
-  customerName: string
-  bookingReference: string
-  tourTitle: string
-  destination: string
-  startDate: string
-  endDate: string
-  travelers: number
-  totalAmount: number
-  specialRequests?: string
+    customerName: string
+    bookingReference: string
+    tourTitle: string
+    destination: string
+    startDate: string
+    endDate: string
+    travelers: number
+    totalAmount: number
+    specialRequests?: string
 }
 
 export function generateBookingConfirmationEmail(data: BookingEmailData): string {
-  return `
+    return `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
@@ -193,7 +193,7 @@ export function generateBookingConfirmationEmail(data: BookingEmailData): string
             <p>In case of any inquiries, please contact us</p>
             <br>
             <p>Thank you for choosing our services</p>
-            <p>For inquiries: 966501234567+ | info@example.com</p>
+            <p>For inquiries: +20 155 262 4123 | info@example.com</p>
         </div>
     </div>
 </body>
@@ -202,12 +202,12 @@ export function generateBookingConfirmationEmail(data: BookingEmailData): string
 }
 
 export function generateBookingCancellationEmail(data: {
-  customerName: string
-  bookingReference: string
-  tourTitle: string
-  refundAmount?: number
+    customerName: string
+    bookingReference: string
+    tourTitle: string
+    refundAmount?: number
 }): string {
-  return `
+    return `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
@@ -289,7 +289,7 @@ export function generateBookingCancellationEmail(data: {
 
         <div class="footer">
             <p>Thank you for choosing our services</p>
-            <p>For inquiries: 966501234567+ | info@example.com</p>
+            <p>For inquiries: +20 155 262 4123 | info@example.com</p>
         </div>
     </div>
 </body>

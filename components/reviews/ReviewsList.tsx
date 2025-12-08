@@ -13,11 +13,11 @@ interface ReviewsListProps {
   showFilters?: boolean
 }
 
-export function ReviewsList({ 
-  tourId, 
-  currentUserId, 
-  initialReviews = [], 
-  showFilters = true 
+export function ReviewsList({
+  tourId,
+  currentUserId,
+  initialReviews = [],
+  showFilters = true
 }: ReviewsListProps) {
   const [reviews, setReviews] = useState<Review[]>(initialReviews)
   const [loading, setLoading] = useState(false)
@@ -86,8 +86,8 @@ export function ReviewsList({
       const data = await response.json()
       if (data.success) {
         // Update the review in the list
-        setReviews(prev => prev.map(review => 
-          review._id === reviewId 
+        setReviews(prev => prev.map(review =>
+          review._id === reviewId
             ? { ...review, helpful: data.data.helpful, helpfulVotes: data.data.helpfulVotes }
             : review
         ))
@@ -98,7 +98,7 @@ export function ReviewsList({
   }
 
   const formatDate = (date: string | Date) => {
-    return new Date(date).toLocaleDateString('ar-EG', {
+    return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -221,7 +221,7 @@ export function ReviewsList({
                     </div>
                   )}
                 </div>
-                
+
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium text-gray-900">
@@ -234,17 +234,16 @@ export function ReviewsList({
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
                     <div className="flex">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Star
                           key={star}
-                          className={`w-4 h-4 ${
-                            star <= review.rating
+                          className={`w-4 h-4 ${star <= review.rating
                               ? 'fill-yellow-400 text-yellow-400'
                               : 'text-gray-300'
-                          }`}
+                            }`}
                         />
                       ))}
                     </div>
@@ -285,11 +284,10 @@ export function ReviewsList({
               <button
                 onClick={() => handleHelpfulVote(review._id!)}
                 disabled={!currentUserId || review.helpfulVotes?.includes(currentUserId)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-md text-sm transition-colors ${
-                  review.helpfulVotes?.includes(currentUserId || '')
+                className={`flex items-center gap-2 px-3 py-1 rounded-md text-sm transition-colors ${review.helpfulVotes?.includes(currentUserId || '')
                     ? 'bg-blue-100 text-blue-700'
                     : 'text-gray-600 hover:bg-gray-100'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <ThumbsUp className="w-4 h-4" />
                 Helpful ({review.helpful || 0})

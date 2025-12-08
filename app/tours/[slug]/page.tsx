@@ -2,11 +2,13 @@
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { Clock, Users, Star } from "lucide-react"
+import { Clock, Users, Star, MapPin, Calendar, User, Tag, Map } from "lucide-react"
 import Link from "next/link"
 import { BookingForm } from "@/components/BookingForm"
 import { TourReviews } from "@/components/tour/TourReviews"
 import { TourBreadcrumbs } from "@/components/tour/TourBreadcrumbs"
+import { Skeleton } from "@/components/ui/skeleton"
+import Script from "next/script"
 
 // ======== SEO ==========
 export async function generateMetadata({ params }: any) {
@@ -20,13 +22,63 @@ export async function generateMetadata({ params }: any) {
 
   const { data } = await res.json()
 
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/tours/${data.slug || slug}`
+  const description = data.description?.slice(0, 155) + (data.description?.length > 155 ? '...' : '')
+  const images = data.images?.length ?
+    data.images.map((img: string) => ({
+      url: img.includes('http') ? img : `${process.env.NEXT_PUBLIC_DOMAIN}${img}`,
+      width: 1200,
+      height: 630,
+      alt: data.title
+    })) : []
+
   return {
-    title: `${data.title} | Tamazight Siwa`,
-    description: data.description?.slice(0, 160),
+    title: `${data.title} | Tamazight Siwa Tours`,
+    description: description,
+    keywords: [
+      'Tamazight Siwa',
+      'Siwa tours',
+      'Egypt travel',
+      'desert tours',
+      'cultural experiences',
+      data.title,
+      ...(data.tags || []),
+      ...(data.highlights || [])
+    ].filter(Boolean).join(', '),
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: data.title,
-      description: data.description?.slice(0, 160),
-      images: data.images?.length ? data.images[0] : "",
+      description: description,
+      url: canonicalUrl,
+      siteName: 'Tamazight Siwa',
+      locale: 'en_US',
+      type: 'website',
+      images: images,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.title,
+      description: description,
+      images: images.length ? [images[0]] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    formatDetection: {
+      telephone: true,
+      date: true,
+      address: true,
+      email: true,
     },
   }
 }
@@ -47,11 +99,48 @@ async function getTour(slug: string) {
 export default async function TourDetailsPage({ params }: any) {
   const slug = params.slug
   const tour = await getTour(slug)
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/tours/${tour?.slug || slug}`
 
   if (!tour) return notFound()
 
+  // Generate JSON-LD structured data
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    'name': tour.title,
+    'description': tour.description?.slice(0, 300),
+    'image': tour.images?.length ? tour.images[0] : '',
+    'url': canonicalUrl,
+    'address': {
+      '@type': 'Place',
+      'name': tour.location || 'Siwa Oasis, Egypt'
+    },
+    'offers': {
+      '@type': 'Offer',
+      'price': tour.price,
+      'priceCurrency': 'USD',
+      'availability': 'https://schema.org/InStock',
+      'validFrom': new Date().toISOString().split('T')[0]
+    },
+    'aggregateRating': tour.rating ? {
+      '@type': 'AggregateRating',
+      'ratingValue': tour.rating,
+      'reviewCount': tour.reviews || 0,
+      'bestRating': '5',
+      'worstRating': '1'
+    } : undefined
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" itemScope itemType="https://schema.org/TouristAttraction">
+      {/* Structured Data */}
+      <Script
+        id="tour-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData)
+        }}
+      />
 
       {/* Breadcrumbs */}
       <div className="max-w-5xl mx-auto px-4 pt-4">
@@ -62,25 +151,27 @@ export default async function TourDetailsPage({ params }: any) {
       </div>
 
       {/* HERO */}
-      <header className="relative h-[60vh] overflow-hidden">
-        {tour.images?.length > 0 ? (
-          <Image
-            src={tour.images[0]}
-            alt={tour.title}
-            fill
-            className="object-cover"
-            priority
-            quality={75}
-            sizes="100vw"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-500" />
-        )}
+      <header className="relative h-[60vh] overflow-hidden" itemProp="image" itemScope itemType="https://schema.org/ImageObject">
+        <div className="absolute inset-0">
+          {tour.images?.length > 0 ? (
+            <Image
+              src={tour.images[0]}
+              alt={tour.title}
+              fill
+              className="object-cover"
+              priority
+              quality={80}
+              sizes="100vw"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300" />
+          )}
+        </div>
 
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">{tour.title}</h1>
+          <h1 className="text-4xl md:text-6xl font-bold text-white px-4 text-center" itemProp="name">{tour.title}</h1>
         </div>
       </header>
 
@@ -106,13 +197,13 @@ export default async function TourDetailsPage({ params }: any) {
       </section>
 
       {/* MAIN CONTENT */}
-      <main className="max-w-5xl mx-auto px-4 py-12">
+      <main className="max-w-5xl mx-auto px-4 py-12" itemProp="mainEntityOfPage">
         <div className="flex flex-col md:flex-row gap-8">
 
           {/* LEFT SIDE */}
           <article className="flex-1">
             <h2 className="text-2xl font-bold mb-4">About this tour</h2>
-            <p className="text-muted-foreground mb-6">{tour.description}</p>
+            <p className="text-muted-foreground mb-6" itemProp="description">{tour.description}</p>
 
             <h3 className="font-semibold mb-2">Tour Highlights:</h3>
             <ul className="flex flex-wrap gap-2 mb-6">
@@ -140,7 +231,10 @@ export default async function TourDetailsPage({ params }: any) {
           </article>
 
           {/* SIDEBAR */}
-          <aside className="w-full md:w-72 p-6 border rounded-lg shadow-md bg-card">
+          <aside className="w-full md:w-72 p-6 border rounded-lg shadow-md bg-card" itemProp="offers" itemScope itemType="https://schema.org/Offer">
+            <meta itemProp="price" content={tour.price.toString()} />
+            <meta itemProp="priceCurrency" content="USD" />
+            <meta itemProp="availability" content="https://schema.org/InStock" />
             <div className="text-3xl font-bold text-primary mb-2">
               ${tour.price}
             </div>
@@ -162,7 +256,25 @@ export default async function TourDetailsPage({ params }: any) {
         </div>
 
         {/* REVIEWS */}
-        <div className="mt-16 border-t pt-16 min-h-[400px]">
+        <div className="mt-16 border-t pt-16" itemProp="review" itemScope itemType="https://schema.org/Review">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-6">Tour Reviews</h2>
+            <div className="space-y-4 max-w-4xl">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="border rounded-lg p-4">
+                  <div className="flex items-center gap-4 mb-2">
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                    <div className="space-y-1">
+                      <Skeleton className="h-4 w-32" />
+                      <Skeleton className="h-3 w-24" />
+                    </div>
+                  </div>
+                  <Skeleton className="h-4 w-full mt-2" />
+                  <Skeleton className="h-4 w-3/4 mt-2" />
+                </div>
+              ))}
+            </div>
+          </div>
           <TourReviews tourId={tour.id} className="max-w-4xl" />
         </div>
       </main>

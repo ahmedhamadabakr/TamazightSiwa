@@ -277,7 +277,7 @@ export default function ManagerDashboard() {
                     </div>
                     <div className="text-left sm:text-right flex-shrink-0">
                       <p className="font-medium text-gray-900">{booking.totalAmount.toLocaleString()} Dollars</p>
-                      <p className="text-sm text-gray-500">{new Date(booking.createdAt).toLocaleDateString('ar-EG')}</p>
+                      <p className="text-sm text-gray-500">{new Date(booking.createdAt).toLocaleDateString('en-US')}</p>
                     </div>
                   </div>
                 ))}

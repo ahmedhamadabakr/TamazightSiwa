@@ -26,7 +26,7 @@ export async function POST(
 
     if (!id || !ObjectId.isValid(id)) {
       return NextResponse.json(
-        { success: false, message: 'Invalid booking ID' }, 
+        { success: false, message: 'Invalid booking ID' },
         { status: 400 }
       )
     }
@@ -374,7 +374,7 @@ function generateBookingEmailHTML(booking: any): string {
         <div class="footer">
           <p><strong>Thank you for choosing us!</strong></p>
           <div class="contact-info">
-            <p>📞 For inquiries: 966501234567+</p>
+            <p>📞 For inquiries: +20 155 262 4123</p>
             <p>📧 Email: tamazight.siwa@gmail.com</p>
             <p>🌐 Website: www.tamazight-siwa.com</p>
           </div>
@@ -438,7 +438,7 @@ Important Notes:
 - We will contact you 24 hours before the tour date
 
 For inquiries:
-Phone: 966501234567+
+Phone: +20 155 262 4123
 Email: tamazight.siwa@gmail.com
 
 Thank you for choosing us!

@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { MotionDiv } from '@/components/Motion'
-import { CheckCircle, Calendar, Users, MapPin, Phone, Mail, Download, ArrowLeft } from 'lucide-react'
+import { CheckCircle, Calendar, Users, MapPin, Phone, Mail, Download, ArrowLeft, MessageSquare } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { toast } from 'sonner'
 import { Navigation } from '@/components/navigation'
+import Head from 'next/head'
 
 interface BookingDetails {
   _id: string
@@ -39,6 +40,36 @@ interface BookingConfirmationProps {
     id: string
   }
 }
+
+// Generate JSON-LD structured data for the booking
+const generateBookingStructuredData = (booking: BookingDetails) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Reservation',
+  'reservationNumber': booking.bookingReference,
+  'reservationStatus': `https://schema.org/Reservation${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}`,
+  'underName': {
+    '@type': 'Person',
+    'name': booking.user.name,
+    'email': booking.user.email,
+    'telephone': booking.user.phone || ''
+  },
+  'reservationFor': {
+    '@type': 'TouristAttraction',
+    'name': booking.tour.title,
+    'description': `Tour to ${booking.tour.destination} for ${booking.tour.duration} days`,
+    'priceRange': '$$',
+    'address': {
+      '@type': 'Place',
+      'name': booking.tour.destination
+    }
+  },
+  'price': booking.totalAmount,
+  'priceCurrency': 'USD',
+  'bookingTime': booking.createdAt,
+  'checkinDate': booking.tour.startDate,
+  'checkoutDate': booking.tour.endDate,
+  'partySize': booking.travelers
+})
 
 export default function BookingConfirmation({ params }: BookingConfirmationProps) {
   const { id: bookingId } = params
@@ -157,8 +188,38 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
     )
   }
 
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/booking-confirmation/${bookingId}`
+  const pageTitle = `Booking Confirmation - ${booking.tour.title} | Tamazight Siwa`
+  const pageDescription = `Your booking for ${booking.tour.title} has been confirmed. Booking reference: ${booking.bookingReference}`
+
   return (
     <>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:site_name" content="Tamazight Siwa" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateBookingStructuredData(booking))
+          }}
+        />
+      </Head>
+
       <Navigation />
       <div className="min-h-screen bg-gray-50 py-8 px-4">
         <div className="max-w-4xl mx-auto">
@@ -185,45 +246,96 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
             <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
               <h2 className="text-xl font-semibold text-white">Booking details</h2>
             </div>
-
             <div className="p-6">
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Tour Information */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Tour Information</h3>
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-bold text-gray-800 pb-2 border-b border-gray-200">
+                      <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">
+                        Tour Information
+                      </span>
+                    </h3>
 
-                  <div className="flex items-start space-x-3 space-x-reverse">
-                    <MapPin className="w-5 h-5 text-blue-600 mt-1" />
-                    <div>
-                      <p className="font-medium text-gray-900">{booking.tour.title}</p>
-                      <p className="text-gray-600">{booking.tour.destination}</p>
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                      <div className="flex items-start space-x-4">
+                        <div className="p-2 bg-blue-50 rounded-lg">
+                          <MapPin className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-500 mb-1">Tour Details</h4>
+                          <p className="text-lg font-semibold text-gray-900">{booking.tour.title}</p>
+                          <p className="text-gray-600 flex items-center mt-1">
+                            <MapPin className="w-4 h-4 mr-1 text-gray-400" />
+                            {booking.tour.destination}
+                          </p>
+                        </div>
+                      </div>
                     </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div className="flex items-start space-x-4">
+                          <div className="p-2 bg-amber-50 rounded-lg">
+                            <Calendar className="w-5 h-5 text-amber-600" />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-medium text-gray-500 mb-1">Tour Date</h4>
+                            <div className="flex flex-col">
+                              <span className="text-gray-900 font-medium">
+                                {new Date(booking.tour.startDate).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                  weekday: 'long'
+                                })}
+                              </span>
+                              <span className="text-gray-500 text-sm">
+                                to {new Date(booking.tour.endDate).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div className="flex items-start space-x-4">
+                          <div className="p-2 bg-purple-50 rounded-lg">
+                            <Users className="w-5 h-5 text-purple-600" />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-medium text-gray-500 mb-1">Travelers</h4>
+                            <p className="text-gray-900 font-medium">
+                              {booking.travelers} {booking.travelers > 1 ? 'People' : 'Person'}
+                            </p>
+                            <p className="text-gray-500 text-sm">
+                              ${booking.tour.price} per person
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {booking.specialRequests && (
+                      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div className="flex items-start space-x-4">
+                          <div className="p-2 bg-emerald-50 rounded-lg">
+                            <MessageSquare className="w-5 h-5 text-emerald-600" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="text-sm font-medium text-gray-500 mb-2">Special Requests</h4>
+                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                              <p className="text-gray-700">{booking.specialRequests}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-
-                  <div className="flex items-center space-x-3 space-x-reverse">
-                    <Calendar className="w-5 h-5 text-blue-600" />
-                    <div>
-                      <p className="font-medium text-gray-900">Tour Date</p>
-                      <p className="text-gray-600">
-                        {new Date(booking.tour.startDate).toLocaleDateString('ar-EG')} - {new Date(booking.tour.endDate).toLocaleDateString('ar-EG')}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-3 space-x-reverse">
-                    <Users className="w-5 h-5 text-blue-600" />
-                    <div>
-                      <p className="font-medium text-gray-900">Number of travelers</p>
-                      <p className="text-gray-600">{booking.travelers} people</p>
-                    </div>
-                  </div>
-
-                  {booking.specialRequests && (
-                    <div>
-                      <p className="font-medium text-gray-900 mb-1">Special Requests</p>
-                      <p className="text-gray-600 bg-gray-50 p-3 rounded-md">{booking.specialRequests}</p>
-                    </div>
-                  )}
                 </div>
 
                 {/* Customer Information */}
@@ -336,7 +448,7 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
               </li>
               <li className="flex items-start">
                 <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                In case of any questions, please contact us at the number: 966501234567+
+                In case of any questions, please contact us at the number: +20 155 262 4123
               </li>
               <li className="flex items-start">
                 <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 ml-3 flex-shrink-0"></span>
