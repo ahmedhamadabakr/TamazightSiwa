@@ -360,7 +360,7 @@ export default function AdminBookings() {
                 {filteredBookings.map((booking) => (
                   <MotionTr
                     key={booking._id}
-                    initial={{ opacity: 0 }}
+                    initial={{ opacity: 1 }}
                     animate={{ opacity: 1 }}
                     className="hover:bg-gray-50"
                   >

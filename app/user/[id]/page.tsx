@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { User, Plane, LogOut } from 'lucide-react'
 import { MotionDiv } from '@/components/Motion'
 import { BookingCard } from '@/components/BookingCard'
+import { Navigation } from '@/components/navigation'
 
 interface User {
   _id: string
@@ -205,6 +206,8 @@ export default function UserDashboard({ params }: UserDashboardProps) {
 
 
   return (
+    <>
+<Navigation />
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
         {/* Sidebar */}
@@ -428,5 +431,7 @@ export default function UserDashboard({ params }: UserDashboardProps) {
   </MotionDiv>
       </div>
     </div>
+    </>
+
   )
 }
