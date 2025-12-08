@@ -346,7 +346,7 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
                     <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
                       <span className="text-white text-xs font-bold">{booking.user.name.charAt(0)}</span>
                     </div>
-                    <div>
+                    <div className='ml-2'>
                       <p className="font-medium text-gray-900">Name</p>
                       <p className="text-gray-600">{booking.user.name}</p>
                     </div>
@@ -354,7 +354,7 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
 
                   <div className="flex items-center space-x-3 space-x-reverse">
                     <Mail className="w-5 h-5 text-blue-600" />
-                    <div>
+                    <div className='ml-2'>
                       <p className="font-medium text-gray-900">Email</p>
                       <p className="text-gray-600">{booking.user.email}</p>
                     </div>
@@ -363,7 +363,7 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
                   {booking.user.phone && (
                     <div className="flex items-center space-x-3 space-x-reverse">
                       <Phone className="w-5 h-5 text-blue-600" />
-                      <div>
+                      <div className='ml-2'>
                         <p className="font-medium text-gray-900">Phone Number</p>
                         <p className="text-gray-600">{booking.user.phone}</p>
                       </div>
