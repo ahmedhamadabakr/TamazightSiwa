@@ -28,21 +28,6 @@ const Footer = dynamic(
   }
 );
 
-const Motion = {
-  Div: dynamic(
-    () => import("framer-motion").then((mod) => mod.motion.div),
-    { ssr: false }
-  ),
-  H1: dynamic(
-    () => import("framer-motion").then((mod) => mod.motion.h1),
-    { ssr: false }
-  ),
-  P: dynamic(
-    () => import("framer-motion").then((mod) => mod.motion.p),
-    { ssr: false }
-  ),
-};
-
 // --------------------- Value Card ---------------------
 function ValueCard({
   icon: Icon,
@@ -54,15 +39,8 @@ function ValueCard({
   description: string;
 }) {
   return (
-    <Motion.Div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -10 }}
-      transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-      viewport={{ once: true, margin: "-100px" }}
-      className="h-full"
-    >
-      <Card className="text-center border-0 shadow-lg h-full group hover:shadow-2xl transition-all duration-300 overflow-hidden bg-background/80 backdrop-blur-sm">
+    <div className="h-full">
+      <Card className="text-center border-0 shadow-lg h-full group hover:shadow-2xl transition-shadow duration-300 overflow-hidden bg-background/80 backdrop-blur-sm">
         <CardContent className="p-6 md:p-8 h-full flex flex-col">
           <div className="w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors duration-300">
             <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
@@ -73,7 +51,7 @@ function ValueCard({
           </p>
         </CardContent>
       </Card>
-    </Motion.Div>
+    </div>
   );
 }
 
@@ -161,34 +139,19 @@ export default function AboutContent() {
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
           <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
-            <Motion.Div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-6"
-            >
+            <div className="mb-6">
               <span className="inline-block px-4 py-2 bg-background/60 backdrop-blur-sm rounded-full text-sm font-medium border border-white/20">
                 Since 2010
               </span>
-            </Motion.Div>
+            </div>
 
-            <Motion.H1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight">
               Discover the Heart of Siwa
-            </Motion.H1>
+            </h1>
 
-            <Motion.P
-              className="text-xl md:text-2xl max-w-3xl mx-auto text-black"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
+            <p className="text-xl md:text-2xl max-w-3xl mx-auto text-black">
               Where ancient traditions meet sustainable adventures.
-            </Motion.P>
+            </p>
 
             <div className="mt-12">
               <Link
@@ -205,12 +168,7 @@ export default function AboutContent() {
         {/* OUR STORY */}
         <section id="our-story" className="py-24 px-4 scroll-mt-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-            <Motion.Div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
+            <div>
               <span className="text-sm font-medium text-primary mb-3 block">
                 Our Story
               </span>
@@ -220,10 +178,17 @@ export default function AboutContent() {
                 <span className="text-primary">far west</span>
               </h2>
 
-              <div className="space-y-6 text-lg text-muted-foreground">
+              <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
                   Siwa feels like another world — a place where time slows down
-                  and life follows the rhythm of nature.
+                  and life follows the rhythm of nature. Surrounded by palm trees,
+                  salt lakes, and golden dunes, Siwa&apos;s spirit is closer to Libya
+                  and Morocco than to any other Egyptian city.
+                </p>
+
+                <p>
+                  Its long isolation preserved a culture of peace, warmth, and deep
+                  connection to the land.
                 </p>
 
                 <h3 className="text-2xl font-bold text-foreground mt-8 mb-4">
@@ -232,17 +197,29 @@ export default function AboutContent() {
 
                 <p>
                   Coming here felt like stepping into a dream — pure, alive, and
-                  timeless.
+                  timeless. From the first moment, I felt at home.
+                </p>
+
+                <p>
+                  Each sunrise brought a new promise, every salt lake carried me in
+                  its calm embrace, and the Great Sand Sea whispered stories beneath
+                  a sky full of stars.
                 </p>
 
                 <p>
                   With time, Siwa became more than a destination — it became a way
-                  of life.
+                  of life. And here, I found love too — the love of nature itself.
                 </p>
 
-                <p className="text-xl font-semibold text-primary italic">
-                  From Siwa to the world: live slowly, love deeply, and find peace
-                  in the desert.
+                <p>
+                  After years of living in Siwa, our dream grew simple yet powerful:
+                  to share this beauty with the world. Through our guesthouse and
+                  tours, we welcome travelers not as visitors, but as friends.
+                </p>
+
+                <p className="text-xl font-semibold text-primary italic mt-8">
+                  From Siwa to the world, our message is simple: Live slowly, love
+                  deeply, and let your heart find peace in the desert.
                 </p>
               </div>
 
@@ -261,15 +238,9 @@ export default function AboutContent() {
                   Contact Us
                 </Link>
               </div>
-            </Motion.Div>
+            </div>
 
-            <Motion.Div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
                 <Image
                   src="/Siwa/WhatsApp Image 2025-10-11 at 14.22.17_134bc8e1.jpg"
@@ -281,7 +252,7 @@ export default function AboutContent() {
                   quality={85}
                 />
               </div>
-            </Motion.Div>
+            </div>
           </div>
         </section>
 
@@ -324,7 +295,7 @@ export default function AboutContent() {
         </section>
 
         {/* TEAM */}
-        <section className="py-20 px-4">
+        {/*  <section className="py-20 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-foreground mb-4">
@@ -338,7 +309,7 @@ export default function AboutContent() {
             <div className="grid md:grid-cols-3 gap-8">
               <TeamCard
                 icon={Users}
-                name="Ahmed Al-Siwi"
+                name="ismai"
                 role="Founder & Head Guide"
                 bio="Born and raised in Siwa with 15+ years of experience."
               />
@@ -357,7 +328,7 @@ export default function AboutContent() {
             </div>
           </div>
         </section>
-
+ */}
         <Footer />
       </div>
     </>
