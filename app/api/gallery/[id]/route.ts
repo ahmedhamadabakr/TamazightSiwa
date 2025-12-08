@@ -5,6 +5,11 @@ import { getServerAuthSession } from '@/lib/server-auth';
 
 import { ObjectId } from 'mongodb';
 
+// Force every request to hit the database and skip any caching layer
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 // GET - Fetch single gallery image
 export async function GET(
   request: NextRequest,

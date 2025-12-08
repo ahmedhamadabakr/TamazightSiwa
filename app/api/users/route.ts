@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 
+// Force every request to hit the database and skip any caching layer
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 // GET all join requests (for admin purposes)
 export async function GET(request: NextRequest) {
   try {
