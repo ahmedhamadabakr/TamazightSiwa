@@ -102,6 +102,8 @@ export function ReviewStats({ stats }: ReviewStatsProps) {
                     <Image
                       src={review.userImage}
                       alt={review.userName}
+                      width={32}
+                      height={32}
                       className="w-8 h-8 rounded-full"
                     />
                   ) : (
