@@ -2,17 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { MotionTr } from '@/components/Motion'
-import { 
-  Search, 
-  Filter, 
-  Eye, 
-  CheckCircle, 
-  XCircle, 
+import {
+  Search,
+  Eye,
+  CheckCircle,
+  XCircle,
   Clock,
   Users,
-  Calendar,
   MapPin,
-  CreditCard,
   Download
 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -29,8 +26,6 @@ interface Booking {
   tour: {
     title: string
     destination: string
-    startDate: string
-    endDate: string
     price: number
   }
   travelers: number
@@ -39,7 +34,6 @@ interface Booking {
   paymentStatus: 'pending' | 'paid' | 'refunded' | 'failed' | 'on-demand'
   bookingReference: string
   specialRequests?: string
-  createdAt: string
 }
 
 interface BookingsListProps {
@@ -95,8 +89,8 @@ export function BookingsList({ limit, showFilters = true, title = "Bookings" }: 
         booking.bookingReference.toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking.user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.tour.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.tour.destination.toLowerCase().includes(searchTerm.toLowerCase())
+        (booking.tour.title?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+        (booking.tour.destination?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
       )
     }
 
@@ -265,7 +259,7 @@ export function BookingsList({ limit, showFilters = true, title = "Bookings" }: 
                 Tour
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                travelers
+                Travelers
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Amount
@@ -289,9 +283,6 @@ export function BookingsList({ limit, showFilters = true, title = "Bookings" }: 
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
                     {booking.bookingReference}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {new Date(booking.createdAt).toLocaleDateString('ar-EG')}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -337,7 +328,7 @@ export function BookingsList({ limit, showFilters = true, title = "Bookings" }: 
                     >
                       <Eye className="w-4 h-4" />
                     </Button>
-                    
+
                     {booking.status === 'pending' && (
                       <Button
                         variant="outline"
@@ -348,7 +339,7 @@ export function BookingsList({ limit, showFilters = true, title = "Bookings" }: 
                         Confirm
                       </Button>
                     )}
-                    
+
                     {(booking.status === 'pending' || booking.status === 'confirmed') && (
                       <Button
                         variant="outline"

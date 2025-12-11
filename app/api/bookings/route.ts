@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     if (process.env.NODE_ENV !== 'development') {
       // Check if we're in build time only in production
       const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-      
+
       if (isBuildTime) {
         return NextResponse.json({
           success: false,
@@ -172,8 +172,6 @@ export async function POST(req: Request) {
         bookingReference,
         tourTitle: tour.title,
         destination: tour.destination,
-        startDate: tour.startDate,
-        endDate: tour.endDate,
         travelers: booking.numberOfTravelers,
         totalAmount: booking.totalAmount,
         specialRequests: booking.specialRequests

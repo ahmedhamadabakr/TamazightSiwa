@@ -134,35 +134,15 @@ export async function POST(request: NextRequest) {
       category,
       featured = false,
       status = 'active',
-      startDate,
-      endDate,
       difficulty = 'Easy',
       groupSize = '',
       highlights = []
     } = body;
 
     // Basic validation
-    if (!title || !description || !duration || !price || !location || !category || !startDate || !endDate) {
+    if (!title || !description || !duration || !price || !location || !category) {
       return NextResponse.json(
-        { success: false, error: 'All fields are required' },
-        { status: 400 }
-      );
-    }
-
-    // Validate dates
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    if (start >= end) {
-      return NextResponse.json(
-        { success: false, error: 'End date must be after start date' },
-        { status: 400 }
-      );
-    }
-
-    if (start < new Date()) {
-      return NextResponse.json(
-        { success: false, error: 'Start date must be in the future' },
+        { success: false, error: 'All required fields must be filled' },
         { status: 400 }
       );
     }
@@ -189,8 +169,6 @@ export async function POST(request: NextRequest) {
       category,
       featured: Boolean(featured),
       status,
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
       difficulty,
       groupSize,
       highlights: Array.isArray(highlights) ? highlights : [highlights].filter(Boolean),

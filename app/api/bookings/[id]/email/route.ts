@@ -80,17 +80,14 @@ export async function POST(
             title: '$tourDetails.title',
             destination: '$tourDetails.destination',
             duration: '$tourDetails.duration',
-            price: '$tourDetails.price',
-            startDate: '$tourDetails.startDate',
-            endDate: '$tourDetails.endDate'
+            price: '$tourDetails.price'
           },
           travelers: '$numberOfTravelers',
           specialRequests: 1,
           totalAmount: 1,
           status: 1,
           paymentStatus: 1,
-          bookingReference: 1,
-          createdAt: 1
+          bookingReference: 1
         }
       }
     ]).toArray()
@@ -157,14 +154,6 @@ export async function POST(
 }
 
 function generateBookingEmailHTML(booking: any): string {
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('ar-EG', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
   const getStatusText = (status: string) => {
     switch (status) {
       case 'confirmed': return 'Confirmed'
@@ -321,14 +310,6 @@ function generateBookingEmailHTML(booking: any): string {
               <span class="info-value">${booking.tour.destination}</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Start Date:</span>
-              <span class="info-value">${formatDate(booking.tour.startDate)}</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">End Date:</span>
-              <span class="info-value">${formatDate(booking.tour.endDate)}</span>
-            </div>
-            <div class="info-row">
               <span class="info-label">Duration:</span>
               <span class="info-value">${booking.tour.duration} days</span>
             </div>
@@ -386,14 +367,6 @@ function generateBookingEmailHTML(booking: any): string {
 }
 
 function generateBookingEmailText(booking: any): string {
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('ar-EG', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
   const getStatusText = (status: string) => {
     switch (status) {
       case 'confirmed': return 'Confirmed'
@@ -420,8 +393,6 @@ Booking Reference: ${booking.bookingReference}
 Tour Details:
 - Tour Name: ${booking.tour.title}
 - Destination: ${booking.tour.destination}
-- Start Date: ${formatDate(booking.tour.startDate)}
-- End Date: ${formatDate(booking.tour.endDate)}
 - Duration: ${booking.tour.duration} days
 - Number of travelers: ${booking.travelers} people
 

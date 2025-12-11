@@ -36,7 +36,7 @@ export async function GET(
 
     // Find the booking with user and tour details
     const matchCondition: any = { _id: new ObjectId(id) }
-    
+
     if (session.user.role !== 'admin' && session.user.role !== 'manager') {
       matchCondition.user = new ObjectId(session.user.id)
     }
@@ -80,9 +80,7 @@ export async function GET(
             title: '$tourDetails.title',
             destination: '$tourDetails.destination',
             duration: '$tourDetails.duration',
-            price: '$tourDetails.price',
-            startDate: '$tourDetails.startDate',
-            endDate: '$tourDetails.endDate'
+            price: '$tourDetails.price'
           },
           travelers: '$numberOfTravelers',
           specialRequests: 1,
@@ -118,7 +116,7 @@ export async function GET(
   } catch (error) {
     console.error('Error generating PDF:', error)
     return NextResponse.json(
-      { success: false, message: 'Error generating PDF' },  
+      { success: false, message: 'Error generating PDF' },
       { status: 500 }
     )
   }

@@ -23,8 +23,6 @@ interface BookingDetails {
     destination: string
     duration: number
     price: number
-    startDate: string
-    endDate: string
   }
   travelers: number
   specialRequests?: string
@@ -65,9 +63,6 @@ const generateBookingStructuredData = (booking: BookingDetails) => ({
   },
   'price': booking.totalAmount,
   'priceCurrency': 'USD',
-  'bookingTime': booking.createdAt,
-  'checkinDate': booking.tour.startDate,
-  'checkoutDate': booking.tour.endDate,
   'partySize': booking.travelers
 })
 
@@ -274,34 +269,6 @@ export default function BookingConfirmation({ params }: BookingConfirmationProps
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
-                        <div className="flex items-start space-x-4">
-                          <div className="p-2 bg-amber-50 rounded-lg">
-                            <Calendar className="w-5 h-5 text-amber-600" />
-                          </div>
-                          <div>
-                            <h4 className="text-sm font-medium text-gray-500 mb-1">Tour Date</h4>
-                            <div className="flex flex-col">
-                              <span className="text-gray-900 font-medium">
-                                {new Date(booking.tour.startDate).toLocaleDateString('en-US', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric',
-                                  weekday: 'long'
-                                })}
-                              </span>
-                              <span className="text-gray-500 text-sm">
-                                to {new Date(booking.tour.endDate).toLocaleDateString('en-US', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric'
-                                })}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
                       <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
                         <div className="flex items-start space-x-4">
                           <div className="p-2 bg-purple-50 rounded-lg">

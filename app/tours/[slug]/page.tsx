@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: any) {
 
   const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/tours/${data.slug || slug}`
   const description = data.description?.slice(0, 155) + (data.description?.length > 155 ? '...' : '')
-  
+
   const images = data.images?.length ?
     data.images.map((img: string) => ({
       url: img.includes('http') ? img : `${process.env.NEXT_PUBLIC_DOMAIN}${img}`,
@@ -135,7 +135,7 @@ export default async function TourDetailsPage({ params }: any) {
       'price': tour.price,
       'priceCurrency': 'USD',
       'availability': 'https://schema.org/InStock',
-      'validFrom': new Date().toISOString().split('T')[0]
+      'validFrom': new Date().toISOString()
     },
     // إضافة التقييم فقط إذا كان موجوداً لتجنب الأخطاء
     ...(tour.reviews > 0 && {
@@ -151,7 +151,7 @@ export default async function TourDetailsPage({ params }: any) {
 
   return (
     <div className="min-h-screen bg-background" itemScope itemType="https://schema.org/TouristAttraction">
-      
+
       {/* حقن السكيما JSON-LD */}
       <Script
         id="tour-structured-data"
@@ -237,13 +237,6 @@ export default async function TourDetailsPage({ params }: any) {
             <dl className="grid grid-cols-2 md:grid-cols-3 gap-6 p-6 bg-slate-50 rounded-xl border">
               <div className="flex flex-col gap-1">
                 <dt className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="w-4 h-4" /> Duration
-                </dt>
-                <dd className="font-medium">{tour.duration} days</dd>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <dt className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Users className="w-4 h-4" /> Group Size
                 </dt>
                 <dd className="font-medium">{tour.groupSize} people</dd>
@@ -254,7 +247,7 @@ export default async function TourDetailsPage({ params }: any) {
                   <Star className="w-4 h-4 text-yellow-500" /> Rating
                 </dt>
                 <dd className="font-medium">
-                  {tour.rating ?? "New"} 
+                  {tour.rating ?? "New"}
                   {tour.reviews ? ` (${tour.reviews} reviews)` : ""}
                 </dd>
               </div>
@@ -267,7 +260,7 @@ export default async function TourDetailsPage({ params }: any) {
               <meta itemProp="price" content={tour.price.toString()} />
               <meta itemProp="priceCurrency" content="USD" />
               <meta itemProp="availability" content="https://schema.org/InStock" />
-              
+
               <div className="flex items-end justify-between mb-6">
                 <div>
                   <span className="text-sm text-muted-foreground">From</span>
@@ -284,9 +277,9 @@ export default async function TourDetailsPage({ params }: any) {
               />
 
               <div className="mt-4 pt-4 border-t text-center">
-                 <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary underline">
-                    Have questions? Contact us
-                 </Link>
+                <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary underline">
+                  Have questions? Contact us
+                </Link>
               </div>
             </div>
           </aside>
@@ -295,7 +288,7 @@ export default async function TourDetailsPage({ params }: any) {
         {/* REVIEWS SECTION with SUSPENSE */}
         <div className="mt-20 border-t pt-12" itemProp="review" itemScope itemType="https://schema.org/Review">
           <h2 className="text-2xl font-bold mb-8">Traveler Reviews</h2>
-          
+
           {/* هنا يكمن السحر لثبات الصفحة CLS */}
           <Suspense fallback={<ReviewsLoading />}>
             <TourReviews tourId={tour.id} className="max-w-4xl" />

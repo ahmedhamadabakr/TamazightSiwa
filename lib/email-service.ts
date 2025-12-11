@@ -5,8 +5,6 @@ interface BookingEmailData {
   bookingReference: string
   tourTitle: string
   destination: string
-  startDate: string
-  endDate: string
   travelers: number
   totalAmount: number
   specialRequests?: string
@@ -167,14 +165,6 @@ export async function sendBookingConfirmationEmail(
               <span class="info-value">${bookingData.destination}</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Start Date:</span>
-              <span class="info-value">${formatDate(bookingData.startDate)}</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">End Date:</span>
-              <span class="info-value">${formatDate(bookingData.endDate)}</span>
-            </div>
-            <div class="info-row">
               <span class="info-label">Number of People:</span>
               <span class="info-value">${bookingData.travelers} People</span>
             </div>
@@ -224,8 +214,6 @@ Booking Reference: ${bookingData.bookingReference}
 Tour Details:
 - Tour Title: ${bookingData.tourTitle}
 - Destination: ${bookingData.destination}
-- Start Date: ${formatDate(bookingData.startDate)}
-- End Date: ${formatDate(bookingData.endDate)}
 - Number of People: ${bookingData.travelers} People
 
 ${bookingData.specialRequests ? `Special Requests: ${bookingData.specialRequests}` : ''}
@@ -260,14 +248,6 @@ export async function sendBookingCancellationEmail(
   customerEmail: string,
   bookingData: BookingEmailData
 ) {
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
   const emailHtml = `
  <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -414,16 +394,14 @@ export async function sendBookingCancellationEmail(
     <!-- Content -->
     <div class="content">
       <div class="greeting">Hello ${bookingData.customerName},</div>
-      <p>Thank you for choosing our tours! Your booking has been successfully confirmed. Below are the details:</p>
+      <p>We regret to inform you that your booking has been cancelled.</p>
 
       <!-- Tour Details -->
       <div class="section">
-        <div class="section-title">Tour Details</div>
+        <div class="section-title">Cancelled Tour Details</div>
 
         <div class="row"><span class="label">Tour Title:</span> <span class="value">${bookingData.tourTitle}</span></div>
         <div class="row"><span class="label">Destination:</span> <span class="value">${bookingData.destination}</span></div>
-        <div class="row"><span class="label">Start Date:</span> <span class="value">${formatDate(bookingData.startDate)}</span></div>
-        <div class="row"><span class="label">End Date:</span> <span class="value">${formatDate(bookingData.endDate)}</span></div>
         <div class="row"><span class="label">Number of Travelers:</span> <span class="value">${bookingData.travelers}</span></div>
       </div>
 
@@ -440,20 +418,20 @@ export async function sendBookingCancellationEmail(
 
       <!-- Notes -->
       <div class="notes">
-        <h3>Important Notes</h3>
+        <h3>Refund Information</h3>
         <ul>
-          <li>Please keep your booking reference for future use.</li>
-          <li>You can cancel your booking up to 48 hours before the tour date.</li>
-          <li>Our team will contact you 24 hours before the tour begins.</li>
+          <li>Your refund will be processed within 5-7 business days</li>
+          <li>The refund will be credited to your original payment method</li>
+          <li>You will receive a confirmation email once the refund is processed</li>
         </ul>
       </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-      <p><strong>Thank you for choosing Tamazight Siwa!</strong></p>
+      <p><strong>We apologize for any inconvenience caused.</strong></p>
       <p>📞 +20 155 262 4123</p>
-      <p>📧 tamazight.siwa@gmail.com</p>
+      <p>📧 info@tamazight-siwa.com</p>
       <p>🌐 www.tamazight-siwa.com</p>
     </div>
   </div>
@@ -470,8 +448,6 @@ Booking Reference: ${bookingData.bookingReference}
 Cancelled Tour Details:
 - Tour Title: ${bookingData.tourTitle}
 - Destination: ${bookingData.destination}
-- Start Date: ${formatDate(bookingData.startDate)}
-- End Date: ${formatDate(bookingData.endDate)}
 - Number of People: ${bookingData.travelers} People
 
 Refund Information:

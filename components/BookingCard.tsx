@@ -3,13 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { MotionDiv } from '@/components/Motion'
-import { 
-  Calendar, 
-  Users, 
-  MapPin, 
-  CreditCard, 
-  Eye, 
-  X, 
+import {
+  Calendar,
+  Users,
+  MapPin,
+  CreditCard,
+  Eye,
+  X,
   Clock,
   CheckCircle,
   AlertCircle,
@@ -22,14 +22,12 @@ interface BookingCardProps {
   booking: {
     _id: string
     destination: string
-    bookingDate: string
-    startDate: string
-    endDate: string
     price: number
     status: 'pending' | 'confirmed' | 'completed' | 'cancelled'
     paymentStatus: 'pending' | 'paid' | 'refunded' | 'failed' | 'on-demand'
     travelers: number
     bookingReference: string
+    createdAt: string
   }
   onCancel?: (bookingId: string) => void
 }
@@ -110,7 +108,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
       })
 
       const data = await response.json()
-      
+
       if (data.success) {
         toast.success('Booking cancelled successfully')
         if (onCancel) {
@@ -133,9 +131,8 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
     <MotionDiv
       initial={{ opacity: 1, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow ${
-        booking.status === 'cancelled' ? 'opacity-75' : ''
-      }`}
+      className={`bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow ${booking.status === 'cancelled' ? 'opacity-75' : ''
+        }`}
     >
       <div className="p-6">
         {/* Header */}
@@ -149,7 +146,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
               <p className="text-sm text-gray-500">Booking Reference: {booking.bookingReference}</p>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2 space-x-reverse">
             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(booking.status)}`}>
               {getStatusIcon(booking.status)}
@@ -161,25 +158,18 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
         {/* Details Grid */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
-            <Calendar className="w-4 h-4" />
-            <span>Booking Date: {new Date(booking.bookingDate).toLocaleDateString('ar-EG')}</span>
-          </div>
-          
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
             <Users className="w-4 h-4" />
-            <span>{booking.travelers} People</span>
+            <span>{booking.travelers} {booking.travelers === 1 ? 'Person' : 'People'}</span>
           </div>
-          
+
           <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
             <Calendar className="w-4 h-4" />
-            <span>
-              {new Date(booking.startDate).toLocaleDateString('ar-EG')} - {new Date(booking.endDate).toLocaleDateString('ar-EG')}
-            </span>
+            <span>Booked on {new Date(booking.createdAt).toLocaleDateString('en-US')}</span>
           </div>
-          
+
           <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
             <CreditCard className="w-4 h-4" />
-            <span>{getPaymentStatusText(booking.paymentStatus)}</span>
+            <span>Payment: {getPaymentStatusText(booking.paymentStatus)}</span>
           </div>
         </div>
 
@@ -200,7 +190,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
             <Eye className="w-4 h-4 ml-1" />
             View Details
           </Button>
-          
+
           {canCancel && (
             <Button
               variant="outline"
@@ -215,6 +205,6 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
           )}
         </div>
       </div>
-  </MotionDiv>
+    </MotionDiv>
   )
 }

@@ -27,8 +27,6 @@ export default function NewTrip({ params }: NewTripPageProps) {
     difficulty: string;
     highlights: string[];
     images: string[];
-    startDate: string;
-    endDate: string;
   }>({
     title: '',
     description: '',
@@ -40,9 +38,7 @@ export default function NewTrip({ params }: NewTripPageProps) {
     groupSize: '',
     difficulty: 'Easy',
     highlights: [],
-    images: [],
-    startDate: '',
-    endDate: '',
+    images: []
   })
 
   const [images, setImages] = useState<string[]>([])
@@ -207,34 +203,6 @@ export default function NewTrip({ params }: NewTripPageProps) {
               </div>
             </div>
 
-            {/* Start Date / End Date */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="text-sm font-medium text-gray-600 block mb-1">
-                  Start Date
-                </label>
-                <input
-                  type="date"
-                  value={formData.startDate}
-                  onChange={e => setFormData({ ...formData, startDate: e.target.value })}
-                  className="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-gray-600 block mb-1">
-                  End Date
-                </label>
-                <input
-                  type="date"
-                  value={formData.endDate}
-                  onChange={e => setFormData({ ...formData, endDate: e.target.value })}
-                  min={formData.startDate}
-                  className="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
-              </div>
-            </div>
 
             {/* Category & Featured */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">

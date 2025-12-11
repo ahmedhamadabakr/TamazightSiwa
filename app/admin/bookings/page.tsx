@@ -13,7 +13,6 @@ import {
   XCircle,
   Clock,
   Users,
-  Calendar,
   MapPin,
   CreditCard
 } from 'lucide-react'
@@ -31,8 +30,6 @@ interface Booking {
   tour: {
     title: string
     destination: string
-    startDate: string
-    endDate: string
     price: number
   }
   travelers: number
@@ -272,7 +269,7 @@ export default function AdminBookings() {
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-center">
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-blue-600" />
+                <Users className="w-6 h-6 text-blue-600" />
               </div>
               <div className="mr-4">
                 <p className="text-sm text-gray-600">Total Bookings</p>

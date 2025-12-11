@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     if (process.env.NODE_ENV !== 'development') {
       // Check if we're in build time only in production
       const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-      
+
       if (isBuildTime) {
         return NextResponse.json({
           success: false,
@@ -26,7 +26,7 @@ export async function GET(req: Request) {
     }
 
     const session = await getServerSession(authOptions) as any
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { success: false, message: 'Unauthorized' },
@@ -97,9 +97,7 @@ export async function GET(req: Request) {
             title: { $ifNull: ['$tourDetails.title', 'Unknown Tour'] },
             destination: { $ifNull: ['$tourDetails.destination', 'Unknown Destination'] },
             duration: { $ifNull: ['$tourDetails.duration', 0] },
-            price: { $ifNull: ['$tourDetails.price', 0] },
-            startDate: { $ifNull: ['$tourDetails.startDate', new Date()] },
-            endDate: { $ifNull: ['$tourDetails.endDate', new Date()] }
+            price: { $ifNull: ['$tourDetails.price', 0] }
           }
         }
       },

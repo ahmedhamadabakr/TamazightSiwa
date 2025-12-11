@@ -205,6 +205,7 @@ export default async function RootLayout({
             "@type": "LocalBusiness",
             "name": "Tamazight Siwa",
             "image": [
+           
               "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
             ],
             "address": {

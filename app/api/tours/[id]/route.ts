@@ -30,7 +30,7 @@ export async function GET(
 
     const tour = await db.collection('tours').findOne(query);
 
-  
+
 
     if (!tour) {
       return NextResponse.json(
@@ -95,9 +95,7 @@ export async function PUT(
       groupSize,
       highlights,
       featured,
-      status,
-      startDate,
-      endDate
+      status
     } = body;
 
     // Basic validation
@@ -106,19 +104,6 @@ export async function PUT(
         { success: false, error: 'All fields are required' },
         { status: 400 }
       );
-    }
-
-    // Validate dates if provided
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      
-      if (start >= end) {
-        return NextResponse.json(
-          { success: false, error: 'End date must be after start date' },
-          { status: 400 }
-        );
-      }
     }
 
     const updateData: any = {
@@ -137,14 +122,6 @@ export async function PUT(
       status,
       updatedAt: new Date(),
     };
-
-    // Add dates if provided
-    if (startDate) {
-      updateData.startDate = new Date(startDate);
-    }
-    if (endDate) {
-      updateData.endDate = new Date(endDate);
-    }
 
     const result = await db.collection('tours').updateOne(
       { _id: new ObjectId(id) },

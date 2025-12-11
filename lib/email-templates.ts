@@ -3,8 +3,6 @@ interface BookingEmailData {
     bookingReference: string
     tourTitle: string
     destination: string
-    startDate: string
-    endDate: string
     travelers: number
     totalAmount: number
     specialRequests?: string
@@ -153,14 +151,6 @@ export function generateBookingConfirmationEmail(data: BookingEmailData): string
                     <span class="info-value">${data.destination}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Start Date</span>
-                    <span class="info-value">${new Date(data.startDate).toLocaleDateString('ar-EG')}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">End Date</span>
-                    <span class="info-value">${new Date(data.endDate).toLocaleDateString('ar-EG')}</span>
-                </div>
-                <div class="info-item">
                     <span class="info-label">Number of People</span>
                     <span class="info-value">${data.travelers} People</span>
                 </div>
@@ -189,7 +179,7 @@ export function generateBookingConfirmationEmail(data: BookingEmailData): string
         <div class="footer">
             <p><strong>Important Notes:</strong></p>
             <p> Please keep your booking reference for your records</p>
-            <p>You can cancel the booking before 48 hours from the tour date</p>
+            <p>You can cancel your booking if needed</p>
             <p>In case of any inquiries, please contact us</p>
             <br>
             <p>Thank you for choosing our services</p>

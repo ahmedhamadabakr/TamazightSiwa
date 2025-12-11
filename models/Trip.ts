@@ -4,8 +4,6 @@ export interface ITrip {
   _id?: ObjectId;
   destination: string;
   description: string;
-  startDate: Date;
-  endDate: Date;
   price: number;
   maxTravelers: number;
   availableSpots: number;
@@ -20,7 +18,7 @@ export const tripCollectionName = 'trips';
 export const tripSchema = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['destination', 'description', 'startDate', 'endDate', 'price', 'maxTravelers', 'availableSpots'],
+    required: ['destination', 'description', 'price', 'maxTravelers', 'availableSpots'],
     properties: {
       destination: {
         bsonType: 'string',
@@ -29,14 +27,6 @@ export const tripSchema = {
       description: {
         bsonType: 'string',
         description: 'must be a string and is required'
-      },
-      startDate: {
-        bsonType: 'date',
-        description: 'must be a date and is required'
-      },
-      endDate: {
-        bsonType: 'date',
-        description: 'must be a date and is required'
       },
       price: {
         bsonType: 'number',

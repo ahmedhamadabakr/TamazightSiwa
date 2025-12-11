@@ -19,8 +19,6 @@ type Tour = {
     location: string;
     highlights: string[];
     images: string[];
-    startDate: string;
-    endDate: string;
 };
 
 interface EditTourPageProps {
@@ -49,8 +47,6 @@ export default function EditTourPage({ params }: EditTourPageProps) {
         location: '',
         highlights: [],
         images: [],
-        startDate: '',
-        endDate: '',
     });
 
     const [newHighlight, setNewHighlight] = useState('');
@@ -62,7 +58,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
             router.push('/');
         }
     }, [session, router]);
-    
+
     // Fetch tour data
     const fetchTour = useCallback(async () => {
         try {
@@ -82,7 +78,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
                 const data = await res.json();
                 if (data.success && data.data) {
                     const tourData = data.data;
-             
+
                     // معالجة الصور بطريقة شاملة
                     let processedImages: string[] = [];
 
@@ -91,7 +87,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
                     if (tourData.images) {
                         if (Array.isArray(tourData.images)) {
                             // إذا كانت مصفوفة، أضف الصور الصالحة فقط
-                            processedImages = tourData.images.filter((img: string | null | undefined) => 
+                            processedImages = tourData.images.filter((img: string | null | undefined) =>
                                 img && typeof img === 'string' && img.trim() !== ''
                             );
                         } else if (typeof tourData.images === 'string') {
@@ -110,7 +106,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
                         }
                     }
 
-    
+
 
                     setTour({
                         _id: tourData._id || '',
@@ -124,8 +120,6 @@ export default function EditTourPage({ params }: EditTourPageProps) {
                         location: tourData.location || '',
                         highlights: Array.isArray(tourData.highlights) ? tourData.highlights : [],
                         images: processedImages,
-                        startDate: tourData.startDate ? new Date(tourData.startDate).toISOString().split('T')[0] : '',
-                        endDate: tourData.endDate ? new Date(tourData.endDate).toISOString().split('T')[0] : '',
                     });
 
                     setImagePreviews(processedImages);
@@ -181,7 +175,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
         try {
             const newImages: string[] = [];
 
-            for (let i = 0; i <files.length; i++) {
+            for (let i = 0; i < files.length; i++) {
                 const file = files[i];
 
                 // رفع الصورة للخادم
@@ -211,7 +205,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
                         alert(`Failed to upload image: ${errorData.error || 'Server error'}`);
                     }
                 } catch (uploadError) {
-               
+
                     alert('Failed to upload image please try again later');
                 }
             }
@@ -299,379 +293,344 @@ export default function EditTourPage({ params }: EditTourPageProps) {
     return (
         <DashboardLayout>
 
-        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-               
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Basic Information */}
-                    <div className="bg-white shadow rounded-lg">
-                        <div className="px-6 py-4 border-b border-gray-200">
-                            <h2 className="text-lg font-medium text-gray-900">Basic Information</h2>
-                        </div>
-                        <div className="p-6 space-y-6">
-                            <div>
-                                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Tour Title *
-                                </label>
-                                <input
-                                    type="text"
-                                    id="title"
-                                    name="title"
-                                    value={tour.title}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Tour Title"
-                                    required
-                                />
-                            </div>
+            <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-4xl mx-auto">
 
-                            <div>
-                                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Tour Description *
-                                </label>
-                                <textarea
-                                    id="description"
-                                    name="description"
-                                    value={tour.description}
-                                    onChange={handleChange}
-                                    rows={4}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Tour Description"
-                                    required
-                                />
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Basic Information */}
+                        <div className="bg-white shadow rounded-lg">
+                            <div className="px-6 py-4 border-b border-gray-200">
+                                <h2 className="text-lg font-medium text-gray-900">Basic Information</h2>
                             </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="p-6 space-y-6">
                                 <div>
-                                    <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
-                                        <FiClock className="inline w-4 h-4 mr-1" />
-                                        Tour Duration *
+                                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                                        Tour Title *
                                     </label>
                                     <input
                                         type="text"
-                                        id="duration"
-                                        name="duration"
-                                        value={tour.duration}
+                                        id="title"
+                                        name="title"
+                                        value={tour.title}
                                         onChange={handleChange}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="Tour Duration"
+                                        placeholder="Tour Title"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label htmlFor="groupSize" className="block text-sm font-medium text-gray-700 mb-2">
-                                        <FiUsers className="inline w-4 h-4 mr-1" />
-                                        Group Size *
+                                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                                        Tour Description *
                                     </label>
-                                    <input
-                                        type="text"
-                                        id="groupSize"
-                                        name="groupSize"
-                                        value={tour.groupSize}
+                                    <textarea
+                                        id="description"
+                                        name="description"
+                                        value={tour.description}
                                         onChange={handleChange}
+                                        rows={4}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="Group Size"
+                                        placeholder="Tour Description"
                                         required
                                     />
                                 </div>
-                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
-                                        <FiDollarSign className="inline w-4 h-4 mr-1" />
-                                        Tour Price *
-                                    </label>
-                                    <div className="relative">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <FiClock className="inline w-4 h-4 mr-1" />
+                                            Tour Duration *
+                                        </label>
                                         <input
                                             type="text"
-                                            id="price"
-                                            name="price"
-                                            value={tour.price}
+                                            id="duration"
+                                            name="duration"
+                                            value={tour.duration}
                                             onChange={handleChange}
-                                            className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                            placeholder="Tour Price"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Tour Duration"
                                             required
                                         />
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <span className="text-gray-500 text-sm">$</span>
-                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="groupSize" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <FiUsers className="inline w-4 h-4 mr-1" />
+                                            Group Size *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="groupSize"
+                                            name="groupSize"
+                                            value={tour.groupSize}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Group Size"
+                                            required
+                                        />
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Difficulty *
-                                    </label>
-                                    <select
-                                        id="difficulty"
-                                        name="difficulty"
-                                        value={tour.difficulty}
-                                        onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        required
-                                    >
-                                        <option value="Easy">easy</option>
-                                        <option value="Moderate">moderate</option>
-                                        <option value="Challenging">challenging</option>
-                                        <option value="Difficult">difficult</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Category *
-                                    </label>
-                                    <select
-                                        id="category"
-                                        name="category"
-                                        value={tour.category}
-                                        onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        required
-                                    >
-                                        <option value="Cultural">cultural</option>
-                                        <option value="Adventure">adventure</option>
-                                        <option value="Wellness">wellness</option>
-                                        <option value="Nature">nature</option>
-                                        <option value="Luxury">luxury</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
-                                    <FiMapPin className="inline w-4 h-4 mr-1" />
-                                    Location *
-                                </label>
-                                <input
-                                    type="text"
-                                    id="location"
-                                    name="location"
-                                    value={tour.location}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Example: Siwa Oasis, Egypt"
-                                    required
-                                />
-                            </div>
-
-                            {/* Tour Dates */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-2">
-                                        <FiClock className="inline w-4 h-4 mr-1" />
-                                        Tour Start Date *
-                                    </label>
-                                    <input
-                                        type="date"
-                                        id="startDate"
-                                        name="startDate"
-                                        value={tour.startDate}
-                                        onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        required
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-2">
-                                        <FiClock className="inline w-4 h-4 mr-1" />
-                                        Tour End Date *
-                                    </label>
-                                    <input
-                                        type="date"
-                                        id="endDate"
-                                        name="endDate"
-                                        value={tour.endDate}
-                                        onChange={handleChange}
-                                        min={tour.startDate}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        required
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Highlights */}
-                    <div className="bg-white shadow rounded-lg">
-                        <div className="px-6 py-4 border-b border-gray-200">
-                            <h2 className="text-lg font-medium text-gray-900">Tour Highlights</h2>
-                        </div>
-                        <div className="p-6">
-                            <div className="flex gap-2 mb-4">
-                                <input
-                                    type="text"
-                                    value={newHighlight}
-                                    onChange={(e) => setNewHighlight(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddHighlight())}
-                                    placeholder="Add new highlight..."
-                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={handleAddHighlight}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    Add
-                                </button>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2">
-                                {tour.highlights.map((highlight, index) => (
-                                    <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                                        {highlight}
-                                        <button
-                                            type="button"
-                                            onClick={() => handleRemoveHighlight(highlight)}
-                                            className="ml-2 inline-flex items-center justify-center h-4 w-4 rounded-full text-blue-400 hover:bg-blue-200 hover:text-blue-600"
-                                        >
-                                            <FiX size={12} />
-                                        </button>
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Images */}
-                    <div className="bg-white shadow rounded-lg">
-                        <div className="px-6 py-4 border-b border-gray-200">
-                            <h2 className="text-lg font-medium text-gray-900">Tour Images</h2>
-                        </div>
-                        <div className="p-6">
-                            {imagePreviews.length > 0 ? (
-                                <div className="mb-6">
-                                    <div className="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden">
-                                        {imagePreviews[mainImageIndex] ? (
-                                            <Image
-                                                src={imagePreviews[mainImageIndex]}
-                                                alt="Tour Image"
-                                                fill
-                                                className="object-cover"
-                                                priority={false}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <FiDollarSign className="inline w-4 h-4 mr-1" />
+                                            Tour Price *
+                                        </label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                id="price"
+                                                name="price"
+                                                value={tour.price}
+                                                onChange={handleChange}
+                                                className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                placeholder="Tour Price"
+                                                required
                                             />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                                                <div className="text-center">
-                                                    <FiImage className="w-16 h-16 text-gray-400 mx-auto mb-2" />
-                                                    <p className="text-gray-500 text-sm">No image found</p>
-                                                </div>
+                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span className="text-gray-500 text-sm">$</span>
                                             </div>
-                                        )}
-                                    </div>
-
-                                    <div className="flex space-x-2 mt-4 overflow-x-auto pb-2">
-                                        {imagePreviews.map((img, idx) => (
-                                            <div
-                                                key={idx}
-                                                className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${mainImageIndex === idx
-                                                    ? 'ring-2 ring-blue-500 border-blue-500 scale-105'
-                                                    : 'border-gray-200 hover:border-gray-300'
-                                                    }`}
-                                                onClick={() => setMainImageIndex(idx)}
-                                            >
-                                                {img ? (
-                                                    <Image
-                                                        src={img}
-                                                        alt={`Tour Image ${idx + 1}`}
-                                                        fill
-                                                        className="object-cover"
-                                                        sizes="80px"
-                                                    />
-                                                ) : (
-                                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                                        <FiImage className="w-8 h-8 text-gray-400" />
-                                                    </div>
-                                                )}
-
-                                                <button
-                                                    type="button"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleRemoveImage(idx);
-                                                    }}
-                                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 shadow-lg transition-colors"
-                                                >
-                                                    <FiTrash2 className="w-3 h-3" />
-                                                </button>
-
-                                                {/* Image Number */}
-                                                <div className="absolute bottom-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                                                    {idx + 1}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="mb-6">
-                                    <div className="w-full h-64 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
-                                        <div className="text-center">
-                                            <FiImage className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                                            <h3 className="text-lg font-medium text-gray-700 mb-2">No images found</h3>
-                                            <p className="text-gray-500 text-sm">Upload images for the tour to display here</p>
                                         </div>
                                     </div>
-                                </div>
-                            )}
 
-                            <div>
-                                <label className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
-                                    <FiUpload className="mr-2 h-4 w-4" />
-                                    {uploading ? 'Uploading...' : 'Upload Images'}
+                                    <div>
+                                        <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 mb-2">
+                                            Difficulty *
+                                        </label>
+                                        <select
+                                            id="difficulty"
+                                            name="difficulty"
+                                            value={tour.difficulty}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            required
+                                        >
+                                            <option value="Easy">easy</option>
+                                            <option value="Moderate">moderate</option>
+                                            <option value="Challenging">challenging</option>
+                                            <option value="Difficult">difficult</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+                                            Category *
+                                        </label>
+                                        <select
+                                            id="category"
+                                            name="category"
+                                            value={tour.category}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            required
+                                        >
+                                            <option value="Cultural">cultural</option>
+                                            <option value="Adventure">adventure</option>
+                                            <option value="Wellness">wellness</option>
+                                            <option value="Nature">nature</option>
+                                            <option value="Luxury">luxury</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+                                        <FiMapPin className="inline w-4 h-4 mr-1" />
+                                        Location *
+                                    </label>
                                     <input
-                                        type="file"
-                                        className="hidden"
-                                        accept="image/*"
-                                        multiple
-                                        onChange={handleImageChange}
-                                        disabled={uploading}
+                                        type="text"
+                                        id="location"
+                                        name="location"
+                                        value={tour.location}
+                                        onChange={handleChange}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        placeholder="Example: Siwa Oasis, Egypt"
+                                        required
                                     />
-                                </label>
-                                <p className="mt-2 text-xs text-gray-500">
-                                    You can upload multiple images (JPG, PNG). The first image will be the main image.
-                                </p>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
 
-                    {/* Submit Button */}
-                    <div className="flex justify-end space-x-3">
-                        <button
-                            type="button"
-                            onClick={() => router.back()}
-                            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                            disabled={saving || uploading}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-                            disabled={saving || uploading}
-                        >
-                            {saving ? (
-                                <>
-                                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Saving...
-                                </>
-                            ) : (
-                                <>
-                                    <FiSave className="-ml-1 mr-2 h-4 w-4" />
-                                    Save Changes
-                                </>
-                            )}
-                        </button>
-                    </div>
-                </form>
+                        {/* Highlights */}
+                        <div className="bg-white shadow rounded-lg">
+                            <div className="px-6 py-4 border-b border-gray-200">
+                                <h2 className="text-lg font-medium text-gray-900">Tour Highlights</h2>
+                            </div>
+                            <div className="p-6">
+                                <div className="flex gap-2 mb-4">
+                                    <input
+                                        type="text"
+                                        value={newHighlight}
+                                        onChange={(e) => setNewHighlight(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddHighlight())}
+                                        placeholder="Add new highlight..."
+                                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleAddHighlight}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        Add
+                                    </button>
+                                </div>
+
+                                <div className="flex flex-wrap gap-2">
+                                    {tour.highlights.map((highlight, index) => (
+                                        <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                            {highlight}
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveHighlight(highlight)}
+                                                className="ml-2 inline-flex items-center justify-center h-4 w-4 rounded-full text-blue-400 hover:bg-blue-200 hover:text-blue-600"
+                                            >
+                                                <FiX size={12} />
+                                            </button>
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Images */}
+                        <div className="bg-white shadow rounded-lg">
+                            <div className="px-6 py-4 border-b border-gray-200">
+                                <h2 className="text-lg font-medium text-gray-900">Tour Images</h2>
+                            </div>
+                            <div className="p-6">
+                                {imagePreviews.length > 0 ? (
+                                    <div className="mb-6">
+                                        <div className="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden">
+                                            {imagePreviews[mainImageIndex] ? (
+                                                <Image
+                                                    src={imagePreviews[mainImageIndex]}
+                                                    alt="Tour Image"
+                                                    fill
+                                                    className="object-cover"
+                                                    priority={false}
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                                    <div className="text-center">
+                                                        <FiImage className="w-16 h-16 text-gray-400 mx-auto mb-2" />
+                                                        <p className="text-gray-500 text-sm">No image found</p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="flex space-x-2 mt-4 overflow-x-auto pb-2">
+                                            {imagePreviews.map((img, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${mainImageIndex === idx
+                                                        ? 'ring-2 ring-blue-500 border-blue-500 scale-105'
+                                                        : 'border-gray-200 hover:border-gray-300'
+                                                        }`}
+                                                    onClick={() => setMainImageIndex(idx)}
+                                                >
+                                                    {img ? (
+                                                        <Image
+                                                            src={img}
+                                                            alt={`Tour Image ${idx + 1}`}
+                                                            fill
+                                                            className="object-cover"
+                                                            sizes="80px"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                                            <FiImage className="w-8 h-8 text-gray-400" />
+                                                        </div>
+                                                    )}
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleRemoveImage(idx);
+                                                        }}
+                                                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 shadow-lg transition-colors"
+                                                    >
+                                                        <FiTrash2 className="w-3 h-3" />
+                                                    </button>
+
+                                                    {/* Image Number */}
+                                                    <div className="absolute bottom-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                                        {idx + 1}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="mb-6">
+                                        <div className="w-full h-64 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
+                                            <div className="text-center">
+                                                <FiImage className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                                                <h3 className="text-lg font-medium text-gray-700 mb-2">No images found</h3>
+                                                <p className="text-gray-500 text-sm">Upload images for the tour to display here</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div>
+                                    <label className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+                                        <FiUpload className="mr-2 h-4 w-4" />
+                                        {uploading ? 'Uploading...' : 'Upload Images'}
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept="image/*"
+                                            multiple
+                                            onChange={handleImageChange}
+                                            disabled={uploading}
+                                        />
+                                    </label>
+                                    <p className="mt-2 text-xs text-gray-500">
+                                        You can upload multiple images (JPG, PNG). The first image will be the main image.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                type="button"
+                                onClick={() => router.back()}
+                                className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                                disabled={saving || uploading}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                                disabled={saving || uploading}
+                            >
+                                {saving ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Saving...
+                                    </>
+                                ) : (
+                                    <>
+                                        <FiSave className="-ml-1 mr-2 h-4 w-4" />
+                                        Save Changes
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
         </DashboardLayout>
     );
 }

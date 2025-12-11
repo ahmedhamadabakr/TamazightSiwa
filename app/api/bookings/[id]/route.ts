@@ -90,7 +90,7 @@ export async function GET(
     if (process.env.NODE_ENV !== 'development') {
       // Check if we're in build time only in production
       const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-      
+
       if (isBuildTime) {
         return NextResponse.json({
           success: false,
@@ -130,7 +130,7 @@ export async function GET(
     // Find the booking with user and tour details
     // Allow admin/manager to see all bookings, regular users only their own
     const matchCondition: any = { _id: new ObjectId(id) }
-    
+
     if (session.user.role !== 'manager') {
       matchCondition.user = new ObjectId(session.user.id)
     }
@@ -174,9 +174,7 @@ export async function GET(
             title: '$tourDetails.title',
             destination: '$tourDetails.destination',
             duration: '$tourDetails.duration',
-            price: '$tourDetails.price',
-            startDate: '$tourDetails.startDate',
-            endDate: '$tourDetails.endDate'
+            price: '$tourDetails.price'
           },
           travelers: '$numberOfTravelers',
           specialRequests: 1,
@@ -184,7 +182,8 @@ export async function GET(
           status: 1,
           paymentStatus: 1,
           bookingReference: 1,
-          createdAt: 1
+          createdAt: 1,
+          updatedAt: 1
         }
       }
     ]).toArray()

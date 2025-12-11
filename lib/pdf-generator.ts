@@ -11,8 +11,6 @@ interface BookingData {
     destination: string
     duration: number
     price: number
-    startDate: string
-    endDate: string
   }
   travelers: number
   specialRequests?: string
@@ -23,29 +21,32 @@ interface BookingData {
   createdAt: string
 }
 
+const getStatusText = (status: string) => {
+  switch (status) {
+    case 'confirmed': return 'Confirmed'
+    case 'pending': return 'Pending'
+    case 'cancelled': return 'Cancelled'
+    case 'completed': return 'Completed'
+    case 'paid': return 'Paid'
+    case 'on-demand': return 'On-demand'
+    case 'refunded': return 'Refunded'
+    case 'failed': return 'Failed'
+    default: return status
+  }
+}
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
 export function generateBookingHTML(booking: BookingData): string {
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'confirmed'
-      case 'pending': return 'pending'
-      case 'cancelled': return 'cancelled'
-      case 'completed': return 'completed'
-      case 'paid': return 'paid'
-      case 'on-demand': return 'on-demand'
-      case 'refunded': return 'refunded'
-      case 'failed': return 'failed'
-      default: return status
-    }
-  }
-
   return `
     <!DOCTYPE html>
     <html dir="rtl" lang="en">
@@ -424,16 +425,6 @@ export function generateBookingHTML(booking: BookingData): string {
               </div>
               
               <div class="info-item">
-                <div class="info-label">Start Date:</div>
-                <div class="info-value">${formatDate(booking.tour.startDate)}</div>
-              </div>
-              
-              <div class="info-item">
-                <div class="info-label">End Date:</div>
-                <div class="info-value">${formatDate(booking.tour.endDate)}</div>
-              </div>
-              
-              <div class="info-item">
                 <div class="info-label">Duration:</div>
                 <div class="info-value">${booking.tour.duration} days</div>
               </div>
@@ -467,20 +458,15 @@ export function generateBookingHTML(booking: BookingData): string {
               <div class="info-item">
                 <div class="info-label">Booking Status:</div>
                 <div class="info-value">
-                  <span class="status-badge status-${booking.status}">${getStatusText(booking.status)}</span>
+                  <span class="status-badge status-${booking.status}">${booking.status}</span>
                 </div>
               </div>
               
               <div class="info-item">
                 <div class="info-label">Payment Status:</div>
                 <div class="info-value">
-                  <span class="status-badge status-${booking.paymentStatus}">${getStatusText(booking.paymentStatus)}</span>
+                  <span class="status-badge status-${booking.paymentStatus}">${booking.paymentStatus}</span>
                 </div>
-              </div>
-              
-              <div class="info-item">
-                <div class="info-label">Booking Date:</div>
-                <div class="info-value">${formatDate(booking.createdAt)}</div>
               </div>
             </div>
           </div>
@@ -531,34 +517,11 @@ export function generateBookingHTML(booking: BookingData): string {
 }
 
 export function generateSimplePDFContent(booking: BookingData): string {
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'Confirmed'
-      case 'pending': return 'Pending'
-      case 'cancelled': return 'Cancelled'
-      case 'completed': return 'Completed'
-      case 'paid': return 'Paid'
-      case 'on-demand': return 'On Demand'
-      case 'refunded': return 'Refunded'
-      case 'failed': return 'Failed'
-      default: return status
-    }
-  }
-
   return `
 BOOKING CONFIRMATION
 ====================
 
 Booking Reference: ${booking.bookingReference}
-Date: ${new Date().toLocaleDateString('en-US')}
 
 CUSTOMER INFORMATION
 --------------------
@@ -570,8 +533,6 @@ TOUR INFORMATION
 ----------------
 Tour Name: ${booking.tour.title}
 Destination: ${booking.tour.destination}
-Start Date: ${formatDate(booking.tour.startDate)}
-End Date: ${formatDate(booking.tour.endDate)}
 Duration: ${booking.tour.duration} days
 Number of Travelers: ${booking.travelers} persons
 
