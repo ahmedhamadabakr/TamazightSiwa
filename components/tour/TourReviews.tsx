@@ -1,18 +1,53 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Star, Plus, MessageSquare } from 'lucide-react'
+import { useState, useEffect, useCallback, memo, useMemo } from 'react'
+import Star from 'lucide-react/dist/esm/icons/star'
+import Plus from 'lucide-react/dist/esm/icons/plus'
+import MessageSquare from 'lucide-react/dist/esm/icons/message-square'
 import { ReviewsList } from '@/components/reviews/ReviewsList'
 import { ReviewStats } from '@/components/reviews/ReviewStats'
 import { ReviewForm } from '@/components/reviews/ReviewForm'
 import { Review, ReviewStats as ReviewStatsType } from '@/models/Review'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface TourReviewsProps {
   tourId: string
   currentUserId?: string
   className?: string
 }
+
+// Memoized ReviewItem component to prevent unnecessary re-renders
+const ReviewItem = memo(({ review }: { review: any }) => (
+  <div className="border-b border-gray-100 py-4">
+    <div className="flex items-center gap-3">
+      <div className="relative w-10 h-10 rounded-full overflow-hidden">
+        <Image
+          src={review.userImage || '/default-avatar.png'}
+          alt={review.userName}
+          width={40}
+          height={40}
+          className="object-cover w-full h-full"
+          priority
+        />
+      </div>
+      <div>
+        <h4 className="font-medium">{review.userName}</h4>
+        <div className="flex items-center gap-1">
+          {[...Array(5)].map((_, i) => (
+            <Star
+              key={i}
+              className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+    <p className="mt-2 text-gray-700">{review.comment}</p>
+  </div>
+))
+
+ReviewItem.displayName = 'ReviewItem';
 
 export function TourReviews({ tourId, currentUserId, className = '' }: TourReviewsProps) {
   const [reviews, setReviews] = useState<Review[]>([])
@@ -86,13 +121,13 @@ export function TourReviews({ tourId, currentUserId, className = '' }: TourRevie
           currentUserId
             ? fetch(`/api/tours/${tourId}/can-review`).then(r => r.json())
             : Promise.resolve({
-                success: true,
-                data: {
-                  canReview: false,
-                  reason: 'not_logged_in',
-                  message: 'Please log in to add a review'
-                }
-              })
+              success: true,
+              data: {
+                canReview: false,
+                reason: 'not_logged_in',
+                message: 'Please log in to add a review'
+              }
+            })
         ])
 
         if (reviewsRes.success) {
@@ -183,12 +218,8 @@ export function TourReviews({ tourId, currentUserId, className = '' }: TourRevie
   return (
     <div className={`space-y-6 ${className}`}>
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <MessageSquare className="h-6 w-6" />
-          Tour Reviews
-        </h2>
-
-        {eligibility?.canReview && !showReviewForm && (
+        <h3 className="text-xl font-semibold">Reviews</h3>
+        {!showReviewForm && (
           <button
             onClick={() => setShowReviewForm(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
@@ -199,111 +230,113 @@ export function TourReviews({ tourId, currentUserId, className = '' }: TourRevie
         )}
       </div>
 
-      {showReviewForm && (
-        <ReviewForm
-          tourId={tourId}
-          onSubmit={handleSubmitReview}
-          onCancel={() => setShowReviewForm(false)}
-          isSubmitting={submitting}
-        />
-      )}
+      <div className="min-h-[300px] transition-all duration-300">
+        {showReviewForm && (
+          <ReviewForm
+            tourId={tourId}
+            onSubmit={handleSubmitReview}
+            onCancel={() => setShowReviewForm(false)}
+            isSubmitting={submitting}
+          />
+        )}
+      </div>
 
-      {eligibility && !eligibility.canReview && !showReviewForm && (
-        <div
-          className={`border rounded-lg p-4 ${
-            eligibility.reason === 'not_logged_in'
+      <div className="min-h-[80px] transition-all duration-300">
+        {eligibility && !eligibility.canReview && !showReviewForm && (
+          <div
+            className={`border rounded-lg p-4 ${eligibility.reason === 'not_logged_in'
               ? 'bg-blue-50 border-blue-200'
               : eligibility.reason === 'already_reviewed'
-              ? 'bg-green-50 border-green-200'
-              : 'bg-yellow-50 border-yellow-200'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            {eligibility.reason === 'not_logged_in' && (
-              <>
-                <MessageSquare className="h-5 w-5 text-blue-600" />
-                <p className="text-blue-800">
-                  <Link href="/login" className="font-medium hover:underline">
-                    Log in
-                  </Link>{' '}
-                  to add a review for this tour
-                </p>
-              </>
-            )}
-
-            {eligibility.reason === 'already_reviewed' && (
-              <>
-                <Star className="h-5 w-5 text-green-600" />
-                <div>
-                  <p className="text-green-800 font-medium">
-                    Thank you! You have already reviewed this tour
-                  </p>
-                  {eligibility.existingReview && (
-                    <p className="text-green-700 text-sm mt-1">
-                      Your review: {eligibility.existingReview.rating} stars -{' '}
-                      {eligibility.existingReview.title}
-                      {eligibility.existingReview.status === 'pending' &&
-                        ' (pending review)'}
-                    </p>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
-      {eligibility?.canReview && (
-        <div
-          className={`border rounded-lg p-4 ${
-            eligibility.hasBooking
-              ? 'bg-green-50 border-green-200'
-              : 'bg-blue-50 border-blue-200'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <Star
-              className={`h-5 w-5 ${
-                eligibility.hasBooking ? 'text-green-600' : 'text-blue-600'
+                ? 'bg-green-50 border-green-200'
+                : 'bg-yellow-50 border-yellow-200'
               }`}
-            />
-            <div>
-              <p
-                className={`font-medium ${
-                  eligibility.hasBooking ? 'text-green-800' : 'text-blue-800'
-                }`}
-              >
-                {eligibility.message}
-              </p>
-
-              {eligibility.hasBooking && eligibility.bookingStatus && (
-                <p className="text-green-700 text-sm mt-1">
-                  Booking status:{' '}
-                  {eligibility.bookingStatus === 'confirmed'
-                    ? 'Confirmed'
-                    : 'Completed'}{' '}
-                  • Your review will be verified
-                </p>
+          >
+            <div className="flex items-center gap-2">
+              {eligibility.reason === 'not_logged_in' && (
+                <>
+                  <MessageSquare className="h-5 w-5 text-blue-600" />
+                  <p className="text-blue-800">
+                    <Link href="/login" className="font-medium hover:underline">
+                      Log in
+                    </Link>{' '}
+                    to add a review for this tour
+                  </p>
+                </>
               )}
 
-              {!eligibility.hasBooking && (
-                <p className="text-blue-700 text-sm mt-1">
-                  You can add a review based on your knowledge of the tour
-                </p>
+              {eligibility.reason === 'already_reviewed' && (
+                <>
+                  <Star className="h-5 w-5 text-green-600" />
+                  <div>
+                    <p className="text-green-800 font-medium">
+                      Thank you! You have already reviewed this tour
+                    </p>
+                    {eligibility.existingReview && (
+                      <p className="text-green-700 text-sm mt-1">
+                        Your review: {eligibility.existingReview.rating} stars -{' '}
+                        {eligibility.existingReview.title}
+                        {eligibility.existingReview.status === 'pending' &&
+                          ' (pending review)'}
+                      </p>
+                    )}
+                  </div>
+                </>
               )}
             </div>
           </div>
+        )}
+
+        {eligibility?.canReview && (
+          <div
+            className={`border rounded-lg p-4 ${eligibility.hasBooking
+              ? 'bg-green-50 border-green-200'
+              : 'bg-blue-50 border-blue-200'
+              }`}
+          >
+            <div className="flex items-center gap-2">
+              <Star
+                className={`h-5 w-5 ${eligibility.hasBooking ? 'text-green-600' : 'text-blue-600'
+                  }`}
+              />
+              <div>
+                <p
+                  className={`font-medium ${eligibility.hasBooking ? 'text-green-800' : 'text-blue-800'
+                    }`}
+                >
+                  {eligibility.message}
+                </p>
+
+                {eligibility.hasBooking && eligibility.bookingStatus && (
+                  <p className="text-green-700 text-sm mt-1">
+                    Booking status:{' '}
+                    {eligibility.bookingStatus === 'confirmed'
+                      ? 'Confirmed'
+                      : 'Completed'}{' '}
+                    • Your review will be verified
+                  </p>
+                )}
+
+                {!eligibility.hasBooking && (
+                  <p className="text-blue-700 text-sm mt-1">
+                    You can add a review based on your knowledge of the tour
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {stats && <ReviewStats stats={stats} />}
+
+        <div className="mt-6">
+          <ReviewsList
+            tourId={tourId}
+            currentUserId={currentUserId}
+            initialReviews={reviews}
+            showFilters={true}
+          />
         </div>
-      )}
-
-      {stats && <ReviewStats stats={stats} />}
-
-      <ReviewsList
-        tourId={tourId}
-        currentUserId={currentUserId}
-        initialReviews={reviews}
-        showFilters={true}
-      />
+      </div>
     </div>
   )
 }
