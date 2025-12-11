@@ -4,7 +4,7 @@ import { ClientOnlyNavigation } from "@/components/ClientOnlyNavigation";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageCircle, Instagram, Facebook } from "lucide-react"; // Added Icons imports just in case
 import Image from "next/image";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { ContactSection } from "@/components/contact-section";
@@ -65,11 +65,12 @@ export default function ContactPage() {
         }}
       />
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background overflow-x-hidden">
         <ClientOnlyNavigation />
 
         {/* Hero Section */}
-        <section className="relative h-auto min-h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden py-16 md:py-0">
+        {/* Adjusted height for mobile and padding */}
+        <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
           <Image
             src="/siwa-oasis-sunset-salt-lakes-reflection.avif"
             alt="Scenic view of Siwa Oasis at sunset with salt lakes"
@@ -78,56 +79,82 @@ export default function ContactPage() {
             priority
             placeholder="blur"
             sizes="100vw"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+            blurDataURL="data:image/jpeg;base64,..." // Keep your existing base64
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/70" />
+          {/* Darker gradient for better text readability on mobile */}
+          <div className="absolute inset-0 bg-black/60 md:bg-black/50" />
+          
           <MotionDiv
-            initial={{ opacity: 1, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative z-10 text-center text-white max-w-4xl mx-auto px-4 w-full"
+            className="relative z-10 text-center text-white w-full max-w-4xl mx-auto px-4 sm:px-6"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 px-4">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
               Contact Us
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl opacity-100 px-4">
-              Ready to start your Siwa adventure? We&apos;re here to help plan your perfect journey
+            <p className="text-base sm:text-lg md:text-2xl opacity-90 max-w-2xl mx-auto leading-relaxed">
+              Ready to start your Siwa adventure? We&apos;re here to help plan your perfect journey.
             </p>
           </MotionDiv>
         </section>
 
-        {/* Contact Section */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-            <MotionDiv initial={{ opacity: 1, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-              <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
-              <p className="text-muted-foreground mb-8">
-                Tell us about your dream Siwa experience and we&apos;ll create the perfect itinerary for you.
-              </p>
-              <ContactSection />
+        {/* Main Content Container */}
+        <section className="py-12 md:py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+            
+            {/* Left Column: Form */}
+            <MotionDiv 
+              initial={{ opacity: 0, x: -20 }} 
+              whileInView={{ opacity: 1, x: 0 }} 
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="w-full"
+            >
+              <div className="mb-8 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3">Send Us a Message</h2>
+                <p className="text-muted-foreground text-sm md:text-base">
+                  Tell us about your dream Siwa experience and we&apos;ll create the perfect itinerary for you.
+                </p>
+              </div>
+              
+              {/* Added card wrapper for better mobile separation */}
+              <div className="bg-card rounded-xl p-0 sm:p-2 md:p-0">
+                 <ContactSection />
+              </div>
             </MotionDiv>
 
-            <MotionDiv initial={{ opacity: 1, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-              <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
-              <p className="text-muted-foreground mb-8">
-                We&apos;re available 24/7 to answer your questions and help you plan your Siwa adventure.
-              </p>
-              <div className="space-y-6">
+            {/* Right Column: Info Cards */}
+            <MotionDiv 
+              initial={{ opacity: 0, x: 20 }} 
+              whileInView={{ opacity: 1, x: 0 }} 
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-8 w-full"
+            >
+              <div className="text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3">Get in Touch</h2>
+                <p className="text-muted-foreground text-sm md:text-base mb-6">
+                  We&apos;re available 24/7 to answer your questions and help you plan your Siwa adventure.
+                </p>
+              </div>
+
+              <div className="space-y-4 md:space-y-6">
                 {[
                   { icon: Phone, title: "Phone & WhatsApp", details: ["+20 155 262 4123"] },
                   { icon: Mail, title: "Email", details: ["tamazight.siwa@gmail.com"] },
                   { icon: MapPin, title: "Location", details: ["Siwa Oasis", "Matrouh, Egypt"] },
                   { icon: Clock, title: "Office Hours", details: ["Daily: 8:00 AM - 10:00 PM", "Emergency: 24/7"] },
                 ].map((item, i) => (
-                  <Card key={i} className="border-0 shadow-lg hover:shadow-xl transition-all">
-                    <CardContent className="p-6 flex gap-4 items-start">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Card key={i} className="border bg-background/50 hover:bg-background shadow-sm hover:shadow-md transition-all duration-300">
+                    <CardContent className="p-4 sm:p-6 flex gap-4 items-start">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                         <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-base sm:text-lg mb-1 sm:mb-2">{item.title}</h3>
                         {item.details.map((d, j) => (
-                          <p key={j} className="text-muted-foreground">{d}</p>
+                          <p key={j} className="text-sm sm:text-base text-muted-foreground break-words">{d}</p>
                         ))}
                       </div>
                     </CardContent>
@@ -139,53 +166,54 @@ export default function ContactPage() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-12 sm:py-16 md:py-20 bg-muted/30">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-              <p className="text-xl text-muted-foreground">Quick answers to common questions about visiting Siwa</p>
+        <section className="py-12 md:py-20 bg-muted/30">
+          <div className="container max-w-4xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-4">Frequently Asked Questions</h2>
+              <p className="text-base md:text-xl text-muted-foreground">Quick answers to common questions about visiting Siwa</p>
             </div>
-            <Accordion type="single" collapsible className="space-y-4">
-              <AccordionItem value="q1">
-                <AccordionTrigger>What&apos;s the best time to visit Siwa?</AccordionTrigger>
-                <AccordionContent>October to April offers the most comfortable weather, 15-25°C. Summer can reach 45°C.</AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="q2">
-                <AccordionTrigger>How do I get to Siwa?</AccordionTrigger>
-                <AccordionContent>Road from Cairo (8h) or Alexandria (5h). We can arrange comfortable transport.</AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="q3">
-                <AccordionTrigger>What should I pack?</AccordionTrigger>
-                <AccordionContent>Light clothing, sun protection, walking shoes, warm layers for nights. Detailed list provided upon booking.</AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="q4">
-                <AccordionTrigger>Are tours family-friendly?</AccordionTrigger>
-                <AccordionContent>Yes, we offer family-friendly activities for all ages, guided by experts.</AccordionContent>
-              </AccordionItem>
+            
+            <Accordion type="single" collapsible className="space-y-3 md:space-y-4">
+              {[
+                  { q: "What's the best time to visit Siwa?", a: "October to April offers the most comfortable weather, 15-25°C. Summer can reach 45°C." },
+                  { q: "How do I get to Siwa?", a: "Road from Cairo (8h) or Alexandria (5h). We can arrange comfortable transport." },
+                  { q: "What should I pack?", a: "Light clothing, sun protection, walking shoes, warm layers for nights. Detailed list provided upon booking." },
+                  { q: "Are tours family-friendly?", a: "Yes, we offer family-friendly activities for all ages, guided by experts." }
+              ].map((faq, index) => (
+                <AccordionItem key={index} value={`q${index + 1}`} className="bg-background px-4 rounded-lg border">
+                  <AccordionTrigger className="text-left text-sm md:text-lg font-medium hover:no-underline py-4">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground text-sm md:text-base pb-4 leading-relaxed">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
             </Accordion>
           </div>
         </section>
 
         {/* Social Media & CTA Section */}
-        <section className="py-20 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Connect With Us</h2>
-            <p className="text-xl text-muted-foreground mb-12">Follow our journey and get instant updates</p>
+        <section className="py-16 md:py-24 px-4 sm:px-6">
+          <div className="max-w-5xl mx-auto text-center">
+            <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6">Connect With Us</h2>
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12">Follow our journey and get instant updates</p>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {/* Grid adjusts from 1 column (mobile) to 3 columns (desktop) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-12">
               {[
-                { name: "WhatsApp", color: "bg-green-500", icon: <MessageCircle className="w-8 h-8 text-white" />, url: "https://wa.me/+201552624123" },
-                { name: "Instagram", color: "bg-gradient-to-r from-pink-500 to-purple-500", icon: <span className="text-white font-bold text-xl">IG</span>, url: "https://instagram.com/tamazight_siwa" },
-                { name: "Facebook", color: "bg-blue-600", icon: <span className="text-white font-bold text-xl">FB</span>, url: "https://facebook.com/tamazight.siwa" },
+                { name: "WhatsApp", color: "bg-[#25D366]", icon: <MessageCircle className="w-8 h-8 text-white" />, url: "https://wa.me/+201552624123" },
+                { name: "Instagram", color: "bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888]", icon: <Instagram className="w-8 h-8 text-white" />, url: "https://instagram.com/tamazight_siwa" },
+                { name: "Facebook", color: "bg-[#1877F2]", icon: <Facebook className="w-8 h-8 text-white" />, url: "https://facebook.com/tamazight.siwa" },
               ].map((social) => (
-                <Card key={social.name} className="group border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-                  <CardContent className="p-8 text-center h-full flex flex-col">
-                    <div className={`w-16 h-16 ${social.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
+                <Card key={social.name} className="group border shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                  <CardContent className="p-6 md:p-8 text-center h-full flex flex-col items-center">
+                    <div className={`w-14 h-14 md:w-16 md:h-16 ${social.color} rounded-full flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md`}>
                       {social.icon}
                     </div>
-                    <h3 className="font-semibold text-lg mb-4">{social.name}</h3>
-                    <Link href={social.url} target="_blank" rel="noopener noreferrer" className="mt-auto inline-block w-full">
-                      <Button variant="outline" className="w-full bg-transparent hover:bg-foreground/5 transition-colors">
+                    <h3 className="font-bold text-lg md:text-xl mb-3">{social.name}</h3>
+                    <Link href={social.url} target="_blank" rel="noopener noreferrer" className="mt-auto w-full">
+                      <Button variant="outline" className="w-full border-primary/20 hover:bg-primary hover:text-white transition-colors">
                         Connect on {social.name}
                       </Button>
                     </Link>
