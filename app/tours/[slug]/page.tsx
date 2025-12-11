@@ -7,6 +7,7 @@ import Script from "next/script"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Users, Star } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { getServerAuthSession } from "@/lib/server-auth"
 
 // Components
 import { BookingForm } from "@/components/BookingForm"
@@ -113,6 +114,7 @@ export async function generateMetadata({ params }: any) {
 export default async function TourDetailsPage({ params }: any) {
   const slug = params.slug
   const tour = await getTour(slug)
+  const session = await getServerAuthSession()
 
   if (!tour) return notFound()
 
@@ -291,7 +293,11 @@ export default async function TourDetailsPage({ params }: any) {
 
           {/* هنا يكمن السحر لثبات الصفحة CLS */}
           <Suspense fallback={<ReviewsLoading />}>
-            <TourReviews tourId={tour.id} className="max-w-4xl" />
+            <TourReviews
+              tourId={tour.id}
+              currentUserId={session?.user?.id}
+              className="max-w-4xl"
+            />
           </Suspense>
         </div>
 
