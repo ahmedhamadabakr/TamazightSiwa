@@ -1,35 +1,59 @@
 // app/tours/[slug]/page.tsx
-import { Suspense } from "react"
+"use client" // keep for client-only components inside dynamic imports where needed
+
+import React, { Suspense } from "react"
+import dynamic from "next/dynamic"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import Script from "next/script"
+
+// UI components (lightweight)
 import { Badge } from "@/components/ui/badge"
-import { Clock, Users, Star } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
+
+// Server helpers
 import { getServerAuthSession } from "@/lib/server-auth"
 
-// Components
-import { BookingForm } from "@/components/BookingForm"
-import { TourReviews } from "@/components/tour/TourReviews"
-import { TourBreadcrumbs } from "@/components/tour/TourBreadcrumbs"
+// Dynamic imports to reduce initial JS bundle (ssr: false where appropriate)
+const BookingForm = dynamic(() => import("@/components/BookingForm"), {
+  ssr: false,
+  loading: () => <Skeleton className="h-48 w-full" />
+})
 
-// ========== 1. DATA FETCHING (Optimized with ISR) ==========
+const TourReviews = dynamic(() => import("@/components/tour/TourReviews"), {
+  ssr: false,
+  loading: () => <div className="max-w-4xl"><Skeleton className="h-20 w-full" /></div>
+})
+
+const TourBreadcrumbs = dynamic(() => import("@/components/tour/TourBreadcrumbs"), {
+  ssr: false
+})
+
+// Dynamic icon imports to avoid pulling whole icon library into client bundle
+const UsersIcon = dynamic(() => import("lucide-react").then(m => m.Users), { ssr: false })
+const StarIcon = dynamic(() => import("lucide-react").then(m => m.Star), { ssr: false })
+
+// ========== 1. DATA FETCHING (Optimized) ==========
 async function getTour(slug: string) {
-  // استخدام revalidate بدلاً من no-store لتسريع الاستجابة (TTFB)
-  // يتم تحديث البيانات كل ساعة (3600 ثانية)
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/tours/${slug}`, {
-    next: { revalidate: 3600 },
-  })
+  // Use server-side caching strategy. Adjust revalidate to suit content volatility.
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/tours/${slug}`, {
+      // ISR: update every 30 minutes (1800s). Use 'force-cache' to serve cached HTML quickly.
+      next: { revalidate: 1800 },
+      // don't specify cache: "no-store" to keep edge/ISR benefits
+    })
 
-  if (!res.ok) return null
-
-  const result = await res.json()
-  return result.success ? result.data : null
+    if (!res.ok) return null
+    const result = await res.json()
+    return result.success ? result.data : null
+  } catch (err) {
+    // gracefully handle fetch errors
+    return null
+  }
 }
 
-// ========== 2. LOADING COMPONENT (For CLS Prevention) ==========
-// هذا المكون يظهر فقط أثناء تحميل المراجعات
+// ========== 2. SMALL LOADING COMPONENT FOR REVIEWS ==========
 const ReviewsLoading = () => (
   <div className="space-y-4 max-w-4xl">
     {[1, 2, 3].map((i) => (
@@ -48,7 +72,7 @@ const ReviewsLoading = () => (
   </div>
 )
 
-// ========== 3. SEO METADATA ==========
+// ========== 3. METADATA (Server) ==========
 export async function generateMetadata({ params }: any) {
   const slug = params.slug
   const data = await getTour(slug)
@@ -56,61 +80,53 @@ export async function generateMetadata({ params }: any) {
   if (!data) return {}
 
   const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/tours/${data.slug || slug}`
-  const description = data.description?.slice(0, 155) + (data.description?.length > 155 ? '...' : '')
+  const shortDescription = data.description ? data.description.slice(0, 160) : ""
 
-  const images = data.images?.length ?
-    data.images.map((img: string) => ({
-      url: img.includes('http') ? img : `${process.env.NEXT_PUBLIC_DOMAIN}${img}`,
-      width: 1200,
-      height: 630,
-      alt: `${data.title} - Siwa Oasis Tour`,
-    })) : []
+  const images = (data.images || []).map((img: string) => ({
+    url: img.includes("http") ? img : `${process.env.NEXT_PUBLIC_DOMAIN}${img}`,
+    width: 1200,
+    height: 630,
+    alt: `${data.title} - Siwa Oasis Tour`,
+  }))
 
   return {
     title: `${data.title} | Tamazight Siwa Tours`,
-    description: description,
+    description: shortDescription,
     keywords: [
-      'Tamazight Siwa',
-      'Siwa Oasis tours',
-      'Egypt desert safari',
-      'Siwa travel guide',
+      "Tamazight Siwa",
+      "Siwa Oasis tours",
+      "Egypt desert safari",
+      "Siwa travel guide",
       data.title,
       ...(data.tags || []),
-      ...(data.highlights || [])
-    ].filter(Boolean).join(', '),
-    alternates: {
-      canonical: canonicalUrl,
-    },
+      ...(data.highlights || []),
+    ]
+      .filter(Boolean)
+      .join(", "),
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title: data.title,
-      description: description,
+      description: shortDescription,
       url: canonicalUrl,
-      siteName: 'Tamazight Siwa',
-      locale: 'en_US',
-      type: 'website',
-      images: images,
+      siteName: "Tamazight Siwa",
+      locale: "en_US",
+      type: "website",
+      images,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: data.title,
-      description: description,
+      description: shortDescription,
       images: images.length ? [images[0]] : [],
     },
     robots: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
     },
   }
 }
 
-// ========== 4. MAIN PAGE COMPONENT ==========
+// ========== 4. PAGE COMPONENT (Refactored & Performance-First) ==========
 export default async function TourDetailsPage({ params }: any) {
   const slug = params.slug
   const tour = await getTour(slug)
@@ -118,74 +134,84 @@ export default async function TourDetailsPage({ params }: any) {
 
   if (!tour) return notFound()
 
-  const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/tours/${tour?.slug || slug}`
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/tours/${tour.slug || slug}`
 
-  // إعداد البيانات المنظمة (Structured Data) بشكل ذكي
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'TouristAttraction', // أو 'Product' إذا كنت تبيع تذاكر مباشرة
-    'name': tour.title,
-    'description': tour.description?.slice(0, 300),
-    'image': tour.images?.length ? tour.images[0] : '',
-    'url': canonicalUrl,
-    'address': {
-      '@type': 'Place',
-      'name': tour.location || 'Siwa Oasis, Egypt'
+  // Structured data assembled on server to avoid client computation
+  const structuredData: Record<string, any> = {
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    name: tour.title,
+    description: tour.description ? tour.description.slice(0, 300) : "",
+    image: tour.images?.length ? (tour.images[0].includes("http") ? tour.images[0] : `${process.env.NEXT_PUBLIC_DOMAIN}${tour.images[0]}`) : "",
+    url: canonicalUrl,
+    address: {
+      "@type": "Place",
+      name: tour.location || "Siwa Oasis, Egypt",
     },
-    'offers': {
-      '@type': 'Offer',
-      'price': tour.price,
-      'priceCurrency': 'USD',
-      'availability': 'https://schema.org/InStock',
-      'validFrom': new Date().toISOString()
+    offers: {
+      "@type": "Offer",
+      price: tour.price,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      validFrom: new Date().toISOString(),
     },
-    // إضافة التقييم فقط إذا كان موجوداً لتجنب الأخطاء
     ...(tour.reviews > 0 && {
-      'aggregateRating': {
-        '@type': 'AggregateRating',
-        'ratingValue': tour.rating,
-        'reviewCount': tour.reviews,
-        'bestRating': '5',
-        'worstRating': '1'
-      }
-    })
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: tour.rating,
+        reviewCount: tour.reviews,
+        bestRating: "5",
+        worstRating: "1",
+      },
+    }),
   }
+
+  // Preload hero image and preconnect domain for faster LCP
+  const heroImageUrl = tour.images?.length ? (tour.images[0].includes("http") ? tour.images[0] : `${process.env.NEXT_PUBLIC_DOMAIN}${tour.images[0]}`) : null
 
   return (
     <div className="min-h-screen bg-background" itemScope itemType="https://schema.org/TouristAttraction">
+      {/* Preconnect & DNS prefetch for domain hosting images/APIs (beforeInteractive) */}
+      <Script
+        id="preconnect"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            <link rel="preconnect" href="${process.env.NEXT_PUBLIC_DOMAIN}" crossorigin>
+            <link rel="dns-prefetch" href="${process.env.NEXT_PUBLIC_DOMAIN}">
+            ${heroImageUrl ? `<link rel="preload" as="image" href="${heroImageUrl}" imagesrcset="${heroImageUrl} 1200w" fetchpriority="high">` : ""}
+          `,
+        }}
+      />
 
-      {/* حقن السكيما JSON-LD */}
+      {/* Inject JSON-LD structured data early */}
       <Script
         id="tour-structured-data"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData)
-        }}
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
       {/* Breadcrumbs */}
       <div className="max-w-5xl mx-auto px-4 pt-4">
-        <TourBreadcrumbs
-          tourTitle={tour.title}
-          tourSlug={tour.slug || slug}
-        />
+        <TourBreadcrumbs tourTitle={tour.title} tourSlug={tour.slug || slug} />
       </div>
 
-      {/* HERO SECTION */}
+      {/* HERO */}
       <header className="relative h-[60vh] overflow-hidden" itemProp="image" itemScope itemType="https://schema.org/ImageObject">
         <div className="absolute inset-0">
-          {tour.images?.length > 0 ? (
+          {heroImageUrl ? (
             <Image
-              src={tour.images[0]}
-              // تحسين النص البديل ليتضمن كلمات مفتاحية جغرافية
+              src={heroImageUrl}
               alt={`${tour.title} - Best tours in Siwa Oasis Egypt`}
               fill
               className="object-cover"
-              priority={true} // مهم جداً للـ LCP
-              quality={85}
+              priority // keep priority for hero image
+              fetchPriority="high"
               sizes="100vw"
+              quality={85}
               placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDA..." // keep a short blur fallback
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300" />
@@ -193,7 +219,8 @@ export default async function TourDetailsPage({ params }: any) {
         </div>
 
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white px-4 text-center drop-shadow-md" itemProp="name">
+          {/* min-h to reduce CLS while webfonts load */}
+          <h1 className="min-h-[72px] text-4xl md:text-6xl font-bold text-white px-4 text-center drop-shadow-md" itemProp="name">
             {tour.title}
           </h1>
         </div>
@@ -203,26 +230,29 @@ export default async function TourDetailsPage({ params }: any) {
       <section className="max-w-5xl mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-4">Gallery</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {tour.images?.slice(1).map((img: string, i: number) => (
-            <div key={i} className="relative h-40 rounded-lg overflow-hidden bg-gray-100">
-              <Image
-                src={img}
-                alt={`${tour.title} gallery image ${i + 1} - Siwa Oasis`}
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-500"
-                sizes="(max-width: 768px) 50vw, 25vw"
-                quality={75}
-              />
-            </div>
-          ))}
+          {(tour.images || []).slice(1).map((img: string, i: number) => {
+            const src = img.includes("http") ? img : `${process.env.NEXT_PUBLIC_DOMAIN}${img}`
+            return (
+              <div key={i} className="relative h-40 rounded-lg overflow-hidden bg-gray-100">
+                <Image
+                  src={src}
+                  alt={`${tour.title} gallery image ${i + 1} - Siwa Oasis`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  quality={75}
+                  loading="lazy" // lazy load gallery images
+                />
+              </div>
+            )
+          })}
         </div>
       </section>
 
-      {/* MAIN CONTENT */}
+      {/* MAIN */}
       <main className="max-w-5xl mx-auto px-4 py-12" itemProp="mainEntityOfPage">
         <div className="flex flex-col md:flex-row gap-8">
-
-          {/* LEFT SIDE: Info */}
+          {/* LEFT: info */}
           <article className="flex-1">
             <h2 className="text-2xl font-bold mb-4">About this tour</h2>
             <p className="text-muted-foreground mb-6 leading-relaxed" itemProp="description">
@@ -231,22 +261,26 @@ export default async function TourDetailsPage({ params }: any) {
 
             <h3 className="font-semibold mb-3">Highlights:</h3>
             <ul className="flex flex-wrap gap-2 mb-8">
-              {tour.highlights?.map((h: string, i: number) => (
-                <li key={i}><Badge variant="secondary" className="px-3 py-1">{h}</Badge></li>
+              {(tour.highlights || []).map((h: string, i: number) => (
+                <li key={i}>
+                  <Badge variant="secondary" className="px-3 py-1">
+                    {h}
+                  </Badge>
+                </li>
               ))}
             </ul>
 
             <dl className="grid grid-cols-2 md:grid-cols-3 gap-6 p-6 bg-slate-50 rounded-xl border">
               <div className="flex flex-col gap-1">
                 <dt className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Users className="w-4 h-4" /> Group Size
+                  <UsersIcon className="w-4 h-4" /> Group Size
                 </dt>
-                <dd className="font-medium">{tour.groupSize} people</dd>
+                <dd className="font-medium">{tour.groupSize ?? "N/A"} people</dd>
               </div>
 
               <div className="flex flex-col gap-1">
                 <dt className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Star className="w-4 h-4 text-yellow-500" /> Rating
+                  <StarIcon className="w-4 h-4" /> Rating
                 </dt>
                 <dd className="font-medium">
                   {tour.rating ?? "New"}
@@ -256,10 +290,10 @@ export default async function TourDetailsPage({ params }: any) {
             </dl>
           </article>
 
-          {/* RIGHT SIDE: Booking Card */}
+          {/* RIGHT: booking */}
           <aside className="w-full md:w-80 h-fit sticky top-24" itemProp="offers" itemScope itemType="https://schema.org/Offer">
             <div className="p-6 border rounded-xl shadow-lg bg-card">
-              <meta itemProp="price" content={tour.price.toString()} />
+              <meta itemProp="price" content={String(tour.price)} />
               <meta itemProp="priceCurrency" content="USD" />
               <meta itemProp="availability" content="https://schema.org/InStock" />
 
@@ -271,12 +305,8 @@ export default async function TourDetailsPage({ params }: any) {
                 <div className="text-sm text-muted-foreground mb-1">per person</div>
               </div>
 
-              <BookingForm
-                tourId={tour.id}
-                tourTitle={tour.title}
-                destination={tour.location}
-                price={tour.price}
-              />
+              {/* BookingForm is lazy-loaded (client) */}
+              <BookingForm tourId={tour.id} tourTitle={tour.title} destination={tour.location} price={tour.price} />
 
               <div className="mt-4 pt-4 border-t text-center">
                 <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary underline">
@@ -287,20 +317,14 @@ export default async function TourDetailsPage({ params }: any) {
           </aside>
         </div>
 
-        {/* REVIEWS SECTION with SUSPENSE */}
+        {/* REVIEWS (suspended) */}
         <div className="mt-20 border-t pt-12" itemProp="review" itemScope itemType="https://schema.org/Review">
           <h2 className="text-2xl font-bold mb-8">Traveler Reviews</h2>
 
-          {/* هنا يكمن السحر لثبات الصفحة CLS */}
           <Suspense fallback={<ReviewsLoading />}>
-            <TourReviews
-              tourId={tour.id}
-              currentUserId={session?.user?.id}
-              className="max-w-4xl"
-            />
+            <TourReviews tourId={tour.id} currentUserId={session?.user?.id} className="max-w-4xl" />
           </Suspense>
         </div>
-
       </main>
     </div>
   )

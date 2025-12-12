@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DashboardLayout } from '@/components/dashboard/sidebar';
+import  DashboardLayout from '@/components/dashboard/sidebar';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Analytics from '@/components/dashboard/analytics';

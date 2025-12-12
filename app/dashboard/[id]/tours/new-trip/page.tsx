@@ -1,6 +1,6 @@
 'use client'
 
-import { DashboardLayout } from '@/components/dashboard/sidebar'
+import  DashboardLayout  from '@/components/dashboard/sidebar'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'

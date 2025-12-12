@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthSession } from '@/hooks/useAuthSession';
 import { FiSave, FiImage, FiX, FiMapPin, FiClock, FiUsers, FiDollarSign, FiUpload, FiTrash2 } from 'react-icons/fi';
-import { DashboardLayout } from '@/components/dashboard/sidebar';
+import  DashboardLayout  from '@/components/dashboard/sidebar';
 import Image from 'next/image';
 
 type Tour = {

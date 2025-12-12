@@ -9,7 +9,7 @@ interface TourBreadcrumbsProps {
   className?: string;
 }
 
-export function TourBreadcrumbs({ tourTitle, tourSlug, className = '' }: TourBreadcrumbsProps) {
+export default function TourBreadcrumbs({ tourTitle, tourSlug, className = '' }: TourBreadcrumbsProps) {
   return (
     <nav className={`flex items-center space-x-2 text-sm text-gray-600 ${className}`} aria-label="Breadcrumb">
       <Link 

@@ -49,7 +49,7 @@ const ReviewItem = memo(({ review }: { review: any }) => (
 
 ReviewItem.displayName = 'ReviewItem';
 
-export function TourReviews({ tourId, currentUserId, className = '' }: TourReviewsProps) {
+export default function TourReviews({ tourId, currentUserId, className = '' }: TourReviewsProps) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [stats, setStats] = useState<ReviewStatsType | null>(null)
   const [loading, setLoading] = useState(true)

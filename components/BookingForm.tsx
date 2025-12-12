@@ -18,7 +18,7 @@ interface BookingFormProps {
   onSuccess?: () => void
 }
 
-export function BookingForm({ tourId, tourTitle, destination, price, onSuccess }: BookingFormProps) {
+export default function BookingForm({ tourId, tourTitle, destination, price, onSuccess }: BookingFormProps) {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)

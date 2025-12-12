@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton"
-import { DashboardLayout } from "@/components/dashboard/sidebar"
+import  DashboardLayout  from "@/components/dashboard/sidebar"
 
 export function UsersLoading() {
   return (
