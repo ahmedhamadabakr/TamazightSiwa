@@ -191,6 +191,8 @@ export default async function RootLayout({
             "@type": "WebSite",
             "name": "Tamazight Siwa",
             "url": "https://www.tamazight-siwa.com",
+            "logo": "https://www.tamazight-siwa.com/logo.png",
+            "image": "https://www.tamazight-siwa.com/logo.png",
             "potentialAction": {
               "@type": "SearchAction",
               "target": "https://www.tamazight-siwa.com/search?q={search_term_string}",
@@ -205,7 +207,7 @@ export default async function RootLayout({
             "@type": "LocalBusiness",
             "name": "Tamazight Siwa",
             "image": [
-           
+
               "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
             ],
             "address": {
