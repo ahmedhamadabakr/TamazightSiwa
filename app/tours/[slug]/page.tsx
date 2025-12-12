@@ -1,7 +1,5 @@
 // app/tours/[slug]/page.tsx
-"use client" // keep for client-only components inside dynamic imports where needed
-
-import React, { Suspense } from "react"
+import { Suspense } from "react"
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import { notFound } from "next/navigation"
@@ -72,61 +70,7 @@ const ReviewsLoading = () => (
   </div>
 )
 
-// ========== 3. METADATA (Server) ==========
-export async function generateMetadata({ params }: any) {
-  const slug = params.slug
-  const data = await getTour(slug)
-
-  if (!data) return {}
-
-  const canonicalUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/tours/${data.slug || slug}`
-  const shortDescription = data.description ? data.description.slice(0, 160) : ""
-
-  const images = (data.images || []).map((img: string) => ({
-    url: img.includes("http") ? img : `${process.env.NEXT_PUBLIC_DOMAIN}${img}`,
-    width: 1200,
-    height: 630,
-    alt: `${data.title} - Siwa Oasis Tour`,
-  }))
-
-  return {
-    title: `${data.title} | Tamazight Siwa Tours`,
-    description: shortDescription,
-    keywords: [
-      "Tamazight Siwa",
-      "Siwa Oasis tours",
-      "Egypt desert safari",
-      "Siwa travel guide",
-      data.title,
-      ...(data.tags || []),
-      ...(data.highlights || []),
-    ]
-      .filter(Boolean)
-      .join(", "),
-    alternates: { canonical: canonicalUrl },
-    openGraph: {
-      title: data.title,
-      description: shortDescription,
-      url: canonicalUrl,
-      siteName: "Tamazight Siwa",
-      locale: "en_US",
-      type: "website",
-      images,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: data.title,
-      description: shortDescription,
-      images: images.length ? [images[0]] : [],
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
-  }
-}
-
-// ========== 4. PAGE COMPONENT (Refactored & Performance-First) ==========
+// ========== 3. PAGE COMPONENT (Refactored & Performance-First) ==========
 export default async function TourDetailsPage({ params }: any) {
   const slug = params.slug
   const tour = await getTour(slug)
