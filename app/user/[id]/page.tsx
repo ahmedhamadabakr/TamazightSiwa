@@ -206,7 +206,7 @@ export default function UserDashboard({ params }: UserDashboardProps) {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="min-h-screen bg-gray-50 py-8 px-4 mt-12">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
           {/* Sidebar */}
           <div className="w-full md:w-64 bg-white rounded-2xl shadow border border-gray-200 p-5">

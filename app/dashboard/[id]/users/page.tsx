@@ -123,9 +123,7 @@ export default function Users() {
   return (
     <DashboardLayout>
       <div className="p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-3">
-          <h1 className="text-xl sm:text-2xl font-bold">User Management</h1>
-        </div>
+    
 
         {/* Filters */}
         <div className="mb-6 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4">

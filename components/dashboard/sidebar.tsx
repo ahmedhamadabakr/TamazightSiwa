@@ -113,7 +113,7 @@ export default function DashboardLayout({ children }: SidebarProps) {
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         } w-64 bg-white border-r border-gray-200 z-30 transition-transform duration-300 ease-in-out flex flex-col md:translate-x-0 md:shadow-none shadow-xl`}
       >
-        <div className="p-6 border-b border-gray-100">
+        <div className="p-6 border-b border-gray-100 ">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-11 h-11 bg-blue-600 text-white rounded-2xl flex items-center justify-center font-extrabold text-lg group-hover:scale-105 transition">
               TS
