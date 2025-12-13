@@ -108,7 +108,7 @@ export default async function RootLayout({
         }} />
 
         {/* Favicon and app icons */}
-        <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+        <link rel="icon" href="/favicon-v2.ico" sizes="48x48" />
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/logo.png" />
         <link rel="manifest" href="/manifest.json" />

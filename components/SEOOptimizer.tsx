@@ -120,7 +120,7 @@ export function generateAdvancedMetadata(config: SEOConfig): Metadata {
     manifest: '/manifest.json',
     icons: {
       icon: [
-        { url: '/favicon.ico', sizes: '32x32' },
+        { url: '/favicon-v2.ico', sizes: '42x42' },
         { url: '/icon.svg', type: 'image/svg+xml' }
       ],
       apple: [
