@@ -1,44 +1,43 @@
-import { NextResponse } from 'next/server'
+
+import { NextResponse } from 'next/server';
 import { getServerAuthSession } from '@/lib/server-auth';
-
-
-
-import { getMongoClient } from '@/lib/mongodb'
-import { ObjectId } from 'mongodb'
-import { bookingCollectionName } from '@/models/Booking'
-import { generateBookingHTML } from '@/lib/pdf-generator'
+import { getMongoClient } from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
+import { bookingCollectionName } from '@/models/Booking';
+import { generateBookingHTML } from '@/lib/pdf-generator';
+import puppeteer from 'puppeteer';
 
 export async function GET(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerAuthSession() as any
+    const session = await getServerAuthSession() as any;
 
     if (!session?.user?.id) {
       return NextResponse.json(
         { success: false, message: 'Unauthorized' },
         { status: 401 }
-      )
+      );
     }
 
-    const { id } = params
+    const { id } = params;
 
     if (!id || !ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: 'Invalid booking ID' },
         { status: 400 }
-      )
+      );
     }
 
-    const client = await getMongoClient()
-    const db = client.db()
+    const client = await getMongoClient();
+    const db = client.db();
 
     // Find the booking with user and tour details
-    const matchCondition: any = { _id: new ObjectId(id) }
+    const matchCondition: any = { _id: new ObjectId(id) };
 
     if (session.user.role !== 'admin' && session.user.role !== 'manager') {
-      matchCondition.user = new ObjectId(session.user.id)
+      matchCondition.user = new ObjectId(session.user.id);
     }
 
     const booking = await db.collection(bookingCollectionName).aggregate([
@@ -91,34 +90,40 @@ export async function GET(
           createdAt: 1
         }
       }
-    ]).toArray()
+    ]).toArray();
 
     if (!booking || booking.length === 0) {
       return NextResponse.json(
         { success: false, message: 'Booking not found' },
         { status: 404 }
-      )
+      );
     }
 
-    const bookingData = booking[0]
+    const bookingData = booking[0];
 
     // Generate HTML content for PDF
-    const htmlContent = generateBookingHTML(bookingData as any)
+    const htmlContent = generateBookingHTML(bookingData as any);
 
-    // Return HTML response that can be converted to PDF
-    return new Response(htmlContent, {
+    // Generate PDF from HTML
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const page = await browser.newPage();
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    const pdfBuffer = await page.pdf({ format: 'A4' });
+    await browser.close();
+
+    // Return PDF response
+    return new Response(pdfBuffer, {
       headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Content-Disposition': `inline; filename="booking-${bookingData.bookingReference}.html"`
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="booking-${bookingData.bookingReference}.pdf"`
       }
-    })
+    });
 
   } catch (error) {
-    console.error('Error generating PDF:', error)
+    console.error('Error generating PDF:', error);
     return NextResponse.json(
       { success: false, message: 'Error generating PDF' },
       { status: 500 }
-    )
+    );
   }
 }
-
