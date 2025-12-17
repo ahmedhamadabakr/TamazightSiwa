@@ -1,3 +1,4 @@
+export const revalidate = 0;
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -230,7 +231,6 @@ export default function ManagerDashboard() {
                 <p className="text-xl sm:text-2xl font-bold text-gray-900">{bookingStats.totalTravelers}</p>
               </div>
             </div>
-          </div>
 
           <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             <div className="flex items-center space-x-3">
