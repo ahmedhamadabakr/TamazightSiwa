@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -48,7 +48,7 @@ export function BookingConfirmationModal({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 left-4 z-10 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
@@ -89,7 +89,7 @@ export function BookingConfirmationModal({
                 initial={{ opacity: 1, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5 }}
-                className="flex items-center space-x-3 space-x-reverse"
+                className="flex items-center space-x-3"
               >
                 <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                   <MapPin className="w-5 h-5 text-blue-600" />
@@ -106,7 +106,7 @@ export function BookingConfirmationModal({
                 transition={{ delay: 0.6 }}
                 className="flex items-center justify-between"
               >
-                <div className="flex items-center space-x-2 space-x-reverse">
+                <div className="flex items-center space-x-2">
                   <Users className="w-5 h-5 text-gray-400" />
                   <span className="text-gray-600">Passengers</span>
                 </div>
@@ -119,11 +119,11 @@ export function BookingConfirmationModal({
                 transition={{ delay: 0.7 }}
                 className="flex items-center justify-between"
               >
-                <div className="flex items-center space-x-2 space-x-reverse">
+                <div className="flex items-center space-x-2">
                   <CreditCard className="w-5 h-5 text-gray-400" />
                   <span className="text-gray-600">Total Amount</span>
                 </div>
-                <span className="font-bold text-blue-600">{bookingData.totalAmount.toLocaleString()} Dollar</span>
+                <span className="font-bold text-blue-600">${bookingData.totalAmount.toLocaleString()}</span>
               </motion.div>
             </div>
 

@@ -137,7 +137,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
       <div className="p-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3 space-x-reverse">
+          <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
               <MapPin className="w-5 h-5 text-blue-600" />
             </div>
@@ -147,27 +147,27 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse">
+          <div className="flex items-center space-x-2">
             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(booking.status)}`}>
               {getStatusIcon(booking.status)}
-              <span className="mr-1">{getStatusText(booking.status)}</span>
+              <span className="ml-1">{getStatusText(booking.status)}</span>
             </span>
           </div>
         </div>
 
         {/* Details Grid */}
         <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
             <Users className="w-4 h-4" />
             <span>{booking.travelers} {booking.travelers === 1 ? 'Person' : 'People'}</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
             <Calendar className="w-4 h-4" />
             <span>Booked on {new Date(booking.createdAt).toLocaleDateString('en-US')}</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
             <CreditCard className="w-4 h-4" />
             <span>Payment: {getPaymentStatusText(booking.paymentStatus)}</span>
           </div>
@@ -176,18 +176,18 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
         {/* Price */}
         <div className="flex items-center justify-between mb-4 pt-4 border-t">
           <span className="text-sm text-gray-600">Total Amount</span>
-          <span className="text-lg font-bold text-blue-600">{booking.price.toLocaleString()} Dollar</span>
+          <span className="text-lg font-bold text-blue-600">${booking.price.toLocaleString()}</span>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center space-x-3 space-x-reverse">
+        <div className="flex items-center space-x-3">
           <Button
             variant="outline"
             size="sm"
             onClick={() => router.push(`/booking-confirmation/${booking._id}`)}
             className="flex items-center"
           >
-            <Eye className="w-4 h-4 ml-1" />
+            <Eye className="w-4 h-4 mr-1" />
             View Details
           </Button>
 
@@ -199,7 +199,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
               disabled={isLoading}
               className="flex items-center text-red-600 hover:text-red-700 hover:bg-red-50"
             >
-              <X className="w-4 h-4 ml-1" />
+              <X className="w-4 h-4 mr-1" />
               {isLoading ? 'Canceling...' : 'Cancel Booking'}
             </Button>
           )}
