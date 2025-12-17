@@ -5,7 +5,6 @@ import { Suspense } from "react"
 import dynamicImport from "next/dynamic"
 import Script from "next/script"
 import { getServerAuthSession } from '@/lib/server-auth'
-import { Cairo } from "next/font/google"
 
 import "./globals.css"
 import Loading from "./loading"
@@ -15,7 +14,6 @@ import { ResourceHints } from "@/components/PerformanceMonitor"
 import { ErrorBoundary } from "@/components/ErrorBoundary"
 
 
-// Dynamic imports للمكونات غير الحرجة - تحميل بعد التفاعل
 const Analytics = dynamicImport(() => import("@vercel/analytics/next").then(m => ({ default: m.Analytics })), {
   ssr: false
 })
@@ -34,10 +32,7 @@ export const metadata: Metadata = generateAdvancedMetadata({
   ogImage: "/siwa-oasis-sunset-salt-lakes-reflection.avif",
   author: "Siwa With Us Team",
   locale: "en_US",
-  alternateLocales: ["ar-EG"]
 })
-
-const cairo = Cairo({ subsets: ["latin"], weight: ["400", "700"], display: "swap" })
 
 export const dynamic = 'force-dynamic'
 
@@ -137,13 +132,10 @@ export default async function RootLayout({
         {/* Open Graph Additional */}
         <meta property="og:site_name" content="Siwa With Us" />
         <meta property="og:locale" content="en_US" />
-        <meta property="og:locale:alternate" content="ar_EG" />
         <meta property="article:author" content="Siwa With Us" />
         <meta property="article:publisher" content="https://www.facebook.com/SiwaWithUs" />
 
         {/* Alternate Language Links - SEO Critical */}
-        <link rel="alternate" hrefLang="en" href="https://www.tamazight-siwa.com/en" />
-        <link rel="alternate" hrefLang="ar" href="https://www.tamazight-siwa.com/ar" />
         <link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
 
         {/* Twitter Additional */}
@@ -161,7 +153,6 @@ export default async function RootLayout({
 
         {/* Canonical and alternate languages */}
         <link rel="canonical" href="https://www.tamazight-siwa.com" />
-        <link rel="alternate" hrefLang="x-default" href="https://www.tamazight-siwa.com" />
 
         {/* JSON-LD Structured Data */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
@@ -181,7 +172,7 @@ export default async function RootLayout({
               "telephone": "+201552624123",
               "contactType": "customer service",
               "areaServed": "EG",
-              "availableLanguage": ["en", "ar"]
+              "availableLanguage": ["en"]
             }]
           })
         }} />
@@ -232,7 +223,7 @@ export default async function RootLayout({
         {/* Resource Hints */}
         <ResourceHints />
       </head>
-      <body className={`${cairo.className} font-cairo antialiased`} suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ZMS386HG6N"
