@@ -1,5 +1,4 @@
 'use client';
-export const revalidate = 0;
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
@@ -35,6 +34,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const [tour, setTour] = useState<Tour>({
         _id: '',
@@ -249,6 +249,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
         }
 
         setSaving(true);
+        setSuccessMessage('');
 
         try {
             const response = await fetch(`/api/tours/${params.tourId}`, {
@@ -266,8 +267,8 @@ export default function EditTourPage({ params }: EditTourPageProps) {
             const data = await response.json();
 
             if (response.ok) {
-                alert('Tour updated successfully');
-                router.push(`/dashboard/${params.id}/tours`);
+                setSuccessMessage('Tour updated successfully!');
+                fetchTour(); // Re-fetch data to show updated info
             } else {
                 throw new Error(data.message || 'Failed to update tour');
             }
@@ -276,6 +277,7 @@ export default function EditTourPage({ params }: EditTourPageProps) {
             alert(error.message || 'Failed to update tour');
         } finally {
             setSaving(false);
+            setTimeout(() => setSuccessMessage(''), 5000);
         }
     };
 
@@ -296,7 +298,11 @@ export default function EditTourPage({ params }: EditTourPageProps) {
 
             <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto">
-
+                    {successMessage && (
+                        <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow-sm">
+                            <p>{successMessage}</p>
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Basic Information */}
                         <div className="bg-white shadow rounded-lg">
