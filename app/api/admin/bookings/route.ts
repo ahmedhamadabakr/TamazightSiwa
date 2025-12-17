@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/auth'
 import { getMongoClient } from '@/lib/mongodb'
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
     // Skip build time check in development

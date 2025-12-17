@@ -39,7 +39,7 @@ const StarIcon = dynamic(() => import("lucide-react").then((m) => m.Star), { ssr
 async function getTour(slug: string) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/tours/${slug}`, {
-      next: { revalidate: 1800 }, // ISR 30 min
+      cache: 'no-store',
     })
 
     if (!res.ok) return null
