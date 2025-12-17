@@ -6,18 +6,36 @@ import {
   SecurityErrorCodes
 } from '@/lib/security';
 import nodemailer from 'nodemailer';
+import { z } from 'zod';
+
+const registerSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters long."),
+  email: z.string().email("Invalid email address."),
+  phone: z.string().optional(),
+  country: z.string().min(1, "Country is required."),
+  password: z.string().min(8, "Password must be at least 8 characters long."),
+});
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const validation = registerSchema.safeParse(body);
 
-    const { name, email, phone, country, password } = body;
-    if (!name || !email || !password || !country) {
+    if (!validation.success) {
       return NextResponse.json(
-        { success: false, error: { code: 'INVALID_INPUT', message: 'All fields are required' } },
+        {
+          success: false,
+          error: {
+            code: 'INVALID_INPUT',
+            message: 'Validation failed',
+            details: validation.error.flatten().fieldErrors,
+          }
+        },
         { status: 400 }
       );
     }
+
+    const { name, email, phone, country, password } = validation.data;
 
     const passwordStrength = await validatePasswordStrength(password, [name, email]);
     if (!passwordStrength.isValid) {
