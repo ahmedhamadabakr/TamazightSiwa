@@ -1,5 +1,5 @@
+'use client';
 export const revalidate = 0;
-'use client'
 
 import  DashboardLayout  from '@/components/dashboard/sidebar'
 import ReviewsManager from '@/components/dashboard/reviews-manager'

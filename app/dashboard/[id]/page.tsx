@@ -1,5 +1,5 @@
-export const revalidate = 0;
 'use client';
+export const revalidate = 0;
 
 import { useEffect, useState } from 'react';
 import  DashboardLayout from '@/components/dashboard/sidebar';
@@ -231,7 +231,7 @@ export default function ManagerDashboard() {
                 <p className="text-xl sm:text-2xl font-bold text-gray-900">{bookingStats.totalTravelers}</p>
               </div>
             </div>
-
+          </div>
           <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">

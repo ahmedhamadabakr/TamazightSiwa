@@ -1,5 +1,5 @@
-export const revalidate = 0;
 'use client';
+export const revalidate = 0;
 
 import { useState, useEffect } from 'react';
 import Head from 'next/head';

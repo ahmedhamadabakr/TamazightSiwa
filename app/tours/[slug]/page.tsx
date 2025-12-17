@@ -57,7 +57,7 @@ export async function generateStaticParams() {
     if (!res.ok) return [];
     const result = await res.json();
     if (result.success && Array.isArray(result.data)) {
-      return result.data.map((tour: { slug: string }) => ({ slug: tour.slug }));
+      return result.data.map((tour: { slug: string }) => tour.slug);
     }
     return [];
   } catch (error) {

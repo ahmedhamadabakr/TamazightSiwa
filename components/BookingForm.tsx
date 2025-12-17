@@ -119,7 +119,7 @@ export default function BookingForm({ tourId, tourTitle, destination, price, onS
     <>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="travelers">Number of travelers (max 5)</Label>
+          <Label htmlFor="travelers">Number of travelers</Label>
           <Input
             id="travelers"
             type="number"
