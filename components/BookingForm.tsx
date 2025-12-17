@@ -1,46 +1,45 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
-import { toast } from 'sonner'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Loader2, CreditCard, User } from "lucide-react"
-import { BookingConfirmationModal } from './BookingConfirmationModal'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { toast } from 'sonner';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2, CreditCard } from "lucide-react";
+import { BookingConfirmationModal } from './BookingConfirmationModal';
 
 interface BookingFormProps {
-  tourId: string
-  tourTitle: string
-  destination: string
-  price: number
-  onSuccess?: () => void
+  tourId: string;
+  tourTitle: string;
+  destination: string;
+  price: number;
+  onSuccess?: () => void;
 }
 
 export default function BookingForm({ tourId, tourTitle, destination, price, onSuccess }: BookingFormProps) {
-  const { data: session, status } = useSession()
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
-  const [travelers, setTravelers] = useState(1)
-  const [specialRequests, setSpecialRequests] = useState('')
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const [bookingData, setBookingData] = useState<any>(null)
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [travelers, setTravelers] = useState(1);
+  const [specialRequests, setSpecialRequests] = useState('');
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [bookingData, setBookingData] = useState<any>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    
+    e.preventDefault();
 
     if (status === 'loading') {
-      toast.error('Checking authentication...')
-      return
+      toast.error('Checking authentication...');
+      return;
     }
 
     if (status === 'unauthenticated' || !session?.user) {
-      toast.error('You must be logged in first')
-      router.push(`/login?callbackUrl=/tours/${tourId}`)
-      return
+      toast.error('You must be logged in first');
+      const callbackUrl = `/tours/${tourId}`;
+      router.push(`/login?callbackUrl=${callbackUrl}`);
+      return;
     }
 
     // Client-side validation
@@ -65,15 +64,14 @@ export default function BookingForm({ tourId, tourTitle, destination, price, onS
       return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
     
     const bookingPayload = {
       tourId,
       numberOfTravelers: travelers,
       specialRequests,
       totalAmount: price * travelers
-    }
-    
+    };
     
     try {
       const response = await fetch('/api/bookings', {
@@ -82,15 +80,14 @@ export default function BookingForm({ tourId, tourTitle, destination, price, onS
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(bookingPayload),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Booking failed')
+        throw new Error(data.message || 'Booking failed');
       }
 
-      // Set booking data and show confirmation modal
       setBookingData({
         bookingId: data.data._id,
         bookingReference: data.data.bookingReference,
@@ -99,22 +96,22 @@ export default function BookingForm({ tourId, tourTitle, destination, price, onS
         travelers: data.data.travelers,
         totalAmount: price * travelers,
         status: data.data.status
-      })
-      setShowConfirmationModal(true)
+      });
+      setShowConfirmationModal(true);
 
       if (onSuccess) {
-        onSuccess()
-        toast.success('Booking successful!')
-        router.push(`/booking-confirmation/${data.data._id}`)
+        onSuccess();
+        toast.success('Booking successful!');
+        const confirmationUrl = `/booking-confirmation/${data.data._id}`;
+        router.push(confirmationUrl);
       }
 
     } catch (error) {
-
       toast.error('Error', {
         description: error instanceof Error ? error.message : 'An error occurred while processing your request. Please try again.'
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -122,7 +119,7 @@ export default function BookingForm({ tourId, tourTitle, destination, price, onS
     <>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="travelers">Number of travelers (max 5) </Label>
+          <Label htmlFor="travelers">Number of travelers</Label>
           <Input
             id="travelers"
             type="number"
@@ -153,12 +150,12 @@ export default function BookingForm({ tourId, tourTitle, destination, price, onS
           >
             {isLoading ? (
               <>
-                <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                <Loader2 className={`h-4 w-4 animate-spin mr-2`} />
                 Processing...
               </>
             ) : (
               <>
-                <CreditCard className="ml-2 h-4 w-4" />
+                <CreditCard className={`h-4 w-4 mr-2`} />
                 Confirm Booking
               </>
             )}
@@ -166,18 +163,18 @@ export default function BookingForm({ tourId, tourTitle, destination, price, onS
         </div>
       </form>
 
-      {/* Booking Confirmation Modal */}
       {bookingData && (
         <BookingConfirmationModal
           isOpen={showConfirmationModal}
           onClose={() => setShowConfirmationModal(false)}
           bookingData={bookingData}
           onViewDetails={() => {
-            setShowConfirmationModal(false)
-            router.push(`/booking-confirmation/${bookingData.bookingId}`)
+            setShowConfirmationModal(false);
+            const confirmationUrl = `/booking-confirmation/${bookingData.bookingId}`;
+            router.push(confirmationUrl);
           }}
         />
       )}
     </>
-  )
+  );
 }

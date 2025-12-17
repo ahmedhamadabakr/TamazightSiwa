@@ -1,4 +1,5 @@
-'use client'
+'use client';
+export const revalidate = 0;
 
 import  DashboardLayout  from '@/components/dashboard/sidebar'
 import { useEffect, useState } from 'react'

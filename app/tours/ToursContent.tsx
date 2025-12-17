@@ -48,18 +48,20 @@ export default function ToursContent({ initialTours }: ToursContentProps) {
     <div className="min-h-screen bg-background">
       <ClientOnlyNavigation />
 
-      <section className="py-12 md:py-20 px-4">
+      <section className="pt-24 sm:pt-28 md:pt-32 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Categories */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8 md:mb-12">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 md:mb-12">
             {categories.map((cat) => (
               <Button
                 key={cat}
                 variant={activeCategory === cat ? "default" : "outline"}
+                size="sm" // Make buttons smaller on mobile
                 onClick={() => {
                   setActiveCategory(cat);
                   setVisibleCount(6);
                 }}
+                className="text-xs sm:text-sm"
               >
                 {cat}
               </Button>
@@ -67,7 +69,7 @@ export default function ToursContent({ initialTours }: ToursContentProps) {
           </div>
 
           {/* Tour Grid */}
-          <MotionDiv layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <MotionDiv layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredTours.slice(0, visibleCount).map((tour, index) => (
               <TourCard key={String(tour._id)} tour={tour} index={index} />
             ))}
@@ -75,7 +77,7 @@ export default function ToursContent({ initialTours }: ToursContentProps) {
 
           {/* Load more */}
           {filteredTours.length > visibleCount && (
-            <div className="flex justify-center mt-12">
+            <div className="flex justify-center mt-8 sm:mt-12">
               <Button variant="outline" onClick={() => setVisibleCount((v) => v + 6)}>
                 Load more tours
               </Button>
@@ -85,7 +87,7 @@ export default function ToursContent({ initialTours }: ToursContentProps) {
           {/* Empty state */}
           {filteredTours.length === 0 && (
             <div className="col-span-full text-center py-12">
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-base sm:text-lg">
                 {normalizedTours.length === 0
                   ? "No tours available at the moment. Please check back later."
                   : `No tours found in the "${activeCategory}" category.`}

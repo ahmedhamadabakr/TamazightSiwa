@@ -1,43 +1,43 @@
 #!/usr/bin/env node
 
 /**
- * سكريبت لتحليل حجم الحزمة وعرض النتائج بشكل واضح
- * 
- * الاستخدام:
+ * Script to analyze bundle size and display results clearly.
+ *
+ * Usage:
  * node scripts/analyze-bundle.js
  */
 
 const fs = require('fs');
 const path = require('path');
 
-console.log('🔍 تحليل حجم الحزمة...\n');
+console.log('🔍 Analyzing bundle size...\n');
 
-// قراءة ملف البناء
+// Read the build manifest file
 const buildManifestPath = path.join(__dirname, '../.next/build-manifest.json');
 
 if (!fs.existsSync(buildManifestPath)) {
-    console.error('❌ لم يتم العثور على ملف البناء. قم بتشغيل npm run build أولاً.');
+    console.error('❌ Build manifest not found. Run `npm run build` first.');
     process.exit(1);
 }
 
 try {
     const manifest = JSON.parse(fs.readFileSync(buildManifestPath, 'utf8'));
 
-    console.log('📦 الصفحات المبنية:');
+    console.log('📦 Built Pages:');
     console.log('─'.repeat(50));
 
     Object.keys(manifest.pages).forEach(page => {
         const files = manifest.pages[page];
         console.log(`\n📄 ${page}`);
-        console.log(`   الملفات: ${files.length}`);
+        console.log(`   Files: ${files.length}`);
     });
 
     console.log('\n' + '─'.repeat(50));
-    console.log('\n✅ لعرض تحليل مفصل، قم بتشغيل:');
+    console.log('\n✅ For a detailed analysis, run:');
     console.log('   npm run build:analyze');
-    console.log('\n📊 ثم افتح الملفات في مجلد analyze/');
+    console.log('\n📊 Then open the files in the analyze/ folder');
 
 } catch (error) {
-    console.error('❌ خطأ في قراءة ملف البناء:', error.message);
+    console.error('❌ Error reading build manifest:', error.message);
     process.exit(1);
 }

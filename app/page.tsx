@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import { HeroSection } from "@/components/hero-section"
 import dynamic from "next/dynamic"
 

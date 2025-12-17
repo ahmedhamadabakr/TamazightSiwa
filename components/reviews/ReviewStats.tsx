@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { Star, Users, Shield } from 'lucide-react'
-import { ReviewStats as ReviewStatsType } from '@/models/Review'
-import Image from 'next/image'
+import { Star, Users, Shield } from 'lucide-react';
+import { ReviewStats as ReviewStatsType } from '@/models/Review';
+import Image from 'next/image';
 
 interface ReviewStatsProps {
-  stats: ReviewStatsType
+  stats: ReviewStatsType;
 }
 
 export function ReviewStats({ stats }: ReviewStatsProps) {
@@ -18,12 +18,12 @@ export function ReviewStats({ stats }: ReviewStatsProps) {
         <h3 className="text-lg font-medium text-gray-900 mb-2">No reviews yet</h3>
         <p className="text-gray-600">Be the first to review this tour!</p>
       </div>
-    )
+    );
   }
 
   const getProgressWidth = (count: number) => {
-    return stats.totalReviews > 0 ? (count / stats.totalReviews) * 100 : 0
-  }
+    return stats.totalReviews > 0 ? (count / stats.totalReviews) * 100 : 0;
+  };
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -49,7 +49,7 @@ export function ReviewStats({ stats }: ReviewStatsProps) {
           </div>
           
           <p className="text-gray-600 mb-4">
-            Based on {stats.totalReviews} reviews
+            {`Based on ${stats.totalReviews} reviews`}
           </p>
 
           <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
@@ -82,7 +82,7 @@ export function ReviewStats({ stats }: ReviewStatsProps) {
                 />
               </div>
               
-              <span className="text-sm text-gray-600 w-8 text-left">
+              <span className={`text-sm text-gray-600 w-8 text-left`}>
                 {stats.ratingDistribution[rating as keyof typeof stats.ratingDistribution]}
               </span>
             </div>
@@ -146,7 +146,7 @@ export function ReviewStats({ stats }: ReviewStatsProps) {
                   </p>
                   
                   <p className="text-xs text-gray-500 mt-1">
-                    {new Date(review.createdAt).toLocaleDateString('ar-EG')}
+                    {new Date(review.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                   </p>
                 </div>
               </div>
@@ -155,5 +155,5 @@ export function ReviewStats({ stats }: ReviewStatsProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

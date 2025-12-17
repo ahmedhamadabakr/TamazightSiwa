@@ -49,7 +49,7 @@ const formatDate = (dateString: string) => {
 export function generateBookingHTML(booking: BookingData): string {
   return `
     <!DOCTYPE html>
-    <html dir="rtl" lang="en">
+    <html lang="en">
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">

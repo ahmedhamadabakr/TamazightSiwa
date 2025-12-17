@@ -4,22 +4,16 @@ import ToursContent from "./ToursContent";
 import { generateSEOMetadata, generateStructuredData } from "@/components/SEOHead";
 import { StructuredDataScript } from "@/components/OptimizedScript";
 
-export const revalidate = 10; // cache on the server for 10s (fast + fresh)
-
 async function fetchTours(category?: string) {
   const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tamazight-siwa.com";
   const params = category ? `?category=${encodeURIComponent(category)}` : "";
   const url = `${site}/api/tours${params}`;
 
-  // Server-side fetch with ISR (revalidate)
   const res = await fetch(url, {
-    // Use the Next.js fetch cache control to get ISR benefits
-    next: { revalidate: 10 },
-    // Credentials not needed for public API
+    cache: 'no-store',
   });
 
   if (!res.ok) {
-    // return empty array on failure to avoid crashing the page
     console.error("Failed to fetch tours:", res.statusText);
     return [];
   }
