@@ -1,157 +1,33 @@
-/**
- * تحسينات التباين اللوني (Color Contrast Fixes)
- * لضمان أن جميع النصوص لها تباين كافٍ مع الخلفية (WCAG AA/AAA)
- */
 
-/* تحسين تباين النصوص الثانوية */
-.text-gray-500 {
-  color: #6b7280 !important; /* تباين أفضل من اللون الافتراضي */
+body {
+  color: #000;
+  background-color: #fff;
 }
 
+a {
+  color: #0000EE;
+}
+
+a:visited {
+  color: #551A8B;
+}
+
+.text-gray-500,
 .text-gray-600 {
-  color: #4b5563 !important;
+  color: #000 !important;
 }
 
-/* تحسين تباين الروابط */
-a.text-primary {
-  color: #b8935f !important; /* لون أغمق قليلاً للتباين الأفضل */
-}
-
-a.text-primary:hover {
-  color: #9a7a4d !important;
-}
-
-/* تحسين تباين الأزرار الثانوية */
-.btn-ghost,
-button[variant="ghost"] {
-  color: #374151 !important;
-}
-
-/* تحسين تباين النصوص على الخلفيات الملونة */
 .bg-primary .text-white,
 .bg-primary-dark .text-white {
-  color: #ffffff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: #000 !important;
+  background-color: #fff !important;
 }
 
-/* تحسين تباين placeholder text */
-input::placeholder,
-textarea::placeholder {
-  color: #6b7280 !important;
-  opacity: 1;
+.btn-primary {
+  background-color: #000 !important;
+  color: #fff !important;
 }
 
-/* تحسين تباين النصوص الصغيرة */
-.text-xs,
-.text-sm {
-  color: #374151 !important;
-}
-
-/* تحسين تباين الأيقونات */
-svg.text-gray-500,
-svg.text-gray-600 {
-  color: #4b5563 !important;
-}
-
-/* تحسين تباين النصوص على الصور */
-.hero-section .text-white {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* تحسين تباين الـ badges والـ tags */
-.badge,
-.tag {
-  background-color: #f3f4f6;
-  color: #1f2937;
-  border: 1px solid #d1d5db;
-}
-
-/* تحسين تباين الـ alerts */
-.alert-info {
-  background-color: #dbeafe;
-  color: #1e40af;
-  border-color: #93c5fd;
-}
-
-.alert-warning {
-  background-color: #fef3c7;
-  color: #92400e;
-  border-color: #fcd34d;
-}
-
-.alert-error {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-color: #fca5a5;
-}
-
-.alert-success {
-  background-color: #d1fae5;
-  color: #065f46;
-  border-color: #6ee7b7;
-}
-
-/* تحسين تباين الـ disabled elements */
-button:disabled,
-input:disabled,
-select:disabled,
-textarea:disabled {
-  opacity: 0.6;
-  color: #6b7280 !important;
-  background-color: #f3f4f6 !important;
-}
-
-/* تحسين تباين الـ focus states */
-*:focus-visible {
-  outline: 3px solid #D4A574;
-  outline-offset: 2px;
-}
-
-/* تحسين تباين الـ navigation links */
-nav a {
-  color: #374151;
-}
-
-nav a:hover {
-  color: #b8935f;
-}
-
-nav a.active {
-  color: #b8935f;
-  font-weight: 600;
-}
-
-/* تحسين تباين الـ footer */
-footer {
-  background-color: #1f2937;
-  color: #f9fafb;
-}
-
-footer a {
-  color: #d1d5db;
-}
-
-footer a:hover {
-  color: #ffffff;
-}
-
-/* تحسين تباين الـ cards */
-.card {
-  border: 1px solid #e5e7eb;
-  background-color: #ffffff;
-}
-
-.card-title {
-  color: #111827;
-}
-
-.card-description {
-  color: #4b5563;
-}
-
-/* تحسين تباين الـ tooltips */
-.tooltip {
-  background-color: #1f2937;
-  color: #ffffff;
-  border: 1px solid #374151;
+.btn-primary:hover {
+  background-color: #333 !important;
 }

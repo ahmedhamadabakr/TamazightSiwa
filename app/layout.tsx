@@ -1,3 +1,4 @@
+
 import type React from "react"
 import type { Metadata } from "next"
 
@@ -7,12 +8,13 @@ import Script from "next/script"
 import { getServerAuthSession } from '@/lib/server-auth'
 
 import "./globals.css"
+import "@/components/ColorContrastFix.css"
 import Loading from "./loading"
 import { AuthProvider } from "@/components/auth-provider"
 import { generateAdvancedMetadata } from "@/components/SEOOptimizer"
 import { ResourceHints } from "@/components/PerformanceMonitor"
 import { ErrorBoundary } from "@/components/ErrorBoundary"
-
+import { inter, playfairDisplay, roboto } from "./fonts"
 
 const Analytics = dynamicImport(() => import("@vercel/analytics/next").then(m => ({ default: m.Analytics })), {
   ssr: false
@@ -44,7 +46,7 @@ export default async function RootLayout({
   const enableAnalytics = process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true'
   const session = await getServerAuthSession()
   return (
-    <html lang="en" dir="ltr" className="scroll-smooth">
+    <html lang="en" dir="ltr" className={`${inter.variable} ${roboto.variable} ${playfairDisplay.variable} scroll-smooth`}>
       <head>
         {/* DNS Prefetch for external domains */}
         <link rel="dns-prefetch" href="//res.cloudinary.com" />
@@ -80,28 +82,6 @@ export default async function RootLayout({
           `
         }} />
 
-        {/* Critical CSS for above-the-fold content */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            *{box-sizing:border-box}
-            body{font-family:system-ui,-apple-system,sans-serif;margin:0;padding:0;background:#f8f5f0;color:#3d2914;font-display:swap;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-            .hero-section{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;contain:layout style paint}
-            h1{font-size:2.5rem;font-weight:700;line-height:1.1;margin:0 0 1rem 0;contain:layout style paint;text-rendering:optimizeSpeed;content-visibility:auto}
-            @media(min-width:768px){h1{font-size:3.75rem}}
-            @media(min-width:1024px){h1{font-size:4.5rem}}
-            .gpu-accelerated{transform:translateZ(0);will-change:transform;backface-visibility:hidden}
-            img{max-width:100%;height:auto;display:block;content-visibility:auto}
-            .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
-            @keyframes loading{0%{background-position:-200% 0}100%{background-position:200% 0}}
-            .animate-fade-in-up{animation:fadeInUp 0.6s ease-out forwards}
-            @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-            footer{min-height:400px;contain:layout style paint;content-visibility:auto}
-            footer img{width:32px;height:32px}
-            header{content-visibility:auto;contain-intrinsic-size:0 60vh}
-            .relative{position:relative;contain:layout}
-          `
-        }} />
-
         {/* Favicon and app icons */}
         <link rel="icon" href="/favicon-v2.ico" sizes="48x48" />
         <link rel="icon" href="/logo.png" type="image/png" />
@@ -122,7 +102,7 @@ export default async function RootLayout({
         <meta name="revisit-after" content="7 days" />
         <meta name="rating" content="General" />
         <meta name="distribution" content="Global" />
-        <meta name="coverage" content="Worldwide" />
+        <meta.coverage" content="Worldwide" />
         <meta name="target" content="all" />
         <meta name="HandheldFriendly" content="True" />
         <meta name="MobileOptimized" content="320" />
@@ -223,7 +203,7 @@ export default async function RootLayout({
         {/* Resource Hints */}
         <ResourceHints />
       </head>
-      <body className="antialiased" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ZMS386HG6N"
