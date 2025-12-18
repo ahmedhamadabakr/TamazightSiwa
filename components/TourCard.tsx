@@ -2,10 +2,19 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Clock, MapPin, Users, Star } from "lucide-react"
+import { Clock, MapPin, Users, Sparkles } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { MotionDiv } from "@/components/Motion"
+
+const truncateWords = (text: string, limit: number) => {
+  if (!text) return ""
+  const words = text.split(" ")
+  return words.length > limit
+    ? words.slice(0, limit).join(" ") + "..."
+    : text
+}
+
 
 interface Tour {
   _id?: string
@@ -32,90 +41,124 @@ export function TourCard({ tour, index = 0 }: TourCardProps) {
 
   return (
     <MotionDiv
-      initial={{ opacity: 1, y: 40 }}
+      initial={{ opacity: 1, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: index * 0.08, duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <Card className="overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 group h-full">
-        {/* Image Section */}
-        <div className="relative h-48 overflow-hidden">
+      <Card className="
+        group h-full overflow-hidden rounded-2xl border border-border/40
+        bg-background shadow-sm hover:shadow-2xl
+        transition-all duration-300
+      ">
+        {/* ================= IMAGE ================= */}
+        <div className="relative h-52 overflow-hidden">
           <Image
-            src={tour.images[0] || "/placeholder.svg"}
+            src={tour.images?.[0] || "/placeholder.svg"}
             alt={tour.title}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
             loading={index === 0 ? "eager" : "lazy"}
             fetchPriority={index === 0 ? "high" : "auto"}
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
           />
 
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-          {/* Image Count Badge */}
-          {tour.images && tour.images.length > 1 && (
-            <div className="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-              {tour.images.length}
-              Images
-            </div>
-          )}
-
-          {/* Featured Badge */}
+          {/* Featured */}
           {tour.featured && (
-            <div className="absolute top-3 left-3 bg-primary text-white text-xs px-2 py-1 rounded-full">
+            <span className="
+              absolute top-3 left-3 inline-flex items-center gap-1
+              rounded-full bg-primary px-3 py-1 text-xs font-medium text-white
+              shadow-lg
+            ">
+              <Sparkles className="w-3 h-3" />
               Featured
-            </div>
+            </span>
           )}
 
-          {/* Price Overlay */}
-          <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm text-primary font-bold px-3 py-1 rounded-full">
+          {/* Price */}
+          <div className="
+            absolute bottom-3 left-3 rounded-full
+            bg-white/90 backdrop-blur px-4 py-1
+            text-sm font-bold text-primary shadow
+          ">
             ${tour.price}
           </div>
+
+          {/* Images count */}
+          {tour.images?.length > 1 && (
+            <div className="
+              absolute bottom-3 right-3 rounded-full
+              bg-black/60 px-3 py-1 text-xs text-white backdrop-blur
+            ">
+              {tour.images.length} photos
+            </div>
+          )}
         </div>
 
-        {/* Content Section */}
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl line-clamp-2 group-hover:text-primary transition-colors">
+        {/* ================= CONTENT ================= */}
+        <CardHeader className="pb-2">
+          <CardTitle className="
+            text-lg font-semibold leading-snug line-clamp-2
+            transition-colors group-hover:text-primary
+          ">
             {tour.title}
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="pt-0 flex flex-col h-full">
+        <CardContent className="flex h-full flex-col pt-0">
           {/* Description */}
-          <p className="text-muted-foreground mb-4 line-clamp-3 flex-grow">
-            {tour.description}
+          <p className="mb-4 text-sm text-muted-foreground line-clamp-3">
+            {truncateWords(tour.description, 20)}
           </p>
 
-          {/* Tour Details */}
-          <div className="space-y-2 mb-4">
-            <div className="flex items-center text-sm text-muted-foreground">
-              <Clock className="w-4 h-4 mr-2 text-primary" />
-              <span>{parseInt(tour.duration) > 1 ? 'days' : 'day'}</span>
+
+          {/* Meta info */}
+          <div className="mb-5 space-y-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-primary" />
+              <span>
+                {parseInt(tour.duration)}{" "}
+                {parseInt(tour.duration) > 1 ? "Days" : "Day"}
+              </span>
             </div>
 
             {tour.groupSize && (
-              <div className="flex items-center text-sm text-muted-foreground">
-                <Users className="w-4 h-4 mr-2 text-primary" />
-                <span>{tour.groupSize} People</span>
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4 text-primary" />
+                <span>Up to {tour.groupSize} people</span>
               </div>
             )}
 
-            <div className="flex items-center text-sm text-muted-foreground">
-              <MapPin className="w-4 h-4 mr-2 text-primary" />
-              <span>{tour.location} Location</span>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-primary" />
+              <span>{tour.location}</span>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-2 mt-auto">
-            <Link href={tourLink} className="flex-1">
-              <Button className="w-full bg-primary hover:bg-primary/90 transition-colors">
+          {/* Actions */}
+          <div className="mt-auto grid grid-cols-2 gap-3">
+            <Link href={tourLink}>
+              <Button className="
+                w-full rounded-full
+                bg-primary text-white
+                hover:bg-primary/90
+              ">
                 Book Now
               </Button>
             </Link>
-            <Link href={tourLink} className="flex-1">
-              <Button variant="outline" className="w-full hover:bg-primary/10 transition-colors">
+
+            <Link href={tourLink}>
+              <Button
+                variant="outline"
+                className="
+                  w-full rounded-full
+                  border-primary/30
+                  hover:bg-primary/10
+                "
+              >
                 Details
               </Button>
             </Link>

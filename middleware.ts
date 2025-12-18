@@ -25,6 +25,7 @@ const publicRoutes = [
   '/unauthorized',
   '/test-auth',
   '/api/auth',
+  '/booking-confirmation',
 ];
 
 function isPublicRoute(pathname: string): boolean {

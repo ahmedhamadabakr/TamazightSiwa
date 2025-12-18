@@ -1,4 +1,5 @@
 'use client';
+export const revalidate = 0;
 
 import { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/dashboard/sidebar';
@@ -153,7 +154,7 @@ export default function ManagerDashboard({ params }: ManagerDashboardProps) {
             Manager Dashboard
           </h1>
           <Link
-            href={`/dashboard/${params.id}/bookings`}
+            href={`/admin/bookings`}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-center"
           >
             Bookings Management
