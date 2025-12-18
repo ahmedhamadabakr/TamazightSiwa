@@ -120,9 +120,14 @@ export function generateAdvancedMetadata(config: SEOConfig): Metadata {
     manifest: '/manifest.json',
     icons: {
       icon: [
-        { url: '/favicon-v2.ico', sizes: '42x42' },
+        { url: '/favicon.ico', type: 'image/x-icon', sizes: '48x48' },
+        { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+        { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+        { url: '/android-chrome-192x192.png', type: 'image/png', sizes: '192x192' },
+        { url: '/android-chrome-512x512.png', type: 'image/png', sizes: '512x512' },
         { url: '/icon.svg', type: 'image/svg+xml' }
       ],
+      shortcut: ['/favicon.ico'],
       apple: [
         { url: '/apple-touch-icon.png', sizes: '180x180' }
       ],

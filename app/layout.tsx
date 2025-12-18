@@ -58,36 +58,6 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
 
-        {/* Optimize JavaScript loading */}
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            // Preload critical resources
-            if ('requestIdleCallback' in window) {
-              requestIdleCallback(() => {
-                const link = document.createElement('link');
-                link.rel = 'prefetch';
-                link.href = '/tours';
-                document.head.appendChild(link);
-              });
-            }
-            
-            // Register service worker
-            if ('serviceWorker' in navigator) {
-              window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                  .then(registration => console.log('SW registered'))
-                  .catch(error => console.log('SW registration failed'));
-              });
-            }
-          `
-        }} />
-
-        {/* Favicon and app icons */}
-        <link rel="icon" href="/favicon-v2.ico" sizes="48x48" />
-        <link rel="icon" href="/logo.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
-        <link rel="manifest" href="/manifest.json" />
-
         {/* Theme and viewport */}
         <meta name="theme-color" content="#D4A574" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -102,7 +72,7 @@ export default async function RootLayout({
         <meta name="revisit-after" content="7 days" />
         <meta name="rating" content="General" />
         <meta name="distribution" content="Global" />
-        <meta.coverage" content="Worldwide" />
+        <meta name="coverage" content="Worldwide" />
         <meta name="target" content="all" />
         <meta name="HandheldFriendly" content="True" />
         <meta name="MobileOptimized" content="320" />
@@ -129,77 +99,75 @@ export default async function RootLayout({
         <meta name="business:contact_data:country_name" content="Egypt" />
         <meta name="business:contact_data:phone_number" content="+201552624123" />
 
-        {/* Preload critical resources - removed logo prefetch to reduce initial load */}
-
         {/* Canonical and alternate languages */}
         <link rel="canonical" href="https://www.tamazight-siwa.com" />
-
-        {/* JSON-LD Structured Data */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Tamazight Siwa",
-            "url": "https://www.tamazight-siwa.com",
-            "logo": "https://www.tamazight-siwa.com/logo.png",
-            "sameAs": [
-              "https://www.facebook.com/SiwaWithUs",
-              "https://www.instagram.com/",
-              "https://x.com/"
-            ],
-            "contactPoint": [{
-              "@type": "ContactPoint",
+        <Script id="json-ld-organization" type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Tamazight Siwa",
+              "url": "https://www.tamazight-siwa.com",
+              "logo": "https://www.tamazight-siwa.com/logo.png",
+              "sameAs": [
+                "https://www.facebook.com/SiwaWithUs",
+                "https://www.instagram.com/",
+                "https://x.com/"
+              ],
+              "contactPoint": [{
+                "@type": "ContactPoint",
+                "telephone": "+201552624123",
+                "contactType": "customer service",
+                "areaServed": "EG",
+                "availableLanguage": ["en"]
+              }]
+            }
+          `}
+        </Script>
+        <Script id="json-ld-website" type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Tamazight Siwa",
+              "url": "https://www.tamazight-siwa.com",
+              "logo": "https://www.tamazight-siwa.com/logo.png",
+              "image": "https://www.tamazight-siwa.com/logo.png",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.tamazight-siwa.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }
+          `}
+        </Script>
+        <Script id="json-ld-local-business" type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "Tamazight Siwa",
+              "image": [
+                "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Siwa Oasis",
+                "addressLocality": "Siwa",
+                "addressRegion": "Matrouh Governorate",
+                "addressCountry": "EG"
+              },
               "telephone": "+201552624123",
-              "contactType": "customer service",
-              "areaServed": "EG",
-              "availableLanguage": ["en"]
-            }]
-          })
-        }} />
-
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Tamazight Siwa",
-            "url": "https://www.tamazight-siwa.com",
-            "logo": "https://www.tamazight-siwa.com/logo.png",
-            "image": "https://www.tamazight-siwa.com/logo.png",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://www.tamazight-siwa.com/search?q={search_term_string}",
-              "query-input": "required name=search_term_string"
+              "url": "https://www.tamazight-siwa.com",
+              "priceRange": "$$",
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 29.205,
+                "longitude": 25.519
+              }
             }
-          })
-        }} />
-
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Tamazight Siwa",
-            "image": [
-
-              "https://www.tamazight-siwa.com/siwa-oasis-sunset-salt-lakes-reflection.avif"
-            ],
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "Siwa Oasis",
-              "addressLocality": "Siwa",
-              "addressRegion": "Matrouh Governorate",
-              "addressCountry": "EG"
-            },
-            "telephone": "+201552624123",
-            "url": "https://www.tamazight-siwa.com",
-            "priceRange": "$$",
-            "geo": {
-              "@type": "GeoCoordinates",
-              "latitude": 29.205,
-              "longitude": 25.519
-            }
-          })
-        }} />
-
+          `}
+        </Script>
         {/* Resource Hints */}
         <ResourceHints />
       </head>
