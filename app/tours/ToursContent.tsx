@@ -73,7 +73,7 @@ export default function ToursContent({ initialTours }: ToursContentProps) {
       <ClientOnlyNavigation />
 
       {/* ================= HEADER ================= */}
-      <section className="pt-28 sm:pt-32 px-4">
+      <section className="pt-28 sm:pt-32 px-4 pb-20">
         <div className="max-w-6xl mx-auto text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
             Explore Our Tours

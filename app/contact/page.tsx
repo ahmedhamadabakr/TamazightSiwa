@@ -105,7 +105,7 @@ export default function ContactPage() {
             
             {/* Left Column: Form */}
             <MotionDiv 
-              initial={{ opacity: 0, x: -20 }} 
+              initial={{ opacity: 1, x: -20 }} 
               whileInView={{ opacity: 1, x: 0 }} 
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -126,7 +126,7 @@ export default function ContactPage() {
 
             {/* Right Column: Info Cards */}
             <MotionDiv 
-              initial={{ opacity: 0, x: 20 }} 
+              initial={{ opacity: 1, x: 20 }} 
               whileInView={{ opacity: 1, x: 0 }} 
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
