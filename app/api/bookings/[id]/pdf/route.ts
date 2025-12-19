@@ -4,8 +4,7 @@ import { getServerAuthSession } from '@/lib/server-auth';
 import { getMongoClient } from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 import { bookingCollectionName } from '@/models/Booking';
-import { generateBookingHTML } from '@/lib/pdf-generator';
-import puppeteer from 'puppeteer';
+import { generateSimplePDFContent } from '@/lib/pdf-generator';
 
 export async function GET(
   req: Request,
@@ -81,7 +80,7 @@ export async function GET(
             duration: '$tourDetails.duration',
             price: '$tourDetails.price'
           },
-          travelers: '$numberOfTravelers',
+          travelers: { $ifNull: [ '$numberOfTravelers', '$travelers' ] },
           specialRequests: 1,
           totalAmount: 1,
           status: 1,
@@ -101,20 +100,13 @@ export async function GET(
 
     const bookingData = booking[0];
 
-    // Generate HTML content for PDF
-    const htmlContent = generateBookingHTML(bookingData as any);
+    // Generate simple text content for PDF
+    const textContent = generateSimplePDFContent(bookingData as any);
 
-    // Generate PDF from HTML
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-    const pdfBuffer = await page.pdf({ format: 'A4' });
-    await browser.close();
-
-    // Return PDF response
-    return new Response(pdfBuffer, {
+    // Return text response with PDF headers
+    return new Response(textContent, {
       headers: {
-        'Content-Type': 'application/pdf',
+        'Content-Type': 'text/plain',
         'Content-Disposition': `attachment; filename="booking-${bookingData.bookingReference}.pdf"`
       }
     });

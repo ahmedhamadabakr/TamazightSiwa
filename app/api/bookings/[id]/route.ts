@@ -176,7 +176,7 @@ export async function GET(
             duration: '$tourDetails.duration',
             price: '$tourDetails.price'
           },
-          travelers: '$numberOfTravelers',
+          travelers: { $ifNull: [ '$numberOfTravelers', '$travelers' ] },
           specialRequests: 1,
           totalAmount: 1,
           status: 1,
