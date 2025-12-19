@@ -55,6 +55,14 @@ export function generateBookingHTML(booking: BookingData): string {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Booking Confirmation - ${booking.bookingReference}</title>
       <style>
+        :root {
+          --primary: #2563eb;
+          --light: #f9fafb;
+          --dark: #0f172a;
+          --gray-200: #e5e7eb;
+          --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
         * {
           margin: 0;
           padding: 0;

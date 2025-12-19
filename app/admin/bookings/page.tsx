@@ -417,7 +417,7 @@ export default function AdminBookings() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => router.push(`/booking-confirmation/${booking._id}`)}
+                            onClick={() => router.push(`/dashboard/booking-confirmation/${booking._id}`)}
                           >
                             <Eye className="w-4 h-4" />
                           </Button>
