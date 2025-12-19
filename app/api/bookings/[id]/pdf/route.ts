@@ -100,21 +100,21 @@ export async function GET(
 
     const bookingData = booking[0];
 
-    // Generate simple text content for PDF
+    // Generate simple text content
     const textContent = generateSimplePDFContent(bookingData as any);
 
-    // Return text response with PDF headers
+    // Return text response
     return new Response(textContent, {
       headers: {
         'Content-Type': 'text/plain',
-        'Content-Disposition': `attachment; filename="booking-${bookingData.bookingReference}.pdf"`
+        'Content-Disposition': `attachment; filename="booking-${bookingData.bookingReference}.txt"`
       }
     });
 
   } catch (error) {
-    console.error('Error generating PDF:', error);
+    console.error('Error generating booking file:', error);
     return NextResponse.json(
-      { success: false, message: 'Error generating PDF' },
+      { success: false, message: 'Error generating booking file' },
       { status: 500 }
     );
   }
