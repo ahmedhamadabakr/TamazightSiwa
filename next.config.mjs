@@ -35,7 +35,9 @@ const nextConfig = {
     ],
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB'],
     serverComponentsExternalPackages: ['mongodb', 'bcryptjs', 'zxcvbn'],
-    optimizeCss: true,
+    optimizeCss: {
+      preload: 'body',
+    },
     scrollRestoration: true,
     largePageDataBytes: 128 * 1000, // 128KB
   },
