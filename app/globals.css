@@ -131,11 +131,6 @@
     transition: color 0.2s ease;
   }
 
-  a:visited {
-    /* Using a slightly darker shade of the primary color for visited links */
-    color: oklch(0.5 0.12 65);
-  }
-
   a:hover {
     color: var(--accent);
     text-decoration: underline;
