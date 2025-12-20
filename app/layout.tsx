@@ -7,8 +7,8 @@ import dynamicImport from "next/dynamic"
 import Script from "next/script"
 import { getServerAuthSession } from '@/lib/server-auth'
 
-import "./globals.css"
-import "@/components/ColorContrastFix.css"
+import "./critical.css"
+import AsyncCssLoader from "@/components/AsyncCssLoader"
 import Loading from "./loading"
 import { AuthProvider } from "@/components/auth-provider"
 import { generateAdvancedMetadata } from "@/components/SEOOptimizer"
@@ -200,6 +200,7 @@ export default async function RootLayout({
         {/* Analytics - loaded after interactive */}
         {enableAnalytics && <Analytics />}
         {enableAnalytics && <SpeedInsights />}
+        <AsyncCssLoader />
       </body>
     </html>
   )
