@@ -4,6 +4,70 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Base styles for better contrast and accessibility */
+body {
+  color: #000;
+  background-color: #fff;
+}
+
+a {
+  color: var(--primary, #D4AF37); /* لون ذهبي يتناسب مع الموقع */
+  text-decoration: none;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+}
+
+a:visited {
+  color: var(--primary, #D4AF37);
+}
+
+a:hover {
+  color: var(--accent, #B8860B); /* لون كهرماني داكن عند التحويم */
+  border-bottom-color: currentColor;
+  text-underline-offset: 3px;
+}
+
+a:active {
+  color: var(--foreground, #5D4037); /* لون بني ترابي داكن عند النقر */
+}
+
+/* تحسين إمكانية الوصول للروابط */
+a:focus {
+  outline: 2px solid var(--accent, #B8860B);
+  outline-offset: 3px;
+  border-radius: 4px;
+  color: var(--accent, #B8860B);
+}
+
+/* روابط في التذييل */
+footer a {
+  color: var(--card-foreground, #fff);
+  opacity: 0.9;
+}
+
+footer a:hover {
+  color: var(--primary, #D4AF37);
+  opacity: 1;
+}
+
+/* Ensure text is readable against background */
+.text-gray-500,
+.text-gray-600 {
+  color: #000 !important;
+}
+
+/* Fix contrast for primary buttons */
+.btn-primary {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover {
+  background-color: #333 !important;
+}
+
 :root {
   /* Updated theme to warm desert colors for Tamazight Siwa */
   --background: oklch(0.98 0.01 85); /* Warm off-white */

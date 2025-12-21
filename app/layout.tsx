@@ -8,7 +8,6 @@ import Script from "next/script"
 import { getServerAuthSession } from '@/lib/server-auth'
 
 import "./globals.css"
-import "@/components/ColorContrastFix.css"
 import Loading from "./loading"
 import { AuthProvider } from "@/components/auth-provider"
 import { generateAdvancedMetadata } from "@/components/SEOOptimizer"
