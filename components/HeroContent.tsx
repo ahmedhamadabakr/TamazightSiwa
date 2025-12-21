@@ -1,69 +1,44 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { Play } from "lucide-react"
 import { memo } from "react"
 import Link from "next/link"
 
 interface HeroContentProps {
-  showVideo: boolean
-  onToggleVideo: () => void
+  className?: string
 }
 
 // Memoized hero content to prevent unnecessary re-renders
-export const HeroContent = memo(({ showVideo, onToggleVideo }: HeroContentProps) => {
+export const HeroContent = memo(({ className }: HeroContentProps) => {
   return (
-    <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4 gpu-accelerated">
-      <div className="mb-4">
-        <span className="inline-block bg-primary/20 backdrop-blur-sm border border-primary/30 rounded-full px-4 py-2 text-sm font-medium mb-4">
-          ✨ Discover the Magic of Egyptian Desert
-        </span>
-      </div>
+    <div className={`relative z-10 w-full max-w-5xl mx-auto px-6 text-white ${className || ''}`}
+    >
+      <div className="max-w-2xl">
+        <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-tight">
+          Siwa, as it should feel.
+        </h1>
 
-      <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight gpu-accelerated">
-        <span className="bg-gradient-to-r from-white via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_4px_16px_rgba(255,255,255,0.35)]">
-          Siwa
-        </span>
-        <br />
-        <span className="text-3xl md:text-5xl lg:text-6xl">With Us</span>
-      </h1>
+        <p className="mt-5 text-base md:text-lg text-white/85 leading-relaxed">
+          Quiet desert mornings, salt lakes at sunset, and real moments with real people.
+        </p>
 
-      <p className="text-lg md:text-xl mb-6 opacity-90 max-w-2xl mx-auto leading-relaxed">
-        Discover the magic of Siwa Oasis through authentic eco-tourism and cultural heritage experiences
-      </p>
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <Link
+            href="/tours"
+            aria-label="Explore Siwa experiences"
+          >
+            <Button className="rounded-full px-7">
+              Explore Experiences
+            </Button>
+          </Link>
 
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-        <Link
-          href="/tours"
-          className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-2 text-lg rounded-full shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105 gpu-accelerated"
-          aria-label="Book your Siwa Oasis trip now"
-        >
-          Book Your Trip Now
-        </Link>
-        <Button
-          size="lg"
-          variant="outline"
-          className="border-2 border-white text-white hover:bg-white hover:text-foreground px-10 py-4 text-lg bg-white/10 backdrop-blur-sm rounded-full transition-all duration-300 hover:scale-105 gpu-accelerated"
-          onClick={onToggleVideo}
-          aria-label={showVideo ? 'View photos of Siwa Oasis' : 'Watch Siwa Oasis video'}
-        >
-          <Play className="w-5 h-5 mr-2" />
-          {showVideo ? 'View Photos' : 'Watch Video'}
-        </Button>
-      </div>
-
-      {/* Stats */}
-      <div className="flex flex-wrap justify-center gap-8 text-sm">
-        <div className="text-center">
-          <div className="text-2xl font-bold ">500+</div>
-          <div className="opacity-80">Happy Visitors</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold ">15+</div>
-          <div className="opacity-80">Unique Experiences</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold ">4.9</div>
-          <div className="opacity-80">Excellent Rating</div>
+          <Link
+            href="https://wa.me/201552624123"
+            aria-label="Chat on WhatsApp"
+          >
+            <Button variant="outline" className="rounded-full px-7 bg-white/10 border-white/30 text-white hover:bg-white hover:text-foreground">
+              WhatsApp
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
