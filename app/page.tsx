@@ -74,12 +74,12 @@ export default function HomePage() {
         <HeroSection />
         <FeaturedTours />
         <StatsSection />
-       {/*  <OverviewSection /> 
+        {/*  <OverviewSection /> 
         <VideoShowcaseLazy />
         <GalleryPreviewLazy />
         */}
         <TestimonialsSectionLazy />
-{/*         <ServicesSectionLazy />
+        {/*         <ServicesSectionLazy />
  */}        <Footer />
       </main>
     </>
