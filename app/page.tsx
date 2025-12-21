@@ -17,10 +17,9 @@ const StatsSection = dynamic(() => import("@/components/stats-section").then(m =
   loading: () => <div className="animate-pulse h-64 bg-muted rounded-lg mx-4 my-8" />
 })
 
-const OverviewSection = dynamic(() => import("@/components/overview-section").then(m => ({ default: m.OverviewSection })), {
+/* const OverviewSection = dynamic(() => import("@/components/overview-section").then(m => ({ default: m.OverviewSection })), {
   loading: () => <div className="animate-pulse h-96 bg-muted rounded-lg mx-4 my-8" />
 })
-
 // Below-the-fold components - deferred loading
 const VideoShowcaseLazy = dynamic(() => import("@/components/video-showcase").then(m => ({ default: m.VideoShowcase })), {
   ssr: false,
@@ -31,16 +30,17 @@ const GalleryPreviewLazy = dynamic(() => import("@/components/gallery-preview").
   ssr: false,
   loading: () => <div className="animate-pulse h-96 bg-muted rounded-lg mx-4 my-8" />
 })
+*/
 
 const TestimonialsSectionLazy = dynamic(() => import("@/components/testimonials-section").then(m => ({ default: m.TestimonialsSection })), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 bg-muted rounded-lg mx-4 my-8" />
 })
 
-const ServicesSectionLazy = dynamic(() => import("@/components/services-section").then(m => ({ default: m.ServicesSection })), {
+/* const ServicesSectionLazy = dynamic(() => import("@/components/services-section").then(m => ({ default: m.ServicesSection })), {
   ssr: false,
   loading: () => <div className="animate-pulse h-96 bg-muted rounded-lg mx-4 my-8" />
-})
+}) */
 
 const Footer = dynamic(() => import("@/components/footer").then(m => ({ default: m.Footer })), {
   ssr: false,
@@ -74,12 +74,13 @@ export default function HomePage() {
         <HeroSection />
         <FeaturedTours />
         <StatsSection />
-        <OverviewSection />
+       {/*  <OverviewSection /> 
         <VideoShowcaseLazy />
         <GalleryPreviewLazy />
+        */}
         <TestimonialsSectionLazy />
-        <ServicesSectionLazy />
-        <Footer />
+{/*         <ServicesSectionLazy />
+ */}        <Footer />
       </main>
     </>
   )
